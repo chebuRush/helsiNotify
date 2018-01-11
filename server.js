@@ -13,7 +13,7 @@ app.use(express.static(__dirname +"/public"));
 let server = http.createServer(app);
 server.listen(process.env.PORT || port);
 
-require("./app")(app);
+require("./backend/queries")(app);
 
 
 
