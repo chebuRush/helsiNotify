@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Helsi Notify</title>
+    <link rel="stylesheet" href="./stylesheets/style.css">
+</head>
+<body>
+    <div class="main_wrap">
+        <div class="form">
+            <form class="inputform" method="post" action="/send/">
+                <input type="text" placeholder="Doctor's link (ex. https://helsi.me/doctor/shv_200)" required>
+                <input type="email" placeholder="Email to notify" required>
+                <input id="clickSubmit" type="submit" value="Receive notification" >
+            </form>
+        </div>
+         <div class="sk-three-bounce">
+                                            <div class="sk-child sk-bounce1"></div>
+                                            <div class="sk-child sk-bounce2"></div>
+                                            <div class="sk-child sk-bounce3"></div>
+                    </div>
+        <div class="showAllNotifyWishes">
+            <div class="uniqueDoctor">
+                <div class="field">Number</div>
+                <div class="field">Doctor Link</div>
+                <div class="field">Email to notify</div>
+                <div class="field">Status</div>
+            </div>
+            <% for(var i=1; i<= displayObj.length; i++) {%>
+                <div class="uniqueDoctor">
+                               <div class="field"><%= i %></div>
+                               <div class="field"><%= displayObj[i-1].docLink %></div>
+                               <div class="field"><%= displayObj[i-1].email %></div>
+                               <div class="field"><%= displayObj[i-1].status %></div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    <script src="javascripts/jquery.1.9-min.js"></script>
+    <script src="javascripts/submit.js"></script>
+</body>
+</html>
