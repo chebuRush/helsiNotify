@@ -11,7 +11,7 @@ module.exports = function (app) {
     ];
 
     app.get("/", function(req, res){
-        res.render('index', {'displayObj': obj})
+        res.sendFile('index.html');
     });
 
     app.post("/send", (req, res)=>{
