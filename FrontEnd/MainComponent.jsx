@@ -1,9 +1,13 @@
 import React from 'react';
-import { render } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 import App from './ClientApp';
 
-render(<App />, document.getElementById('app'));
+const renderApp = Component => {
+    ReactDOM.render(<Component />, document.getElementById('app'));
+};
+
+renderApp(App);
 
 if (module.hot) {
-    module.hot.access();
+    module.hot.accept();
 }
