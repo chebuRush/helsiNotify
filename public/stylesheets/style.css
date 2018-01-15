@@ -1,27 +1,79 @@
+
 *{
   padding:0;
   margin:0;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
+  font-family: 'LatoLight', serif;
+}
+
+@font-face {
+  font-family: 'LatoLight';
+  src: url('../fonts/LatoLight.eot'); /* Для IE5-8 */
+  src: local(raleway), url(../fonts/LatoLight.ttf); /* Для остальных браузеров */
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'LatoBold';
+  src: url(../fonts/LatoBold.eot); /* Для IE5-8 */
+  src: local(raleway), url(../fonts/LatoBold.ttf); /* Для остальных браузеров */
+  font-weight: 600;
+  font-style: normal;
 }
 
 
-body{
+#app{
   width:100vw;
   height:auto;
-  background: url('../images/background.jpg') fixed center center;
-  background-size:cover;
   font-size:16px;
 }
+
 .main_wrap{
   display:flex;
   flex-direction: column;
   align-self: center;
+  justify-content: center;
   width:100vw;
+  height:100vh;
+  background-size:cover;
+  position:relative;
 }
-
+.main_wrap:before{
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  display: block;
+  background: url('../images/background.jpg') fixed center center;
+  background-size:cover;
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+  filter: blur(10px);
+}
+.bgOpac{
+  display:flex;
+  flex-direction: column;
+  align-self: center;
+  background-color: rgba(255,255,255,0.5);
+  width:85vw;
+  padding:5vh 0;
+  height:auto;
+}
+.description{
+  display:flex;
+  flex-direction: column;
+  align-self: center;
+  text-align: center;
+  width:60%;
+}
 .form{
-  padding:4vmin;
   display: flex;
   justify-content: center;
 }
@@ -31,7 +83,7 @@ body{
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
-  width:68.5vw;
+  width:50.5vw;
 }
 .inputform input:first-child{
   margin-left:1px;
@@ -44,12 +96,12 @@ body{
   width:48%;
 }
 .inputform input[type=submit]{
-  background: rgb(76, 175, 80);
+  background: rgb(0, 0, 200);
   color:#fff;
   margin-top: 5vh;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
-  border: 1px solid rgb(76, 175, 80);
+  border: 1px solid rgb(0, 0, 200);
 }
 
 .inputform input[type=submit]:hover {
