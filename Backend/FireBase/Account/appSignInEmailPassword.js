@@ -1,13 +1,11 @@
-
-
-function appSignInEmailPass(firebase, email, password){
+function appSignInEmailPass(firebase, email, password) {
     return new Promise((resolve, reject) => {
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(
-                user => {
-                    resolve(user);
-                }
-            )
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(user => {
+                resolve(user);
+            })
             .catch(error => {
                 reject(error);
             });
@@ -15,4 +13,3 @@ function appSignInEmailPass(firebase, email, password){
 }
 
 module.exports = appSignInEmailPass;
-

@@ -54,6 +54,7 @@ export default class FirstPage extends React.Component {
         }
     }
     goPersonalPage(event) {
+        let self = this;
         event.preventDefault();
         this.setState(
             {
@@ -64,9 +65,23 @@ export default class FirstPage extends React.Component {
             }
         );
         axios
-            .post('/send', { body: this.state })
+            .post('/appSignIn', this.state)
             .then(user => {
-                this.history.push(`/user/${user.id}/`);
+                console.log(user);
+                if (user.data.statusHelsiCode === '200') {
+                    alert('successful login');
+                    self.history.push(`/user/${user.data.id}/`);
+                } else {
+                    alert(user.data.errorHelsiMsg);
+                    this.setState(
+                        {
+                            submitted: false
+                        },
+                        () => {
+                            this.forceUpdate();
+                        }
+                    );
+                }
             })
             .catch(err => {
                 console.error('axios error', err); // eslint-disable-line no-console

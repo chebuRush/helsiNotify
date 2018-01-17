@@ -1,16 +1,16 @@
-let appSignInEmailPass = require("./appSignInEmailPassword");
-let appSignUpEmailPass = require("./appSignUpEmailPassword");
-let appSignOutEmailPass = require("./appSignOutEmailPassword");
+const appSignInEmailPass = require('./appSignInEmailPassword');
+const appSignUpEmailPass = require('./appSignUpEmailPassword');
+const appSignOutEmailPass = require('./appSignOutEmailPassword');
 
-function Account(firebase){
+function Account(firebase) {
     return {
-        signInEmailPass(email,password){
+        signInEmailPass(email, password) {
             return appSignInEmailPass(firebase, email, password);
         },
-        signUpEmailPass(email, password){
+        signUpEmailPass(email, password) {
             return appSignUpEmailPass(firebase, email, password);
         },
-        signOutEmailPass(){
+        signOutEmailPass() {
             return appSignOutEmailPass(firebase);
         }
     };

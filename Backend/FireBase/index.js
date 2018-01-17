@@ -1,7 +1,4 @@
-import index from './index';
-
-import Account0 from './Account';
-
+/* eslint-disable global-require */
 const firebase = require('firebase');
 const userServiceAccount = require('../../config/firebaseServiceAccountKey.json');
 
@@ -12,10 +9,10 @@ const adminServerAccount = require('../../config/firebaseAdminServiceAccount.jso
 
 const appAdmin = firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert(adminServerAccount),
-    databaseURL: 'https://helsinotify-2018.firebaseio.com'
+    databaseURL: 'https://helsinotify-2018.firebaseio.com/'
 });
 
 module.exports = {
-    Account: Account0(appUser),
-    DataBase: index(appAdmin)
+    Account: require('./Account')(appUser),
+    DataBase: require('./DataBase')(appAdmin)
 };

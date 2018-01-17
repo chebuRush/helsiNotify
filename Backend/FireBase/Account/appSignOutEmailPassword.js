@@ -1,12 +1,11 @@
-
-function appSignOutEmailPass(firebase){
+function appSignOutEmailPass(firebase) {
     return new Promise((resolve, reject) => {
-        firebase.auth().signOut()
-            .then(
-                () => {
-                    resolve();
-                }
-            )
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                resolve();
+            })
             .catch(error => {
                 reject(error);
             });
