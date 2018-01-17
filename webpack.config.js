@@ -9,7 +9,7 @@ module.exports = {
         'webpack/hot/only-dev-server',
         './FrontEnd/MainComponent.jsx'
     ],
-    devtool: 'cheap-eval-source-map',
+    devtool: 'inline-source-map',
     output: {
         path: path.join(__dirname, 'public'),
         publicPath: 'public/',
