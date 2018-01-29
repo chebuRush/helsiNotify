@@ -54,7 +54,6 @@ export default class FirstPage extends React.Component {
         }
     }
     goPersonalPage(event) {
-        let self = this;
         event.preventDefault();
         this.setState(
             {
@@ -67,12 +66,11 @@ export default class FirstPage extends React.Component {
         axios
             .post('/appSignIn', this.state)
             .then(user => {
-                console.log(user);
                 if (user.data.statusHelsiCode === '200') {
-                    alert('successful login');
-                    self.history.push(`/user/${user.data.id}/`);
+                    // eslint-disable-next-line react/prop-types
+                    this.props.history.push(`/user/${user.data.uid}/notify`, user.data);
                 } else {
-                    alert(user.data.errorHelsiMsg);
+                    alert(`Login failed: ${user.data.errorHelsiMsg}`);
                     this.setState(
                         {
                             submitted: false
@@ -92,34 +90,32 @@ export default class FirstPage extends React.Component {
             ? <Spinner />
             : <input id="clickSubmit" type="submit" value="Спробувати" />;
         return (
-            <div className="main_wrap">
-                <div className="bgOpac">
-                    <Title>Не можеш знайти вільний час у лікаря?</Title>
-                    <Subtitle>Ми зробимо це для тебе!</Subtitle>
-                    <h3 className="description">
-                        Helsi Notify - це платформа для зекономлення часу на очікування вільного місця до лікаря. Як тільки лікар буде вільним - ми вам про це скажемо
-                    </h3>
-                    <div className="form">
-                        <form className="inputform" method="post" onSubmit={this.goPersonalPage}>
-                            <input
-                                type="email"
-                                id="email"
-                                placeholder="Email"
-                                value={this.state.email}
-                                required
-                                onChange={this.handleInputValue}
-                            />
-                            <input
-                                type="password"
-                                id="password"
-                                placeholder="Пароль"
-                                value={this.state.password}
-                                required
-                                onChange={this.handleInputValue}
-                            />
-                            {submitted}
-                        </form>
-                    </div>
+            <div className="bgOpac">
+                <Title>Не можеш знайти вільний час у лікаря?</Title>
+                <Subtitle>Ми зробимо це для тебе!</Subtitle>
+                <h3 className="description">
+                    Helsi Notify - це платформа для зекономлення часу на очікування вільного місця до лікаря. Як тільки лікар буде вільним - ми вас повідомимо
+                </h3>
+                <div className="form">
+                    <form className="inputform" method="post" onSubmit={this.goPersonalPage}>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Email"
+                            value={this.state.email}
+                            required
+                            onChange={this.handleInputValue}
+                        />
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Пароль"
+                            value={this.state.password}
+                            required
+                            onChange={this.handleInputValue}
+                        />
+                        {submitted}
+                    </form>
                 </div>
             </div>
         );

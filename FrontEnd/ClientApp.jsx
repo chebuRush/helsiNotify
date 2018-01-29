@@ -1,9 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import FirstPage from './FirstPage';
-// import UserDoctorPage from './UserDoctorPage';
-// import UserSettingPage from './UserSettingPage';
-// import EnsureLoggedInContainer from './EnsureLoggedInContainer';
+import UserMainPage from './UserMainPage';
 
 export default class App extends React.Component {
     static updateLocalStorage(key, value) {
@@ -29,13 +27,10 @@ export default class App extends React.Component {
     render() {
         return (
             <BrowserRouter>
-                <div className="app">
+                <div className="main_wrap">
                     <Switch>
                         <Route exact path="/" component={FirstPage} />
-                        {/* <Route render={props => <EnsureUserLogin {...props} toggleLogin={this.toggleLogin} />}> */}
-                        {/* <Route path={'/user/:id/doctors'} component={UserDoctorPage} /> */}
-                        {/* <Route path={'/user/:id/settings'} component={UserSettingPage} /> */}
-                        {/* </Route> */}
+                        <Route path={'/user/:uid/'} component={UserMainPage} />
                     </Switch>
                 </div>
             </BrowserRouter>
