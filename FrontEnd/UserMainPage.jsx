@@ -10,7 +10,8 @@ export default class UserMainPage extends React.Component {
         location: PropTypes.shape({
             state: PropTypes.shape({
                 email: PropTypes.string,
-                emailVerified: PropTypes.bool
+                emailVerified: PropTypes.bool,
+                userDoctors: PropTypes.object
             })
         }),
         match: PropTypes.shape({
@@ -23,7 +24,8 @@ export default class UserMainPage extends React.Component {
         location: PropTypes.shape({
             state: {
                 email: '',
-                emailVerified: false
+                emailVerified: false,
+                userDoctors: {}
             }
         }),
         match: PropTypes.shape({
@@ -36,8 +38,15 @@ export default class UserMainPage extends React.Component {
         super(props);
         this.state = {
             email: this.props.location.state.email,
-            emailVerified: this.props.location.state.emailVerified
+            emailVerified: this.props.location.state.emailVerified,
+            doctorsArr: this.props.location.state.userDoctors
         };
+        this.changeDoctorState = this.changeDoctorState.bind(this);
+    }
+    changeDoctorState(newDoctorObj) {
+        this.setState({
+            doctorsArr: newDoctorObj
+        });
     }
     render() {
         const emailNeedToBeConfirmed = !this.state.emailVerified
@@ -47,7 +56,17 @@ export default class UserMainPage extends React.Component {
             : '';
         return (
             <div className="UserMainPage">
-                <Route path={`/user/${this.props.match.params.uid}/notify`} component={UserDoctorPage} />
+                <Route
+                    path={`/user/${this.props.match.params.uid}/notify`}
+                    render={props => (
+                        <UserDoctorPage
+                            {...props}
+                            doctorsArr={this.state.doctorsArr}
+                            changeDoctorState={this.changeDoctorState}
+                        />
+                    )}
+                />
+                {console.log(this.props)}
                 <Route path={`/user/${this.props.match.params.uid}/settings`} component={UserSettingPage} />
                 <aside>
                     <h3>Вітаємо, {this.state.email}</h3>

@@ -9,27 +9,19 @@ export default class UserDoctorPage extends React.Component {
         return `${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10 ? `0${new Date().getMonth() + 1}` : new Date().getMonth() + 1}-${new Date().getDate() < 10 ? `0${new Date().getDate()}` : new Date().getDate()}`;
     }
     static propTypes = {
-        location: PropTypes.shape({
-            state: PropTypes.shape({
-                uid: PropTypes.string,
-                userDoctors: PropTypes.object
-            })
-        })
+        doctorsArr: PropTypes.shape({}),
+        changeDoctorState: PropTypes.func
     };
     static defaultProps = {
-        location: PropTypes.shape({
-            state: {
-                email: ''
-            }
-        })
+        doctorsArr: {},
+        changeDoctorState() {}
     };
     constructor(props) {
         super(props);
         this.state = {
             doctorLink: '',
             dateFrom: UserDoctorPage.getCurrentDate(),
-            dateTo: '',
-            doctorsArr: this.props.location.state.userDoctors
+            dateTo: ''
         };
         this.handleInputValue = this.handleInputValue.bind(this);
         this.addDoctorNotification = this.addDoctorNotification.bind(this);
@@ -69,15 +61,14 @@ export default class UserDoctorPage extends React.Component {
                 userGenId: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)
             }
         );
-        this.setState({
-            doctorsArr: Object.assign({}, this.state.doctorsArr, {
-                [objToSend.userGenId]: {
-                    doctorLink: self.state.doctorLink,
-                    dateFrom: self.state.dateFrom,
-                    dateTo: self.state.dateTo
-                }
-            })
+        const NewDoctorsArr = Object.assign({}, this.props.doctorsArr, {
+            [objToSend.userGenId]: {
+                doctorLink: self.state.doctorLink,
+                dateFrom: self.state.dateFrom,
+                dateTo: self.state.dateTo
+            }
         });
+        this.props.changeDoctorState(NewDoctorsArr);
         axios
             .post('http://localhost:8090/addDoctor', objToSend)
             .then(dataBack => {
@@ -89,17 +80,9 @@ export default class UserDoctorPage extends React.Component {
             });
     }
     deleteDoctorNotification(id) {
-        const newDoctorsArr = this.state.doctorsArr;
+        const newDoctorsArr = this.props.doctorsArr;
         delete newDoctorsArr[id];
-        console.log('here');
-        this.setState(
-            {
-                doctorsArr: newDoctorsArr
-            },
-            () => {
-                console.log(this.state.doctorsArr);
-            }
-        );
+        this.props.changeDoctorState(newDoctorsArr);
         axios
             .post('http://localhost:8090/deleteDoctor', { id })
             .then(dataBack => {
@@ -112,9 +95,9 @@ export default class UserDoctorPage extends React.Component {
     }
     render() {
         let listOfDoctors;
-        if (this.state.doctorsArr) {
-            listOfDoctors = Object.keys(this.state.doctorsArr).map(doctorIdForUser => {
-                const doc = this.state.doctorsArr[doctorIdForUser];
+        if (this.props.doctorsArr) {
+            listOfDoctors = Object.keys(this.props.doctorsArr).map(doctorIdForUser => {
+                const doc = this.props.doctorsArr[doctorIdForUser];
                 return (
                     <OneDoctor
                         key={doctorIdForUser}
