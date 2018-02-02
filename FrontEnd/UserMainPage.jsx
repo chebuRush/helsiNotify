@@ -39,17 +39,15 @@ export default class UserMainPage extends React.Component {
     render() {
         return (
             <div className="UserMainPage">
-                <div className="displayUserBlock">
-                    <Route path={`/user/${this.props.match.params.uid}/notify`} component={UserDoctorPage} />
-                    <Route path={`/user/${this.props.match.params.uid}/settings`} component={UserSettingPage} />
-                </div>
+                <Route path={`/user/${this.props.match.params.uid}/notify`} component={UserDoctorPage} />
+                <Route path={`/user/${this.props.match.params.uid}/settings`} component={UserSettingPage} />
                 <aside>
                     <h3>Вітаємо, {this.state.email}</h3>
                     <ul className="mainMenu">
                         <li><Link style={{ textDecoration: 'none' }} to={'/'}>Головна</Link></li>
                         <li>
                             <Link style={{ textDecoration: 'none' }} to={`/user/${this.props.match.params.uid}/notify`}>
-                                Оповіщення
+                                Cповіщення
                             </Link>
                         </li>
                         <li>

@@ -2,6 +2,7 @@
 *{
   padding:0;
   margin:0;
+  max-width:100%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   font-family: 'LatoLight', serif;
@@ -10,7 +11,7 @@
 @font-face {
   font-family: 'LatoLight';
   src: url('../fonts/LatoLight.eot'); /* Для IE5-8 */
-  src: local(raleway), url(../fonts/LatoLight.ttf); /* Для остальных браузеров */
+  src: local(raleway), url(../fonts/RobotoLight.ttf); /* Для остальных браузеров */
   font-weight: 300;
   font-style: normal;
 }
@@ -18,7 +19,7 @@
 @font-face {
   font-family: 'LatoBold';
   src: url(../fonts/LatoBold.eot); /* Для IE5-8 */
-  src: local(raleway), url(../fonts/LatoBold.ttf); /* Для остальных браузеров */
+  src: local(raleway), url(../fonts/RobotoRegular.ttf); /* Для остальных браузеров */
   font-weight: 600;
   font-style: normal;
 }
@@ -87,15 +88,15 @@
 
 }
 .inputform input{
-  padding:1.5vmin;
-  font-size:3vmin;
+  font-size:3.5vmin;
+  padding: 2vh 0.7vw;
   text-align: center;
   width:48%;
 }
 .inputform input:invalid, .wishForm input:invalid{
   box-shadow: none;
 }
-.inputform input[type=submit]{
+input[type=submit]{
   background: rgb(0, 0, 200);
   color:#fff;
   margin-top: 5vh;
@@ -104,9 +105,12 @@
   border: 1px solid rgb(0, 0, 200);
 }
 
-.inputform input[type=submit]:hover {
-  background-color: #fff; /* Green */
+input[type=submit]:hover{
+  background-color: #fff;
   color: #000;
+}
+.wishForm #clickSubmit{
+  margin-top:0;
 }
 
 .uniqueDoctor{
@@ -121,8 +125,7 @@
   border-bottom:1px orangered solid;
 }
 .field{
-  font-size:2.3vmin;
-  padding:1.5vmin;
+  font-size:2.8vmin;
   width:25%;
   text-align: center;
 }
@@ -170,18 +173,24 @@
 /*User Main Page*/
 
 .UserMainPage{
-  display: flex;
-  justify-content: flex-end;
-  width:100%;
+  width:100vw;
   height:100%;
+  /*overflow-x: auto;*/
 }
+.doctorListWrapper{
+  width:80%;
+}
+
 .UserMainPage aside{
-  width:20vw;
+  position:fixed;
+  right:0;
+  top:0;
+  width:20%;
   display: flex;
   flex-direction: column;
   align-self: center;
   justify-content: flex-start;
-  padding:3vmin;
+  padding:3vh 3vw;
   background-color: rgba(255,255,255,0.85);
   height:100%;
 }
@@ -194,7 +203,7 @@
   list-style: none;
 }
 .mainMenu{
-  font-size:3vmin;
+  font-size:3.3vmin;
   text-decoration: none;
 }
 .mainMenu li{
@@ -220,24 +229,80 @@
 }
 
 .displayUserBlock{
-  width:80vw;
+  position:absolute;
+  left:0;
+  width:75vw;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .wishForm{
   width:inherit;
   display:flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin:3vmin;
+  margin:3vmin auto;
 }
 .wishForm input{
   width:30vw;
-  margin:2vmin;
-  font-size:2.6vmin;
-  padding:2vmin;
+  padding:2vh 0.8vw;
+  font-size:2.2vmin;
+  margin:1.3vmin;
 }
 .wishForm input[type="date"]{
   width:10vw;
+}
+
+.showAllNotifyWishes{
+  border:1px solid rgb(0, 0, 200);
+  background-color: rgba(255,255,255,0.65);
+  width:70%;
+  margin: 0 auto;
+}
+.showAllNotifyWishes:empty{
+  display: none;
+}
+
+.oneDoctor{
+  display:flex;
+  flex-direction:row;
+  align-self:center;
+  justify-content:space-around;
+  border-bottom:1px solid rgb(0, 0, 200);
+}
+.doctorSeparateData{
+  border-right:1px solid rgb(0,0,200);
+  font-size:2.5vmin;
+  width:33%;
+  align-self: stretch;
+}
+.doctorSeparateData:last-child,.oneDoctor:last-child{
+  border:0;
+}
+.doctorSeparateData>p, .close{
+  text-align: center;
+  height: 100%;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+}
+.red-cross-div{
+  width:5%;
+}
+.close {
+  font-family: 'LatoLight', serif;
+  color: #ff0000;
+  font-size:2.8vmin;
+  text-decoration: none;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  margin:0 auto;
+  width:100%;
+  text-decoration: none;
 }

@@ -3,8 +3,8 @@ function appSignInEmailPass(firebase, email, password) {
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .then(user => {
-                resolve(user);
+            .then(() => {
+                resolve(firebase.auth().currentUser);
             })
             .catch(error => {
                 reject(error);

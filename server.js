@@ -3,9 +3,7 @@ const bodyParser = require('body-parser');
 const http = require('http');
 
 const app = express();
-const port = process.env.PORT || 8080;
-
-app.set('view engine', 'ejs');
+const port = process.env.PORT || 8090;
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));

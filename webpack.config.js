@@ -12,12 +12,12 @@ module.exports = {
     devtool: 'inline-source-map',
     output: {
         path: path.join(__dirname, 'public'),
-        publicPath: 'public/',
+        publicPath: '/',
         filename: 'bundle.js'
     },
     devServer: {
         hot: true,
-        publicPath: '/public/',
+        contentBase: 'public/',
         historyApiFallback: true
     },
     resolve: {

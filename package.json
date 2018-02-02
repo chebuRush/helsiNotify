@@ -5,7 +5,7 @@
   "scripts": {
     "api": "node ratingsAPI.js",
     "build": "webpack",
-    "dev": "webpack-dev-server",
+    "dev": "start webpack-dev-server && start node server.js",
     "format": "prettier --write --single-quote --print-width=120 --parser=flow --tab-width=2 \"js/**/*.{js,jsx}\"",
     "lint": "eslint **/*.{js,jsx} --quiet",
     "watch": "webpack --watch"
@@ -14,6 +14,7 @@
     "axios": "0.16.1",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "debug": "^2.6.9",
     "dom-parser": "^0.1.5",
     "ejs": "^2.5.7",

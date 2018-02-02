@@ -64,7 +64,7 @@ export default class FirstPage extends React.Component {
             }
         );
         axios
-            .post('/appSignIn', this.state)
+            .post('http://localhost:8090/appSignIn', this.state)
             .then(user => {
                 if (user.data.statusHelsiCode === '200') {
                     // eslint-disable-next-line react/prop-types
@@ -82,7 +82,7 @@ export default class FirstPage extends React.Component {
                 }
             })
             .catch(err => {
-                console.error('axios error', err); // eslint-disable-line no-console
+                console.error('axios error', err.message); // eslint-disable-line no-console
             });
     }
     render() {
