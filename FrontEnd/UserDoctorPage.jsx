@@ -58,6 +58,7 @@ export default class UserDoctorPage extends React.Component {
                 doctorLink: self.state.doctorLink,
                 dateFrom: self.state.dateFrom,
                 dateTo: self.state.dateTo,
+                status: 1,
                 userGenId: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)
             }
         );
@@ -65,14 +66,15 @@ export default class UserDoctorPage extends React.Component {
             [objToSend.userGenId]: {
                 doctorLink: self.state.doctorLink,
                 dateFrom: self.state.dateFrom,
-                dateTo: self.state.dateTo
+                dateTo: self.state.dateTo,
+                status: 1
             }
         });
         this.props.changeDoctorState(NewDoctorsArr);
         axios
             .post('http://localhost:8090/addDoctor', objToSend)
             .then(dataBack => {
-                console.log(dataBack); // eslint-disable-line no-console
+                console.log('addDoctor:', dataBack); // eslint-disable-line no-console
             })
             .catch(err => {
                 // TODO tell user that something went wrong
@@ -104,6 +106,7 @@ export default class UserDoctorPage extends React.Component {
                         doctorIdForUser={doctorIdForUser}
                         dateFrom={doc.dateFrom}
                         dateTo={doc.dateTo}
+                        status={doc.status}
                         doctorLink={doc.doctorLink}
                         deleteDoctorNotification={this.deleteDoctorNotification}
                     />

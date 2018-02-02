@@ -65,12 +65,12 @@ export default class FirstPage extends React.Component {
         );
         axios
             .post('http://localhost:8090/appSignIn', this.state)
-            .then(user => {
-                if (user.data.statusHelsiCode === '200') {
+            .then(res => {
+                if (res.data.statusHelsiCode === '200') {
                     // eslint-disable-next-line react/prop-types
-                    this.props.history.push(`/user/${user.data.uid}/notify`, user.data);
+                    this.props.history.push(`/user/${res.data.user.uid}/notify`, res.data.user);
                 } else {
-                    alert(`Login failed: ${user.data.errorHelsiMsg}`);
+                    alert(`Login failed: ${res.data.errorHelsiMsg}`);
                     this.setState(
                         {
                             submitted: false

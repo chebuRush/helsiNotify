@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
 import { Link, Route } from 'react-router-dom';
 
 import UserSettingPage from './UserSettingPage';
@@ -36,12 +38,36 @@ export default class UserMainPage extends React.Component {
     };
     constructor(props) {
         super(props);
-        this.state = {
-            email: this.props.location.state.email,
-            emailVerified: this.props.location.state.emailVerified,
-            doctorsArr: this.props.location.state.userDoctors
-        };
+        console.log(this.props.location.state);
+        if (this.props.location.state) {
+            this.state = {
+                email: this.props.location.state.email,
+                emailVerified: this.props.location.state.emailVerified,
+                doctorsArr: this.props.location.state.userDoctors
+            };
+        } else {
+            this.state = {
+                email: '',
+                emailVerified: false,
+                doctorsArr: {}
+            };
+        }
         this.changeDoctorState = this.changeDoctorState.bind(this);
+    }
+    componentDidMount() {
+        axios
+            .post('http://localhost:8090/getData')
+            .then(dataBack => {
+                this.setState({
+                    email: dataBack.data.email,
+                    emailVerified: dataBack.data.emailVerified,
+                    doctorsArr: dataBack.data.userDoctors
+                });
+            })
+            .catch(err => {
+                // TODO tell user that something went wrong
+                console.error('axios error', err); // eslint-disable-line no-console
+            });
     }
     changeDoctorState(newDoctorObj) {
         this.setState({

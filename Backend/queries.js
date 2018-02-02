@@ -12,6 +12,7 @@ const responses = require('./Responses/response');
 
 function queries(app) {
     /* CORS maintaining */
+
     app.use((req, res, next) => {
         res.append('Access-Control-Allow-Origin', ['*']);
         res.append('Access-Control-Allow-Credentials', 'true');
@@ -28,7 +29,7 @@ function queries(app) {
             const { email, password } = req.body;
             FireBase.Account
                 .signInEmailPass(email, password)
-                .then(user => FireBase.DataBase.getData(user, `${user.uid}/doctors`, 'userDoctors'))
+                .then(user => FireBase.DataBase.getData({ user }, `${user.uid}/doctors`, 'userDoctors'))
                 .then(data => {
                     const userWithStatusCode = Object.assign({}, data, { statusHelsiCode: '200' });
                     res.json(userWithStatusCode);
@@ -77,7 +78,19 @@ function queries(app) {
             .then(() => responses.sendOK(res))
             .catch(error => responses.wrongAuth(res, error.message));
     });
-
+    app.post('/getData', FireBase.Account.checkAuth, (req, res) => {
+        FireBase.DataBase
+            .getData(
+                { email: req.user.email, emailVerified: req.user.emailVerified },
+                `${req.user.uid}/doctors`,
+                'userDoctors'
+            )
+            .then(data => {
+                const dataWithStatusCode = Object.assign({}, data, { statusHelsiCode: '200' });
+                res.json(dataWithStatusCode);
+            })
+            .catch(e => console.error(e.message));
+    });
     app.post('/addDoctor', FireBase.Account.checkAuth, (req, res) => {
         const { doctorLink, dateFrom, dateTo, userGenId } = req.body;
         const uid = req.user.uid;
