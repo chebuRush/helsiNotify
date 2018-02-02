@@ -3,8 +3,11 @@ function appSignUpEmailPass(firebase, email, password) {
         firebase
             .auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(user => {
-                resolve(user);
+            .then(userData => {
+                firebase.auth().onAuthStateChanged(user => {
+                    user.sendEmailVerification();
+                    resolve(userData);
+                });
             })
             .catch(error => {
                 reject(error);

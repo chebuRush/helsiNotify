@@ -9,7 +9,8 @@ export default class UserMainPage extends React.Component {
     static propTypes = {
         location: PropTypes.shape({
             state: PropTypes.shape({
-                email: PropTypes.string
+                email: PropTypes.string,
+                emailVerified: PropTypes.bool
             })
         }),
         match: PropTypes.shape({
@@ -21,7 +22,8 @@ export default class UserMainPage extends React.Component {
     static defaultProps = {
         location: PropTypes.shape({
             state: {
-                email: ''
+                email: '',
+                emailVerified: false
             }
         }),
         match: PropTypes.shape({
@@ -33,10 +35,16 @@ export default class UserMainPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: this.props.location.state.email
+            email: this.props.location.state.email,
+            emailVerified: this.props.location.state.emailVerified
         };
     }
     render() {
+        const emailNeedToBeConfirmed = !this.state.emailVerified
+            ? <p style={{ position: 'absolute', bottom: '1vh', right: '0.5vw', fontSize: '1.8vmin', color: '#ff3349' }}>
+                  Email не підтвердженно. Обмежений функціонал
+              </p>
+            : '';
         return (
             <div className="UserMainPage">
                 <Route path={`/user/${this.props.match.params.uid}/notify`} component={UserDoctorPage} />
@@ -63,6 +71,7 @@ export default class UserMainPage extends React.Component {
                             </Link>
                         </li>
                     </ul>
+                    {emailNeedToBeConfirmed}
                 </aside>
             </div>
         );

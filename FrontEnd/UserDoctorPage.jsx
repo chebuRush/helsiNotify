@@ -133,7 +133,6 @@ export default class UserDoctorPage extends React.Component {
                     <input
                         id="doctorLink"
                         type="url"
-                        pattern="^(https?://)?([a-zA-Z0-9]([a-zA-ZäöüÄÖÜ0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$"
                         onChange={this.handleInputValue}
                         name="DoctorLink"
                         placeholder="Посилання на доктора (https://helsi.me/doctor/shv_200)"

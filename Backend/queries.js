@@ -1,8 +1,14 @@
 const path = require('path');
-const cors = require('cors');
 
 const FireBase = require('./FireBase');
 const responses = require('./Responses/response');
+/*
+* Doctor status
+* 0 - Stopped for looking for
+* 1 - Looking for
+* 2 - Founded & Notified
+* 3 - Overdue time limit
+*/
 
 function queries(app) {
     /* CORS maintaining */
@@ -39,8 +45,14 @@ function queries(app) {
                                     user.uid,
                                     {
                                         personalData: {
-                                            emailToNotify: user.email
-                                        }
+                                            emailToNotify: user.email,
+                                            money: {
+                                                available: 0,
+                                                freezed: 0,
+                                                used: 0
+                                            }
+                                        },
+                                        doctorsNotified: ''
                                     },
                                     user
                                 )
@@ -76,7 +88,8 @@ function queries(app) {
                         [userGenId]: {
                             doctorLink,
                             dateFrom,
-                            dateTo
+                            dateTo,
+                            status: 1
                         }
                     }
                 })
