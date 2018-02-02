@@ -6,9 +6,13 @@ import { Link, Route } from 'react-router-dom';
 
 import UserSettingPage from './UserSettingPage';
 import UserDoctorPage from './UserDoctorPage';
+import UserLogOut from './UserLogOut';
 
 export default class UserMainPage extends React.Component {
     static propTypes = {
+        history: PropTypes.shape({
+            push: PropTypes.func
+        }),
         location: PropTypes.shape({
             state: PropTypes.shape({
                 email: PropTypes.string,
@@ -23,6 +27,9 @@ export default class UserMainPage extends React.Component {
         })
     };
     static defaultProps = {
+        history: PropTypes.shape({
+            push() {}
+        }),
         location: PropTypes.shape({
             state: {
                 email: '',
@@ -38,7 +45,6 @@ export default class UserMainPage extends React.Component {
     };
     constructor(props) {
         super(props);
-        console.log(this.props.location.state);
         if (this.props.location.state) {
             this.state = {
                 email: this.props.location.state.email,
@@ -54,20 +60,27 @@ export default class UserMainPage extends React.Component {
         }
         this.changeDoctorState = this.changeDoctorState.bind(this);
     }
-    componentDidMount() {
+    componentWillMount() {
         axios
             .post('http://localhost:8090/getData')
             .then(dataBack => {
-                this.setState({
-                    email: dataBack.data.email,
-                    emailVerified: dataBack.data.emailVerified,
-                    doctorsArr: dataBack.data.userDoctors
-                });
+                if (dataBack.data.email) {
+                    this.setState({
+                        email: dataBack.data.email,
+                        emailVerified: dataBack.data.emailVerified,
+                        doctorsArr: dataBack.data.userDoctors
+                    });
+                } else {
+                    console.log('ready to push', this.props.history.push);
+                    this.props.history.push('/');
+                }
             })
             .catch(err => {
                 // TODO tell user that something went wrong
                 console.error('axios error', err); // eslint-disable-line no-console
+                this.props.history.push('/');
             });
+        // TODO delete setTimeout and rewrite axios to sync query
     }
     changeDoctorState(newDoctorObj) {
         this.setState({
@@ -92,8 +105,8 @@ export default class UserMainPage extends React.Component {
                         />
                     )}
                 />
-                {console.log(this.props)}
                 <Route path={`/user/${this.props.match.params.uid}/settings`} component={UserSettingPage} />
+                <Route path={`/user/${this.props.match.params.uid}/logout`} component={UserLogOut} />
                 <aside>
                     <h3>Вітаємо, {this.state.email}</h3>
                     <ul className="mainMenu">
