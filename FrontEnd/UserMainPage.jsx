@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { Link, Route } from 'react-router-dom';
+import { PulseLoader } from 'react-spinners';
 
 import UserSettingPage from './UserSettingPage';
 import UserDoctorPage from './UserDoctorPage';
@@ -49,11 +50,13 @@ export default class UserMainPage extends React.Component {
             this.state = {
                 email: this.props.location.state.email,
                 emailVerified: this.props.location.state.emailVerified,
-                doctorsArr: this.props.location.state.userDoctors
+                doctorsArr: this.props.location.state.userDoctors,
+                loading: false
             };
         } else {
             this.state = {
                 email: '',
+                loading: true,
                 emailVerified: false,
                 doctorsArr: {}
             };
@@ -68,7 +71,8 @@ export default class UserMainPage extends React.Component {
                     this.setState({
                         email: dataBack.data.email,
                         emailVerified: dataBack.data.emailVerified,
-                        doctorsArr: dataBack.data.userDoctors
+                        doctorsArr: dataBack.data.userDoctors,
+                        loading: false
                     });
                 } else {
                     console.log('ready to push', this.props.history.push);
@@ -93,6 +97,13 @@ export default class UserMainPage extends React.Component {
                   Email не підтвердженно. Обмежений функціонал
               </p>
             : '';
+        if (this.state.loading) {
+            return (
+                <div className="sweet-loading" align="center">
+                    <PulseLoader color={'#0000c8'} loading={this.state.loading} />
+                </div>
+            );
+        }
         return (
             <div className="UserMainPage">
                 <Route
