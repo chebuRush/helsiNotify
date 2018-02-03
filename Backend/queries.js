@@ -78,7 +78,7 @@ function queries(app) {
             .then(() => responses.sendOK(res))
             .catch(error => responses.wrongAuth(res, error.message));
     });
-    app.post('/getData', FireBase.Account.checkAuth, (req, res) => {
+    app.post('/getNotifications', FireBase.Account.checkAuth, (req, res) => {
         FireBase.DataBase
             .getData(
                 { email: req.user.email, emailVerified: req.user.emailVerified },
@@ -90,6 +90,38 @@ function queries(app) {
                 res.json(dataWithStatusCode);
             })
             .catch(e => console.error(e.message));
+    });
+    app.post('/getPersonalData', FireBase.Account.checkAuth, (req, res) => {
+        FireBase.DataBase
+            .getData(
+                { email: req.user.email, emailVerified: req.user.emailVerified },
+                `${req.user.uid}/personalData`,
+                'personalData'
+            )
+            .then(data => {
+                const dataWithStatusCode = Object.assign({}, data, { statusHelsiCode: '200' });
+                res.json(dataWithStatusCode);
+            })
+            .catch(e => console.error(e.message));
+    });
+    app.post('/changePersonalData', FireBase.Account.checkAuth, (req, res) => {
+        const { emailToNotify, tel } = req.body;
+        const uid = req.user.uid;
+        if (emailToNotify && tel) {
+            FireBase.DataBase
+                .updateData(uid, {
+                    personalData: {
+                        emailToNotify,
+                        tel
+                    }
+                })
+                .then(() => {
+                    responses.sendOK(res);
+                })
+                .catch(e => {
+                    console.error(e.message);
+                });
+        }
     });
     app.post('/addDoctor', FireBase.Account.checkAuth, (req, res) => {
         const { doctorLink, dateFrom, dateTo, userGenId } = req.body;

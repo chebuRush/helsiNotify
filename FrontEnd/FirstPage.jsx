@@ -94,7 +94,7 @@ export default class FirstPage extends React.Component {
                 <Title>Не можеш знайти вільний час у лікаря?</Title>
                 <Subtitle>Ми зробимо це для тебе!</Subtitle>
                 <h3 className="description">
-                    Helsi Notify - це платформа для зекономлення часу на очікування вільного місця до лікаря. Як тільки лікар буде вільним - ми вас повідомимо
+                    Helsi Notify - це платформа для заощадження часу на очікування вільного місця до лікаря. Як тільки лікар буде вільним - ми вас повідомимо
                 </h3>
                 <div className="form">
                     <form className="inputform" method="post" onSubmit={this.goPersonalPage}>

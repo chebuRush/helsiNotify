@@ -97,12 +97,12 @@
   box-shadow: none;
 }
 input[type=submit]{
-  background: rgb(0, 0, 200);
+  background: rgb(0, 95, 200);
   color:#fff;
   margin-top: 5vh;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
-  border: 1px solid rgb(0, 0, 200);
+  border: 1px solid rgb(0, 95, 200);
 }
 
 input[type=submit]:hover{
@@ -218,7 +218,7 @@ input[type=submit]:hover{
 .mainMenu a:after {
   display:block;
   content: '';
-  border-bottom: solid 2px rgb(0, 0, 200);
+  border-bottom: solid 2px rgb(0, 95, 200);
   transform: scaleX(0);
   transition: transform 500ms ease-in-out;
   transform-origin:100% 50%
@@ -254,7 +254,7 @@ input[type=submit]:hover{
 }
 
 .showAllNotifyWishes{
-  border:1px solid rgb(0, 0, 200);
+  border:1px solid rgb(0, 95, 200);
   background-color: rgba(255,255,255,0.65);
   width:70%;
   margin: 0 auto;
@@ -268,7 +268,7 @@ input[type=submit]:hover{
   flex-direction:row;
   align-self:center;
   justify-content:space-around;
-  border-bottom:1px solid rgb(0, 0, 200);
+  border-bottom:1px solid rgb(0, 95, 200);
 }
 .doctorSeparateData{
   border-right:1px solid rgb(0,0,200);
@@ -304,5 +304,94 @@ input[type=submit]:hover{
   outline:none;
   margin:0 auto;
   width:100%;
+}
+
+/*User Setting page*/
+.userSettingBlock{
+  position:relative;
+  width:80%;
+  margin:7vh auto;
+  display: flex;
+  flex-direction: column;
+}
+.PersonalDataField{
+  font-size:3vmin;
+  margin: 5vh 0;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width:80%;
+}
+.PersonalDataField p {
+  display:flex;
+  align-self: center;
+}
+.moneyValue{
+  margin: 2vh 4vw;
+}
+.PersonalDataField input{
+  margin-left:3vw;
+  width:20vw;
+  font-size:2vmin;
+  padding:1.5vh 1vw;
+}
+.SaveChangesButtonWrapper{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+  position:absolute;
+  right:5vw;
+  top:10vh;
+}
+.SaveChangesButton{
+  background-color: rgb(0, 95, 200); /* Blue */
+  border: 1px solid rgb(0, 95, 200);
+  color: white;
+  padding: 1vh 1vw;
+  text-align: center;
   text-decoration: none;
+  display: inline-block;
+  font-size: 2.5vmin;
+}
+.SaveChangesButton {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.SaveChangesButton:hover {
+  background-color: #fff; /* Green */
+  color: rgb(0,120,200);
+}
+.PersonalDataField:last-child{
+  width:100%;
+}
+.DeleteAccount{
+  background-color: rgb(245,0,0); /* Blue */
+  border: 1px solid rgb(245,0,0);
+  color: white;
+  padding: 1vh 1vw;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2.5vmin;
+  margin:0 auto;
+}
+.DeleteAccount {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.DeleteAccount:hover {
+  background-color: #fff; /* Green */
+  color: rgb(245,0,0);
+}
+.available{
+  color: #4CAF50;
+}
+.freezed{
+  color: #ff8315
+}
+.displayTrue{
+  visibility: visible;
+  opacity: 1;
 }
