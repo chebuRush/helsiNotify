@@ -60,7 +60,6 @@ function queries(app) {
                             )
                             .then(user => {
                                 const userWithStatusCode = Object.assign({}, { user }, { statusHelsiCode: '200' });
-                                console.log(userWithStatusCode);
                                 res.json(userWithStatusCode);
                             })
                             .catch(err => responses.wrongAuth(res, `Caught in queries:${err.message}`));
@@ -125,9 +124,11 @@ function queries(app) {
         }
     });
     app.post('/addDoctor', FireBase.Account.checkAuth, (req, res) => {
-        const { doctorLink, dateFrom, dateTo, userGenId } = req.body;
+        let { doctorLink } = req.body;
+        const { dateFrom, dateTo, userGenId } = req.body;
         const uid = req.user.uid;
         if (doctorLink && dateFrom && dateTo && userGenId) {
+            doctorLink = `https://${doctorLink.substring(doctorLink.indexOf('helsi.me'))}`;
             FireBase.DataBase
                 .updateData(`users/${uid}`, {
                     doctors: {
@@ -135,11 +136,18 @@ function queries(app) {
                             doctorLink,
                             dateFrom,
                             dateTo,
-                            status: 1
+                            status: 1,
+                            timeStamp: new Date()
                         }
                     }
                 })
-                .then(() => responses.sendOK(res))
+                .then(() => {
+                    FireBase.DataBase
+                        .updateDataViaPush('doctorList', doctorLink, uid)
+                        .then(() => {})
+                        .catch(e => console.error(e.message));
+                    responses.sendOK(res);
+                })
                 .catch(e => {
                     console.error(e.message);
                 });

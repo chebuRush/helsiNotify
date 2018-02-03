@@ -1,4 +1,3 @@
-const firebaseEncode = require('firebase-encode');
 
 function deleteDataFireBase(ref, child, path) {
     return new Promise((resolve, reject) => {
