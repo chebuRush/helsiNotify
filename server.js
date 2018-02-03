@@ -13,6 +13,5 @@ const server = http.createServer(app);
 server.listen(process.env.PORT || port);
 
 require('./Backend/queries')(app);
-require('.Backend/NotifyUsers')(app);
 
 module.exports = server;

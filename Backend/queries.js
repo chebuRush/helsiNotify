@@ -29,7 +29,7 @@ function queries(app) {
             const { email, password } = req.body;
             FireBase.Account
                 .signInEmailPass(email, password)
-                .then(user => FireBase.DataBase.getData({ user }, `${user.uid}/doctors`, 'userDoctors'))
+                .then(user => FireBase.DataBase.getData({ user }, `users/${user.uid}/doctors`, 'userDoctors'))
                 .then(data => {
                     const userWithStatusCode = Object.assign({}, data, { statusHelsiCode: '200' });
                     res.json(userWithStatusCode);
@@ -43,7 +43,7 @@ function queries(app) {
                             .signUpEmailPass(email, password)
                             .then(user =>
                                 FireBase.DataBase.updateData(
-                                    user.uid,
+                                    `users/${user.uid}`,
                                     {
                                         personalData: {
                                             emailToNotify: user.email,
@@ -59,10 +59,11 @@ function queries(app) {
                                 )
                             )
                             .then(user => {
-                                const userWithStatusCode = Object.assign({}, user, { statusHelsiCode: '200' });
+                                const userWithStatusCode = Object.assign({}, { user }, { statusHelsiCode: '200' });
+                                console.log(userWithStatusCode);
                                 res.json(userWithStatusCode);
                             })
-                            .catch(err => responses.wrongAuth(res, err.message));
+                            .catch(err => responses.wrongAuth(res, `Caught in queries:${err.message}`));
                     } else {
                         responses.wrongAuth(res, error.message);
                     }
@@ -82,7 +83,7 @@ function queries(app) {
         FireBase.DataBase
             .getData(
                 { email: req.user.email, emailVerified: req.user.emailVerified },
-                `${req.user.uid}/doctors`,
+                `users/${req.user.uid}/doctors`,
                 'userDoctors'
             )
             .then(data => {
@@ -95,7 +96,7 @@ function queries(app) {
         FireBase.DataBase
             .getData(
                 { email: req.user.email, emailVerified: req.user.emailVerified },
-                `${req.user.uid}/personalData`,
+                `users/${req.user.uid}/personalData`,
                 'personalData'
             )
             .then(data => {
@@ -109,7 +110,7 @@ function queries(app) {
         const uid = req.user.uid;
         if (emailToNotify && tel) {
             FireBase.DataBase
-                .updateData(uid, {
+                .updateData(`users/${uid}`, {
                     personalData: {
                         emailToNotify,
                         tel
@@ -128,7 +129,7 @@ function queries(app) {
         const uid = req.user.uid;
         if (doctorLink && dateFrom && dateTo && userGenId) {
             FireBase.DataBase
-                .updateData(uid, {
+                .updateData(`users/${uid}`, {
                     doctors: {
                         [userGenId]: {
                             doctorLink,
@@ -152,7 +153,7 @@ function queries(app) {
         const uid = req.user.uid;
         if (doctorIdForUser) {
             FireBase.DataBase
-                .deleteData(uid, `doctors/${doctorIdForUser}`)
+                .deleteData(`users/${uid}`, `doctors/${doctorIdForUser}`)
                 .then(() => responses.sendOK(res))
                 .catch(e => {
                     console.error(e.message);

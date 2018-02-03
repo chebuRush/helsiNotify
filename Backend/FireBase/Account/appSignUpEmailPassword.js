@@ -10,7 +10,7 @@ function appSignUpEmailPass(firebase, email, password) {
                 });
             })
             .catch(error => {
-                reject(error);
+                reject(new Error(`Error in signUp:${error.message}`));
             });
     });
 }
