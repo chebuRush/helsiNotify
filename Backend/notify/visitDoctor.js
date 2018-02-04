@@ -28,4 +28,10 @@ async function visitDoctor(doc, link) {
     return schedulePlaces;
 }
 
-module.exports = visitDoctor;
+async function checkAvailability(schedule){
+    console.log(schedule);
+    return Object.keys(schedule).filter(key =>  schedule[key].indexOf('місц') !== -1);
+}
+
+module.exports.visitDoctor = visitDoctor;
+module.exports.checkAvailability = checkAvailability;

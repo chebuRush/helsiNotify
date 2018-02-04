@@ -1,16 +1,24 @@
 const getDoctorsListFromDB = require('./getDoctorsListFromDB');
-const visitDoctor = require('./visitDoctor');
+const visitDoctorPage = require('./visitDoctor').visitDoctor;
+const checkAvailability = require('./visitDoctor').checkAvailability;
 const deleteUnvalidLink = require('./deleteUnvalidLink');
+// const notifyUsersAndGetMoney = require('./notifyUsersAndGetMoney');
 const phantom = require('phantom');
 
-async function WorkWithSeparateLink(doc, theArray) {
+async function WorkWithSeparateDoctor(doc, theArray) {
     const results = [];
     for (const entry of theArray) {
+        let schedule;
         try {
-            results.push(await visitDoctor(doc, entry));
+            schedule = await visitDoctorPage(doc, entry);
         } catch (e) {
             deleteUnvalidLink(entry);
         }
+        const arrayOfDates = await checkAvailability(schedule);
+        console.log(arrayOfDates);
+        // if (arrayOfDates) {
+        //     await notifyUsersAndGetMoney(link);
+        // }
     }
     return results;
 }
@@ -19,8 +27,9 @@ async function main() {
     const instance = await phantom.create(['--ignore-ssl-errors=yes', '--load-images=no']);
     const doc = await instance.createPage();
     const docList = await getDoctorsListFromDB();
-    WorkWithSeparateLink(doc, Object.keys(docList)).then(results => {
+    WorkWithSeparateDoctor(doc, Object.keys(docList)).then(async results => {
         console.log('Results:', results);
+        await instance.exit();
     });
 }
 

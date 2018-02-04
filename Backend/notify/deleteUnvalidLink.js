@@ -1,5 +1,6 @@
 const Firebase = require('./../FireBase');
 
+// TODO rewrite constant to config
 const ONE_DOCTOR_VISIT_COST = 5;
 
 function clearUserAndReturnMoney(uid, link) {
