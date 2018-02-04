@@ -3,6 +3,7 @@ const updateDataFireBase = require('./updateDataFireBase');
 const deleteDataFireBase = require('./deleteDataFireBase');
 const getDataFireBase = require('./getDataFireBase');
 const updateDataViaPushFireBase = require('./updateDataViaPushFireBase');
+const updateSensitiveData = require('./transactionMoney');
 
 const currentRefConst = 'HelsiNotify';
 
@@ -21,8 +22,11 @@ function Database(firebase) {
         deleteData(child, path) {
             return deleteDataFireBase(ref, child, path);
         },
-        getData(user, getObj, usefullDataVariable) {
-            return getDataFireBase(ref, user, getObj, usefullDataVariable);
+        getData(user, getObj, usefullDataVariable, additionalPathToBeDecoded) {
+            return getDataFireBase(ref, user, getObj, usefullDataVariable, additionalPathToBeDecoded);
+        },
+        updateSensitiveData(uid, workWithMoneyFunction) {
+            return updateSensitiveData(ref, uid, workWithMoneyFunction);
         }
     };
 }

@@ -1,15 +1,27 @@
 const getDoctorsListFromDB = require('./getDoctorsListFromDB');
-const visit = require('./visitDoctor');
-const DomParser = require('dom-parser');
+const visitDoctor = require('./visitDoctor');
+const deleteUnvalidLink = require('./deleteUnvalidLink');
+const phantom = require('phantom');
+
+async function doSomethingWith(doc, theArray) {
+    const results = [];
+    for (const entry of theArray) {
+        try {
+            results.push(await visitDoctor(doc, entry));
+        } catch (e) {
+            deleteUnvalidLink(entry)
+        }
+    }
+    return results;
+}
 
 async function main() {
     const instance = await phantom.create(['--ignore-ssl-errors=yes', '--load-images=no']);
     const doc = await instance.createPage();
     const docList = await getDoctorsListFromDB();
-    for (const docSite in docList) {
-        const result = visit(doc, docSite);
-    }
-    await instance.exit();
+    doSomethingWith(doc, Object.keys(docList)).then(results => {
+        console.log('Results:', results);
+    });
 }
 
 main();

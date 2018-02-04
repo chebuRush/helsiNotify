@@ -1,9 +1,10 @@
 const firebaseEncoder = require('firebase-encode');
 
-function getDataFireBase(ref, user, obj, fieldName) {
+function getDataFireBase(ref, user, obj, fieldName, additionalPathToBeDecoded = '') {
     return new Promise((resolved, rejected) => {
+        const objPath = `/${JSON.parse(firebaseEncoder.encode(JSON.stringify(additionalPathToBeDecoded)))}`;
         ref
-            .child(obj)
+            .child(`${obj}${objPath}`)
             .once('value')
             .then(objectBack => {
                 resolved(
