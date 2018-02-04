@@ -3,13 +3,13 @@ const visitDoctor = require('./visitDoctor');
 const deleteUnvalidLink = require('./deleteUnvalidLink');
 const phantom = require('phantom');
 
-async function doSomethingWith(doc, theArray) {
+async function WorkWithSeparateLink(doc, theArray) {
     const results = [];
     for (const entry of theArray) {
         try {
             results.push(await visitDoctor(doc, entry));
         } catch (e) {
-            deleteUnvalidLink(entry)
+            deleteUnvalidLink(entry);
         }
     }
     return results;
@@ -19,7 +19,7 @@ async function main() {
     const instance = await phantom.create(['--ignore-ssl-errors=yes', '--load-images=no']);
     const doc = await instance.createPage();
     const docList = await getDoctorsListFromDB();
-    doSomethingWith(doc, Object.keys(docList)).then(results => {
+    WorkWithSeparateLink(doc, Object.keys(docList)).then(results => {
         console.log('Results:', results);
     });
 }

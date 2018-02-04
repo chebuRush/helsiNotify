@@ -26,7 +26,7 @@ function clearUserAndReturnMoney(uid, link) {
                     return null;
                 })
             )
-            .then(() => console.log('OK'))
+            .then(() => resolve())
             .catch(e => reject(e));
     });
 }
