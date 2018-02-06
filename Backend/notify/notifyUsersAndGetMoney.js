@@ -7,13 +7,7 @@ const ONE_DOCTOR_VISIT_COST = config.get('ONE_DOCTOR_VISIT_COST');
 function sweepDBAndGetMoney(uid, link, keyForUsersDoctor, keyForDoctorList) {
     return new Promise((resolve, reject) =>
         Firebase.DataBase
-            .updateData(`users/${uid}`, {
-                doctors: {
-                    [keyForDoctorList]: {
-                        status: 2
-                    }
-                }
-            })
+            .setData(`users/${uid}/doctors/${keyForUsersDoctor}/status`, 2)
             .then(() => Firebase.DataBase.deleteData('doctorList', link, keyForDoctorList))
             .then(() =>
                 Firebase.DataBase.updateSensitiveData(uid, money => {
@@ -52,10 +46,11 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
                 if (fittedDataIndex !== -1) {
                     notifyUser(uid, link);
                     arrayOfDates.splice(fittedDataIndex, 1);
+                    console.log(keyForDoctorList);
                     return sweepDBAndGetMoney(uid, link, neededKey, keyForDoctorList);
                 }
             })
-            .then(() => resolve())
+            .then(() => console.log('Finished'))
             .catch(e => reject(e));
     });
 }
@@ -73,7 +68,7 @@ async function notifyUsersAndGetMoney(link, arrayOfDates) {
     await getUsersForDoctorLink();
 }
 
-checkSeparateUser('N8sesFHEckbEaL9x6UG43U6hc0O2', '-L4XKcRNdgGoZIh593lM', 'https://helsi.me/doctor/shv_20', [
+checkSeparateUser('N8sesFHEckbEaL9x6UG43U6hc0O2', '-L4fxITaCvrrLqr032BY', 'https://helsi.me/doctor/shv_200', [
     '2018-02-05',
     '2018-02-06',
     '2018-02-07',

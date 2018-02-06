@@ -19,8 +19,8 @@ function Database(firebase) {
         updateDataViaPush(path, link, uid) {
             return updateDataViaPushFireBase(ref, path, link, uid);
         },
-        deleteData(child, path) {
-            return deleteDataFireBase(ref, child, path);
+        deleteData(child, path, extraPath) {
+            return deleteDataFireBase(ref, child, path, extraPath);
         },
         getData(user, getObj, usefullDataVariable, additionalPathToBeDecoded) {
             return getDataFireBase(ref, user, getObj, usefullDataVariable, additionalPathToBeDecoded);
