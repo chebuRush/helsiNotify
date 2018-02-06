@@ -1,7 +1,7 @@
 const Firebase = require('./../FireBase');
-
-// TODO rewrite constant to config
-const ONE_DOCTOR_VISIT_COST = 5;
+const config = require('config');
+// TODO test get config from ONE_DOCTOR_VISIT
+const ONE_DOCTOR_VISIT_COST = config.get('ONE_DOCTOR_VISIT_COST');
 
 function clearUserAndReturnMoney(uid, link) {
     return new Promise((resolve, reject) => {

@@ -1,4 +1,5 @@
 const Firebase = require('./../FireBase');
+const notifyUser = require('./emailNotification');
 
 function checkSeparateUser(uid, link, arrayOfDates) {
     return new Promise((resolve, reject) => {

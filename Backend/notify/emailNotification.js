@@ -1,28 +1,43 @@
 const email = require('emailjs');
+const Firebase = require('./../FireBase');
 
-function sendEmail(emailAddress, doclink) {
+function getUserEmailFromUid(uid) {
+    return new Promise((resolve, reject) => {
+        Firebase.DataBase
+            .getData({}, `users/${uid}/personalData`, 'personalData')
+            .then(data => resolve(data.personalData.emailToNotify))
+            .catch(e => reject(e));
+    });
+}
+
+function sendEmail(uid, doclink) {
     return new Promise((resolve, reject) => {
         const server = email.server.connect({
+            // TODO transfer data below to config file
             user: 'helsi.notify@gmail.com',
             password: 'HelsiNotify2018',
             host: 'smtp.gmail.com',
             ssl: true
         });
-        server.send(
-            {
-                text: `Hey! New doctor's (${doclink}) appointment is available. Book it now!`,
-                from: 'Helsi Notification',
-                to: emailAddress,
-                subject: 'Doctor appointment available!'
-            },
-            (err, message) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            }
-        );
+        getUserEmailFromUid(uid)
+            .then(emailAddress => {
+                server.send(
+                    {
+                        text: `Привіт! У лікаря (${doclink}) з'явилося вільне місце. Встигни забронювати!`,
+                        from: 'Helsi Notification',
+                        to: emailAddress,
+                        subject: `Нове місце у лікаря (${doclink})`
+                    },
+                    err => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
+                    }
+                );
+            })
+            .catch(e => resolve(e.message));
     });
 }
 
