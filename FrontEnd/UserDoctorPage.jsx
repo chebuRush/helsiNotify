@@ -62,22 +62,24 @@ export default class UserDoctorPage extends React.Component {
                 userGenId: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)
             }
         );
-        const NewDoctorsArr = Object.assign({}, this.props.doctorsArr, {
-            [objToSend.userGenId]: {
-                doctorLink: self.state.doctorLink,
-                dateFrom: self.state.dateFrom,
-                dateTo: self.state.dateTo,
-                status: 1
-            }
-        });
-        this.props.changeDoctorState(NewDoctorsArr);
         axios
             .post('http://localhost:8090/addDoctor', objToSend)
             .then(dataBack => {
-                console.log('addDoctor:', dataBack); // eslint-disable-line no-console
+                if (dataBack.data.statusHelsiCode !== '200') {
+                    alert(`Доктора не вдалося додати: ${dataBack.data.errorHelsiMsg}`);
+                } else {
+                    const NewDoctorsArr = Object.assign({}, this.props.doctorsArr, {
+                        [objToSend.userGenId]: {
+                            doctorLink: self.state.doctorLink,
+                            dateFrom: self.state.dateFrom,
+                            dateTo: self.state.dateTo,
+                            status: 1
+                        }
+                    });
+                    this.props.changeDoctorState(NewDoctorsArr);
+                }
             })
             .catch(err => {
-                // TODO tell user that something went wrong
                 console.error('axios error', err); // eslint-disable-line no-console
             });
     }

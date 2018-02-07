@@ -10,8 +10,8 @@ module.exports.sendOK = res =>
         statusHelsiCode: '200'
     });
 
-// 403 bad request wrong Params
-module.exports.notReady = (res, errorMsg) => {
+// 403 forbidden
+module.exports.forbidden = (res, errorMsg) => {
     if (errorMsg) {
         res.json({
             errorHelsiMsg: errorMsg,

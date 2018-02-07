@@ -2,6 +2,8 @@ const path = require('path');
 
 const FireBase = require('./FireBase');
 const responses = require('./Responses/response');
+const ONE_DOCTOR_VISIT_COST = require('config').get('ONE_DOCTOR_VISIT_COST');
+
 /*
 * Doctor status
 * 0 - Stopped for looking for
@@ -130,25 +132,43 @@ function queries(app) {
         if (doctorLink && dateFrom && dateTo && userGenId) {
             doctorLink = `https://${doctorLink.substring(doctorLink.indexOf('helsi.me'))}`;
             FireBase.DataBase
-                .updateData(`users/${uid}`, {
-                    doctors: {
-                        [userGenId]: {
-                            doctorLink,
-                            dateFrom,
-                            dateTo,
-                            status: 1,
-                            timeStamp: new Date()
-                        }
+                .getData({}, `users/${uid}/personalData/money`, 'money')
+                .then(data => {
+                    if (data.money.available >= ONE_DOCTOR_VISIT_COST) {
+                        FireBase.DataBase
+                            .updateSensitiveData(uid, money => {
+                                if (money) {
+                                    return {
+                                        available: +money.available - ONE_DOCTOR_VISIT_COST,
+                                        freezed: +money.freezed + +ONE_DOCTOR_VISIT_COST,
+                                        used: +money.used
+                                    };
+                                }
+                                return null;
+                            })
+                            .then(
+                                Promise.all[
+                                    (FireBase.DataBase.updateData(`users/${uid}`, {
+                                        doctors: {
+                                            [userGenId]: {
+                                                doctorLink,
+                                                dateFrom,
+                                                dateTo,
+                                                status: 1,
+                                                timeStamp: new Date()
+                                            }
+                                        }
+                                    }), FireBase.DataBase.updateDataViaPush('doctorList', doctorLink, uid))
+                                ]
+                            );
+                    } else {
+                        throw new Error('Not enough money');
                     }
                 })
-                .then(() => {
-                    FireBase.DataBase
-                        .updateDataViaPush('doctorList', doctorLink, uid)
-                        .then(() => {})
-                        .catch(e => console.error(e.message));
-                    responses.sendOK(res);
-                })
+                .then(() => responses.sendOK(res))
                 .catch(e => {
+                    console.log(e.stack);
+                    if (e.message === 'Not enough money') responses.forbidden(res, e.message);
                     console.error(e.message);
                 });
         } else {
