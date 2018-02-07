@@ -21,6 +21,7 @@ function sweepDBAndGetMoney(uid, link, keyForUsersDoctor, keyForDoctorList) {
                     return null;
                 })
             )
+            .then(() => resolve())
             .catch(e => reject(e))
     );
 }
@@ -31,7 +32,7 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
             .getData({}, `users/${uid}/doctors`, 'userDoctors')
             .then(data => {
                 const neededKey = Object.keys(data.userDoctors).filter(
-                    key => data.userDoctors[key].doctorLink === link
+                    key => data.userDoctors[key].doctorLink === link && data.userDoctors[key].status === 1
                 )[0];
                 let fittedDataIndex = -1;
                 for (let i = arrayOfDates.length; i >= 0; i -= 1) {
@@ -44,13 +45,15 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
                     }
                 }
                 if (fittedDataIndex !== -1) {
-                    notifyUser(uid, link);
                     arrayOfDates.splice(fittedDataIndex, 1);
-                    console.log(keyForDoctorList);
-                    return sweepDBAndGetMoney(uid, link, neededKey, keyForDoctorList);
+                    Promise.all([notifyUser(uid, link), sweepDBAndGetMoney(uid, link, neededKey, keyForDoctorList)]);
+                } else {
+                    resolve('Not Found');
                 }
             })
-            .then(() => console.log('Finished'))
+            .then(() => {
+                resolve('OK');
+            })
             .catch(e => reject(e));
     });
 }
@@ -65,21 +68,18 @@ function getUsersForDoctorLink(link) {
 }
 
 async function notifyUsersAndGetMoney(link, arrayOfDates) {
-    await getUsersForDoctorLink();
+    const UsersForDoctorLink = await getUsersForDoctorLink(link);
+    const keysUsersForDoctorLink = await Object.keys(UsersForDoctorLink);
+    let i = 0;
+    while (arrayOfDates.length && i < keysUsersForDoctorLink.length) {
+        await checkSeparateUser(
+            UsersForDoctorLink[keysUsersForDoctorLink[i]],
+            keysUsersForDoctorLink[i],
+            link,
+            arrayOfDates
+        );
+        i += 1;
+    }
 }
 
-checkSeparateUser('N8sesFHEckbEaL9x6UG43U6hc0O2', '-L4fxITaCvrrLqr032BY', 'https://helsi.me/doctor/shv_200', [
-    '2018-02-05',
-    '2018-02-06',
-    '2018-02-07',
-    '2018-02-08',
-    '2018-02-09',
-    '2018-02-12',
-    '2018-02-13',
-    '2018-02-14',
-    '2018-02-15',
-    '2018-02-16'
-]);
-
-// getUsersForDoctorLink('https://helsi.me/doctor/shv_20');
 module.exports = notifyUsersAndGetMoney;

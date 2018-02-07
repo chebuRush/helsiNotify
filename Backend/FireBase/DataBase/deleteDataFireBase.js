@@ -3,7 +3,6 @@ const firebaseEncoder = require('firebase-encode');
 function deleteDataFireBase(ref, child, path = '', extraPath = '') {
     const encodedPath = JSON.parse(firebaseEncoder.encode(JSON.stringify(path)));
     return new Promise((resolve, reject) => {
-        console.log(`${child}/${encodedPath}/${extraPath}`);
         ref
             .child(`${child}/${encodedPath}/${extraPath}`)
             .remove()

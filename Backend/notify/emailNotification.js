@@ -31,13 +31,12 @@ function sendEmail(uid, doclink) {
                     err => {
                         if (err) {
                             reject(err);
-                        } else {
-                            resolve();
                         }
+                        resolve();
                     }
                 );
             })
-            .catch(e => resolve(e.message));
+            .catch(e => reject(e));
     });
 }
 

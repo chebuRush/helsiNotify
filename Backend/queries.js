@@ -104,24 +104,24 @@ function queries(app) {
             })
             .catch(e => console.error(e.message));
     });
+
     app.post('/changePersonalData', FireBase.Account.checkAuth, (req, res) => {
+        console.log(req.body);
         const { emailToNotify, tel } = req.body;
         const uid = req.user.uid;
-        if (emailToNotify && tel) {
-            FireBase.DataBase
-                .updateData(`users/${uid}`, {
-                    personalData: {
-                        emailToNotify,
-                        tel
-                    }
-                })
-                .then(() => {
-                    responses.sendOK(res);
-                })
-                .catch(e => {
-                    console.error(e.message);
-                });
-        }
+        FireBase.DataBase
+            .updateData(`users/${uid}`, {
+                personalData: {
+                    emailToNotify,
+                    tel
+                }
+            })
+            .then(() => {
+                responses.sendOK(res);
+            })
+            .catch(e => {
+                console.error(e.message);
+            });
     });
     app.post('/addDoctor', FireBase.Account.checkAuth, (req, res) => {
         let { doctorLink } = req.body;

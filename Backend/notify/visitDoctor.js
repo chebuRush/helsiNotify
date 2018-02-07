@@ -29,8 +29,11 @@ async function visitDoctor(doc, link) {
 }
 
 async function checkAvailability(schedule){
-    console.log(schedule);
-    return Object.keys(schedule).filter(key =>  schedule[key].indexOf('місц') !== -1);
+    if (schedule){
+        return Object.keys(schedule).filter(key =>  schedule[key].indexOf('місц') !== -1);
+    } else {
+        return []
+    }
 }
 
 module.exports.visitDoctor = visitDoctor;
