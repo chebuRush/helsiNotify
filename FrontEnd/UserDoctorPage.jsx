@@ -86,11 +86,25 @@ export default class UserDoctorPage extends React.Component {
     deleteDoctorNotification(id) {
         const newDoctorsArr = this.props.doctorsArr;
         delete newDoctorsArr[id];
-        this.props.changeDoctorState(newDoctorsArr);
         axios
             .post('http://localhost:8090/deleteDoctor', { id })
             .then(dataBack => {
-                console.log(dataBack); // eslint-disable-line no-console
+                if (dataBack.data.statusHelsiCode === '200') {
+                    this.props.changeDoctorState(newDoctorsArr);
+                } else if (dataBack.data.statusHelsiCode === '403') {
+                    const removeAnyway = confirm(`${dataBack.data.errorHelsiMsg}. Ви впевнені?`);
+                    if (removeAnyway) {
+                        axios
+                            .post('http://localhost:8090/deleteDoctor', { id, removeAnyway })
+                            .then(() => {
+                                this.props.changeDoctorState(newDoctorsArr);
+                                console.log('second request');
+                            })
+                            .catch(e => {
+                                throw e;
+                            });
+                    }
+                }
             })
             .catch(err => {
                 // TODO tell user that something went wrong

@@ -177,13 +177,49 @@ function queries(app) {
     });
 
     app.post('/deleteDoctor', FireBase.Account.checkAuth, (req, res) => {
-        const { id: doctorIdForUser } = req.body;
+        const { id: doctorIdForUser, removeAnyway = false } = req.body;
         const uid = req.user.uid;
         if (doctorIdForUser) {
             FireBase.DataBase
-                .deleteData(`users/${uid}`, `doctors/${doctorIdForUser}`)
+                .getData({}, `users/${uid}/doctors/${doctorIdForUser}`, 'doc')
+                .then(data => {
+                    // "2018-02-07T22:45:06%2E962Z"
+                    if (new Date() - Date.parse(data.doc.timeStamp) < 1000 * 60 * 60) {
+                        Promise.all([
+                            FireBase.DataBase.deleteData(`users/${uid}/doctors/${doctorIdForUser}`),
+                            FireBase.DataBase.updateSensitiveData(uid, money => {
+                                if (money) {
+                                    return {
+                                        available: +money.available + +ONE_DOCTOR_VISIT_COST,
+                                        freezed: +money.freezed - ONE_DOCTOR_VISIT_COST,
+                                        used: +money.used
+                                    };
+                                }
+                                return null;
+                            })
+                        ]);
+                    } else if (removeAnyway) {
+                        Promise.all([
+                            FireBase.DataBase.deleteData(`users/${uid}`, `doctors/${doctorIdForUser}`),
+                            FireBase.DataBase.updateSensitiveData(uid, money => {
+                                if (money) {
+                                    return {
+                                        available: +money.available,
+                                        freezed: +money.freezed - ONE_DOCTOR_VISIT_COST,
+                                        used: +money.used + +ONE_DOCTOR_VISIT_COST
+                                    };
+                                }
+                                return null;
+                            })
+                        ]);
+                    } else {
+                        throw new Error(`Can't delete without losing money`);
+                    }
+                })
                 .then(() => responses.sendOK(res))
                 .catch(e => {
+                    if (e.message === `Can't delete without losing money`)
+                        responses.forbidden(res, 'Видаляючи більш ніж через годину гроші повернені не будуть');
                     console.error(e.message);
                 });
         } else {
