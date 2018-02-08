@@ -137,7 +137,7 @@ function queries(app) {
                     if (data.money.available >= ONE_DOCTOR_VISIT_COST) {
                         FireBase.DataBase
                             .updateSensitiveData(uid, money => {
-                                if (money) {
+                                if (money !== null) {
                                     return {
                                         available: +money.available - ONE_DOCTOR_VISIT_COST,
                                         freezed: +money.freezed + +ONE_DOCTOR_VISIT_COST,
@@ -187,6 +187,17 @@ function queries(app) {
                     if (new Date() - Date.parse(data.doc.timeStamp) < 1000 * 60 * 60) {
                         Promise.all([
                             FireBase.DataBase.deleteData(`users/${uid}/doctors/${doctorIdForUser}`),
+                            FireBase.DataBase
+                                .getData({}, `doctorList`, 'usersforOneDoc', data.doc.doctorLink)
+                                .then(doctorList => {
+                                    let deleteId;
+                                    if (doctorList.usersforOneDoc) {
+                                        deleteId = Object.keys(doctorList.usersforOneDoc).filter(
+                                            key => doctorList.usersforOneDoc[key] === uid
+                                        );
+                                    }
+                                    return FireBase.DataBase.deleteData('doctorList', data.doc.doctorLink, deleteId[0]);
+                                }),
                             FireBase.DataBase.updateSensitiveData(uid, money => {
                                 if (money) {
                                     return {
@@ -200,7 +211,18 @@ function queries(app) {
                         ]);
                     } else if (removeAnyway) {
                         Promise.all([
-                            FireBase.DataBase.deleteData(`users/${uid}`, `doctors/${doctorIdForUser}`),
+                            FireBase.DataBase.deleteData(`users/${uid}/doctors/${doctorIdForUser}`),
+                            FireBase.DataBase
+                                .getData({}, `doctorList`, 'usersforOneDoc', data.doc.doctorLink)
+                                .then(doctorList => {
+                                    let deleteId;
+                                    if (doctorList.usersforOneDoc) {
+                                        deleteId = Object.keys(doctorList.usersforOneDoc).filter(
+                                            key => doctorList.usersforOneDoc[key] === uid
+                                        );
+                                    }
+                                    return FireBase.DataBase.deleteData('doctorList', data.doc.doctorLink, deleteId[0]);
+                                }),
                             FireBase.DataBase.updateSensitiveData(uid, money => {
                                 if (money) {
                                     return {
