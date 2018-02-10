@@ -10,10 +10,12 @@ export default class UserDoctorPage extends React.Component {
     }
     static propTypes = {
         doctorsArr: PropTypes.shape({}),
-        changeDoctorState: PropTypes.func
+        changeDoctorState: PropTypes.func,
+        ONE_DOCTOR_VISIT_COST: PropTypes.string
     };
     static defaultProps = {
         doctorsArr: {},
+        ONE_DOCTOR_VISIT_COST: '0',
         changeDoctorState() {}
     };
     constructor(props) {
@@ -52,36 +54,46 @@ export default class UserDoctorPage extends React.Component {
     addDoctorNotification(event) {
         const self = this;
         event.preventDefault();
-        const objToSend = Object.assign(
-            {},
-            {
-                doctorLink: self.state.doctorLink,
-                dateFrom: self.state.dateFrom,
-                dateTo: self.state.dateTo,
-                status: 1,
-                userGenId: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)
-            }
-        );
-        axios
-            .post('http://localhost:8090/addDoctor', objToSend)
-            .then(dataBack => {
-                if (dataBack.data.statusHelsiCode !== '200') {
-                    alert(`Доктора не вдалося додати: ${dataBack.data.errorHelsiMsg}`);
-                } else {
-                    const NewDoctorsArr = Object.assign({}, this.props.doctorsArr, {
-                        [objToSend.userGenId]: {
-                            doctorLink: self.state.doctorLink,
-                            dateFrom: self.state.dateFrom,
-                            dateTo: self.state.dateTo,
-                            status: 1
+        const httprequest = self.state.doctorLink;
+        if (httprequest.indexOf('https://helsi.me/') === 0) {
+            const readyToAdd = confirm(
+                `Додавання доктора платне: ${this.props.ONE_DOCTOR_VISIT_COST} грн будуть заморожені. Ви згодні?`
+            );
+            if (readyToAdd) {
+                const objToSend = Object.assign(
+                    {},
+                    {
+                        doctorLink: self.state.doctorLink,
+                        dateFrom: self.state.dateFrom,
+                        dateTo: self.state.dateTo,
+                        status: 1,
+                        userGenId: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)
+                    }
+                );
+                axios
+                    .post('http://localhost:8090/addDoctor', objToSend)
+                    .then(dataBack => {
+                        if (dataBack.data.statusHelsiCode !== '200') {
+                            alert(`Доктора не вдалося додати: ${dataBack.data.errorHelsiMsg}`);
+                        } else {
+                            const NewDoctorsArr = Object.assign({}, this.props.doctorsArr, {
+                                [objToSend.userGenId]: {
+                                    doctorLink: self.state.doctorLink,
+                                    dateFrom: self.state.dateFrom,
+                                    dateTo: self.state.dateTo,
+                                    status: 1
+                                }
+                            });
+                            this.props.changeDoctorState(NewDoctorsArr);
                         }
+                    })
+                    .catch(err => {
+                        console.error('axios error', err); // eslint-disable-line no-console
                     });
-                    this.props.changeDoctorState(NewDoctorsArr);
-                }
-            })
-            .catch(err => {
-                console.error('axios error', err); // eslint-disable-line no-console
-            });
+            }
+        } else {
+            alert('Enter valid https://helsi.me/ address');
+        }
     }
     deleteDoctorNotification(id) {
         const newDoctorsArr = this.props.doctorsArr;

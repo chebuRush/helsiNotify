@@ -45,6 +45,7 @@ export default class UserSettingPage extends React.Component {
         };
         this.handleInputValue = this.handleInputValue.bind(this);
         this.handleSaveChangesButton = this.handleSaveChangesButton.bind(this);
+        this.handleDeleteAccount = this.handleDeleteAccount.bind(this);
     }
     componentWillMount() {
         axios
@@ -128,6 +129,25 @@ export default class UserSettingPage extends React.Component {
             });
         // TODO delete setTimeout and rewrite axios to sync query
     }
+    handleDeleteAccount() {
+        const self = this;
+        const confirmEmail = prompt('Для видалення аккаунту введіть пошту реєстрації');
+        if (confirmEmail === self.props.email) {
+            axios
+                .post('http://localhost:8090/appDeleteAccount', {})
+                .then(dataBack => {
+                    if (dataBack.data.statusHelsiCode === '200') {
+                        self.props.history.push('/');
+                    } else {
+                        alert('Something goes wrong: ', dataBack.data.errorHelsiMsg);
+                    }
+                })
+                .catch(err => {
+                    // TODO tell user that something went wrong
+                    console.error('axios error', err); // eslint-disable-line no-console
+                });
+        }
+    }
     render() {
         if (this.state.loading) {
             return (
@@ -178,7 +198,7 @@ export default class UserSettingPage extends React.Component {
                         />
                     </div>
                     <div className="PersonalDataField">
-                        <button className="DeleteAccount">Видалити аккаунт</button>
+                        <button className="DeleteAccount" onClick={this.handleDeleteAccount}>Видалити аккаунт</button>
                     </div>
                 </div>
             </div>

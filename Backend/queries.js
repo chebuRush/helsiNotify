@@ -1,8 +1,16 @@
 const path = require('path');
-
+const config = require('config');
 const FireBase = require('./FireBase');
+const cleanDBRemovingUsers = require('./FireBase/DataBase/cleanDbRemovingUser');
 const responses = require('./Responses/response');
 const ONE_DOCTOR_VISIT_COST = require('config').get('ONE_DOCTOR_VISIT_COST');
+
+// TODO F confirm, alert blocks
+// TODO FB forget password
+// TODO FB change password
+// TODO F mobile version
+// TODO B check security uid
+// TODO FB connect payment
 
 /*
 * Doctor status
@@ -61,7 +69,14 @@ function queries(app) {
                                 )
                             )
                             .then(user => {
-                                const userWithStatusCode = Object.assign({}, { user }, { statusHelsiCode: '200' });
+                                const userWithStatusCode = Object.assign(
+                                    {},
+                                    { user },
+                                    {
+                                        statusHelsiCode: '200',
+                                        ONE_DOCTOR_VISIT_COST: config.get('ONE_DOCTOR_VISIT_COST')
+                                    }
+                                );
                                 res.json(userWithStatusCode);
                             })
                             .catch(err => responses.wrongAuth(res, `Caught in queries:${err.message}`));
@@ -80,6 +95,15 @@ function queries(app) {
             .then(() => responses.sendOK(res))
             .catch(error => responses.wrongAuth(res, error.message));
     });
+
+    app.post('/appDeleteAccount', FireBase.Account.checkAuth, (req, res) => {
+        const user = req.user;
+        user
+            .delete()
+            .then(cleanDBRemovingUsers(user.uid))
+            .then(() => responses.sendOK(res))
+            .catch(e => responses.wrongParams(res, e.message));
+    });
     app.post('/getNotifications', FireBase.Account.checkAuth, (req, res) => {
         FireBase.DataBase
             .getData(
@@ -88,7 +112,10 @@ function queries(app) {
                 'userDoctors'
             )
             .then(data => {
-                const dataWithStatusCode = Object.assign({}, data, { statusHelsiCode: '200' });
+                const dataWithStatusCode = Object.assign({}, data, {
+                    statusHelsiCode: '200',
+                    ONE_DOCTOR_VISIT_COST: config.get('ONE_DOCTOR_VISIT_COST')
+                });
                 res.json(dataWithStatusCode);
             })
             .catch(e => console.error(e.message));
@@ -101,14 +128,16 @@ function queries(app) {
                 'personalData'
             )
             .then(data => {
-                const dataWithStatusCode = Object.assign({}, data, { statusHelsiCode: '200' });
+                const dataWithStatusCode = Object.assign({}, data, {
+                    statusHelsiCode: '200',
+                    ONE_DOCTOR_VISIT_COST: config.get('ONE_DOCTOR_VISIT_COST')
+                });
                 res.json(dataWithStatusCode);
             })
             .catch(e => console.error(e.message));
     });
 
     app.post('/changePersonalData', FireBase.Account.checkAuth, (req, res) => {
-        console.log(req.body);
         const { emailToNotify, tel } = req.body;
         const uid = req.user.uid;
         FireBase.DataBase
@@ -126,11 +155,10 @@ function queries(app) {
             });
     });
     app.post('/addDoctor', FireBase.Account.checkAuth, (req, res) => {
-        let { doctorLink } = req.body;
+        const { doctorLink } = req.body;
         const { dateFrom, dateTo, userGenId } = req.body;
         const uid = req.user.uid;
-        if (doctorLink && dateFrom && dateTo && userGenId) {
-            doctorLink = `https://${doctorLink.substring(doctorLink.indexOf('helsi.me'))}`;
+        if (doctorLink.indexOf('https://helsi.me/') === 0 && dateFrom && dateTo && userGenId) {
             FireBase.DataBase
                 .getData({}, `users/${uid}/personalData/money`, 'money')
                 .then(data => {
@@ -151,14 +179,18 @@ function queries(app) {
                                     (FireBase.DataBase.updateData(`users/${uid}`, {
                                         doctors: {
                                             [userGenId]: {
-                                                doctorLink,
+                                                doctorLink: doctorLink.toLowerCase(),
                                                 dateFrom,
                                                 dateTo,
                                                 status: 1,
                                                 timeStamp: new Date()
                                             }
                                         }
-                                    }), FireBase.DataBase.updateDataViaPush('doctorList', doctorLink, uid))
+                                    }), FireBase.DataBase.updateDataViaPush(
+                                        'doctorList',
+                                        doctorLink.toLowerCase(),
+                                        uid
+                                    ))
                                 ]
                             );
                     } else {
@@ -167,12 +199,10 @@ function queries(app) {
                 })
                 .then(() => responses.sendOK(res))
                 .catch(e => {
-                    console.log(e.stack);
                     if (e.message === 'Not enough money') responses.forbidden(res, e.message);
-                    console.error(e.message);
                 });
         } else {
-            responses.wrongParams(res);
+            responses.wrongParams(res, 'Введіть усі необхідні дані');
         }
     });
 
@@ -242,7 +272,6 @@ function queries(app) {
                 .catch(e => {
                     if (e.message === `Can't delete without losing money`)
                         responses.forbidden(res, 'Видаляючи більш ніж через годину гроші повернені не будуть');
-                    console.error(e.message);
                 });
         } else {
             responses.wrongParams(res);

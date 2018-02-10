@@ -26,7 +26,6 @@ export default class OneDoctor extends React.Component {
     crossClicked() {
         const readyToDelete = confirm('Ви впевнені, що хочете видалити лікаря?');
         if (readyToDelete) {
-            console.log(this.props.deleteDoctorNotification);
             this.props.deleteDoctorNotification(this.props.doctorIdForUser);
         }
         this.setState({});

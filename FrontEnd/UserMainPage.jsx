@@ -18,7 +18,8 @@ export default class UserMainPage extends React.Component {
             state: PropTypes.shape({
                 email: PropTypes.string,
                 emailVerified: PropTypes.bool,
-                userDoctors: PropTypes.object
+                userDoctors: PropTypes.object,
+                ONE_DOCTOR_VISIT_COST: PropTypes.string
             })
         }),
         match: PropTypes.shape({
@@ -35,7 +36,8 @@ export default class UserMainPage extends React.Component {
             state: {
                 email: '',
                 emailVerified: false,
-                userDoctors: {}
+                userDoctors: {},
+                ONE_DOCTOR_VISIT_COST: '0'
             }
         }),
         match: PropTypes.shape({
@@ -51,6 +53,7 @@ export default class UserMainPage extends React.Component {
                 email: this.props.location.state.email,
                 emailVerified: this.props.location.state.emailVerified,
                 doctorsArr: this.props.location.state.userDoctors,
+                ONE_DOCTOR_VISIT_COST: this.props.location.state.ONE_DOCTOR_VISIT_COST,
                 loading: false
             };
         } else {
@@ -58,7 +61,8 @@ export default class UserMainPage extends React.Component {
                 email: '',
                 loading: true,
                 emailVerified: false,
-                doctorsArr: {}
+                doctorsArr: {},
+                ONE_DOCTOR_VISIT_COST: 0
             };
         }
         this.changeDoctorState = this.changeDoctorState.bind(this);
@@ -72,6 +76,7 @@ export default class UserMainPage extends React.Component {
                         email: dataBack.data.email,
                         emailVerified: dataBack.data.emailVerified,
                         doctorsArr: dataBack.data.userDoctors,
+                        ONE_DOCTOR_VISIT_COST: dataBack.data.ONE_DOCTOR_VISIT_COST,
                         loading: false
                     });
                 } else {
@@ -111,12 +116,16 @@ export default class UserMainPage extends React.Component {
                     render={props => (
                         <UserDoctorPage
                             {...props}
+                            ONE_DOCTOR_VISIT_COST={this.state.ONE_DOCTOR_VISIT_COST}
                             doctorsArr={this.state.doctorsArr}
                             changeDoctorState={this.changeDoctorState}
                         />
                     )}
                 />
-                <Route path={`/user/${this.props.match.params.uid}/settings`} component={UserSettingPage} />
+                <Route
+                    path={`/user/${this.props.match.params.uid}/settings`}
+                    render={props => <UserSettingPage {...props} email={this.state.email} />}
+                />
                 <Route path={`/user/${this.props.match.params.uid}/logout`} component={UserLogOut} />
                 <aside>
                     <h3>Вітаємо, {this.state.email}</h3>
