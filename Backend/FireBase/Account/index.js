@@ -13,7 +13,6 @@ function Account(firebase) {
         signOutEmailPass() {
             return appSignOutEmailPass(firebase);
         },
-        // TODO insert isAuthenticated into code for sophisticated control
         checkAuth(req, res, next) {
             const user = firebase.auth().currentUser;
             if (user !== null) {
@@ -22,6 +21,19 @@ function Account(firebase) {
             } else {
                 res.redirect('/');
             }
+        },
+        forgetPassword(emailAddress) {
+            return new Promise((resolve, reject) => {
+                const auth = firebase.auth();
+                auth
+                    .sendPasswordResetEmail(emailAddress)
+                    .then(() => {
+                        resolve();
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
         }
     };
 }

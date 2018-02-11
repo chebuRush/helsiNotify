@@ -6,10 +6,8 @@ const responses = require('./Responses/response');
 const ONE_DOCTOR_VISIT_COST = require('config').get('ONE_DOCTOR_VISIT_COST');
 
 // TODO F confirm, alert blocks
-// TODO FB forget password
 // TODO FB change password
 // TODO F mobile version
-// TODO B check security uid
 // TODO FB connect payment
 
 /*
@@ -104,6 +102,15 @@ function queries(app) {
             .then(() => responses.sendOK(res))
             .catch(e => responses.wrongParams(res, e.message));
     });
+
+    app.post('/appForgetPassword', (req, res) => {
+        const { email: emailAddress } = req.body;
+        FireBase.Account
+            .forgetPassword(emailAddress)
+            .then(() => responses.sendOK(res))
+            .catch(error => responses.wrongAuth(res, error.message));
+    });
+
     app.post('/getNotifications', FireBase.Account.checkAuth, (req, res) => {
         FireBase.DataBase
             .getData(

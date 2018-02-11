@@ -96,6 +96,14 @@
 .inputform input:invalid, .wishForm input:invalid{
   box-shadow: none;
 }
+.submitButtonBlock{
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width:100%;
+  text-align: center;
+}
 input[type=submit]{
   background: rgb(0, 95, 200);
   color:#fff;
@@ -109,8 +117,14 @@ input[type=submit]:hover{
   background-color: #fff;
   color: #000;
 }
+
 .wishForm #clickSubmit{
-  margin-top:0;
+  margin:0 auto;
+}
+.forgotPassword{
+  font-size:2vmin;
+  margin-top:3vh;
+  color:#888;
 }
 
 .uniqueDoctor{

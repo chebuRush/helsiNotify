@@ -30,6 +30,7 @@ export default class FirstPage extends React.Component {
 
         this.handleInputValue = this.handleInputValue.bind(this);
         this.goPersonalPage = this.goPersonalPage.bind(this);
+        this.handleForgotPassword = this.handleForgotPassword.bind(this);
     }
     state = {
         email: '',
@@ -51,6 +52,20 @@ export default class FirstPage extends React.Component {
             default: {
                 return '';
             }
+        }
+    }
+    handleForgotPassword() {
+        const email = prompt('Введіть ваш email для відновлення паролю');
+        this.setState({
+            submitted: true
+        });
+        if (email) {
+            axios
+                .post('http://localhost:8090/appForgetPassword', { email })
+                .then(res => {
+                    if (res.data.statusHelsiCode === '200') this.setState({ submitted: false });
+                })
+                .catch(e => console.error(e.message));
         }
     }
     goPersonalPage(event) {
@@ -88,7 +103,10 @@ export default class FirstPage extends React.Component {
     render() {
         const submitted = this.state.submitted
             ? <Spinner />
-            : <input id="clickSubmit" type="submit" value="Спробувати" />;
+            : <div className="submitButtonBlock">
+                  <input id="clickSubmit" type="submit" value="Спробувати" />
+                  <div className="forgotPassword" onClick={this.handleForgotPassword}>Забув пароль?</div>
+              </div>;
         return (
             <div className="bgOpac">
                 <Title>Не можеш знайти вільний час у лікаря?</Title>
