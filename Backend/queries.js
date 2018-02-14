@@ -1,9 +1,10 @@
-const path = require('path');
 const config = require('config');
 const FireBase = require('./FireBase');
 const cleanDBRemovingUsers = require('./FireBase/DataBase/cleanDbRemovingUser');
 const responses = require('./Responses/response');
 const ONE_DOCTOR_VISIT_COST = require('config').get('ONE_DOCTOR_VISIT_COST');
+const generatePaymentForm = require('./Payment').encodeFormPay;
+const checkStateAndSignature = require('./Payment').checkStateAndSignature;
 
 // TODO F confirm, alert blocks
 // TODO FB change password
@@ -282,6 +283,43 @@ function queries(app) {
                 });
         } else {
             responses.wrongParams(res);
+        }
+    });
+
+    app.post('/appReceivePayForm', FireBase.Account.checkAuth, (req, res) => {
+        const { amountForPay } = req.body;
+        if (amountForPay) {
+            const uid = req.user.uid;
+            const generatedForm = generatePaymentForm(amountForPay, uid);
+            responses.sendOK(res, generatedForm);
+        } else {
+            responses.wrongParams(res, 'amountForPay value is required');
+        }
+    });
+    app.post('/receivePaymentResultFromWalletOne', (req, res) => {
+        const { WMI_PAYMENT_AMOUNT, WMI_ORDER_STATE, WMI_SIGNATURE, TransactionUserId } = req.body;
+        if (
+            WMI_PAYMENT_AMOUNT &&
+            WMI_ORDER_STATE &&
+            WMI_SIGNATURE &&
+            TransactionUserId &&
+            checkStateAndSignature(req.body)
+        ) {
+            FireBase.DataBase
+                .updateSensitiveData(TransactionUserId, money => {
+                    if (money) {
+                        return {
+                            available: +money.available,
+                            freezed: +money.freezed - ONE_DOCTOR_VISIT_COST,
+                            used: +money.used + +ONE_DOCTOR_VISIT_COST
+                        };
+                    }
+                    return null;
+                })
+                .then(() => res.end('WMI_RESULT=OK'))
+                .catch(() => res.end('WMI_RESULT=RETRY&WMI_DESCRIPTION=Помилка в оновленні грошових коштів'));
+        } else {
+            res.end('WMI_RESULT=RETRY&WMI_DESCRIPTION=Помилка на этапі перевірки даних');
         }
     });
 }

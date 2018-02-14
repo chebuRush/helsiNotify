@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { PulseLoader } from 'react-spinners';
 import axios from 'axios';
@@ -28,11 +29,37 @@ export default class UserSettingPage extends React.Component {
         },
         emailToNotify: ''
     };
+    static sendData(link, data) {
+        const XHR = new XMLHttpRequest();
+        const FD = new FormData();
+
+        // Push our data into our FormData object
+        for (const key in data) {
+            FD.append(key, data[key]);
+        }
+
+        // Define what happens on successful data submission
+        XHR.addEventListener('load', event => {
+            alert('Yeah! Data sent and response loaded.');
+        });
+
+        // Define what happens in case of error
+        XHR.addEventListener('error', event => {
+            alert('Oups! Something went wrong.');
+        });
+
+        // Set up our request
+        XHR.open('POST', link);
+
+        // Send our FormData object; HTTP headers are set automatically
+        XHR.send(FD);
+    }
     constructor(props) {
         super(props);
         this.state = {
             tel: this.props.tel,
             email: this.props.email,
+            moneyToPay: '',
             money: {
                 available: this.props.money.available,
                 freezed: this.props.money.freezed
@@ -41,11 +68,13 @@ export default class UserSettingPage extends React.Component {
                 emailToNotify: this.props.emailToNotify,
                 tel: this.props.tel
             },
+            payForm: '',
             loading: true
         };
         this.handleInputValue = this.handleInputValue.bind(this);
         this.handleSaveChangesButton = this.handleSaveChangesButton.bind(this);
         this.handleDeleteAccount = this.handleDeleteAccount.bind(this);
+        this.handlePaymentConfigure = this.handlePaymentConfigure.bind(this);
     }
     componentWillMount() {
         axios
@@ -103,10 +132,37 @@ export default class UserSettingPage extends React.Component {
                     displayTrue
                 });
             }
+            case 'moneyToPay': {
+                return this.setState({
+                    moneyToPay: event.target.value
+                });
+            }
             default: {
                 return '';
             }
         }
+    }
+    handlePaymentConfigure() {
+        const moneyToPay = this.state.moneyToPay;
+        axios
+            .post('http://localhost:8090/appReceivePayForm', { amountForPay: moneyToPay })
+            .then(dataBack => {
+                if (dataBack.data.statusHelsiCode === '200') {
+                    this.setState(
+                        {
+                            payForm: dataBack.data.usefulData
+                        },
+                        () => {
+                            console.log(this.state.payForm);
+                            document.getElementById('PayFormHTML').submit();
+                        }
+                    );
+                }
+            })
+            .catch(err => {
+                // TODO tell user that something went wrong
+                console.error('axios error', err); // eslint-disable-line no-console
+            });
     }
     handleSaveChangesButton() {
         const self = this;
@@ -165,7 +221,7 @@ export default class UserSettingPage extends React.Component {
                         </button>
                     </div>
                     <div className="PersonalDataField">
-                        <div>
+                        <div className="BalanceBox">
                             Баланс
                             <div className="moneyValue">
                                 Доступно: <span className="available">{this.state.money.available} грн</span>
@@ -173,6 +229,19 @@ export default class UserSettingPage extends React.Component {
                             <div className="moneyValue">
                                 Заморожено: <span className="freezed">{this.state.money.freezed} грн</span>
                             </div>
+                        </div>
+                        <div className="PaymentBox">
+                            <input
+                                type="number"
+                                id="moneyToPay"
+                                min="0"
+                                max="5000"
+                                onChange={this.handleInputValue}
+                                value={this.state.moneyToPay}
+                            />
+                            <label htmlFor="moneyToPay">&nbsp;грн</label>
+                            <input type="button" value="Поповнити" onClick={this.handlePaymentConfigure} />
+                            <div dangerouslySetInnerHTML={{ __html: this.state.payForm }} />
                         </div>
                     </div>
                     <div className="PersonalDataField">

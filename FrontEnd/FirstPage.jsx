@@ -56,10 +56,10 @@ export default class FirstPage extends React.Component {
     }
     handleForgotPassword() {
         const email = prompt('Введіть ваш email для відновлення паролю');
-        this.setState({
-            submitted: true
-        });
         if (email) {
+            this.setState({
+                submitted: true
+            });
             axios
                 .post('http://localhost:8090/appForgetPassword', { email })
                 .then(res => {

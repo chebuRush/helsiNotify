@@ -336,12 +336,14 @@ input[type=submit]:hover{
   justify-content: space-between;
   width:80%;
 }
+
 .PersonalDataField p {
   display:flex;
   align-self: center;
 }
 .moneyValue{
-  margin: 2vh 4vw;
+  margin: 2vh 0 2vh 4vw;
+  width:20vw;
 }
 .PersonalDataField input{
   margin-left:3vw;
@@ -355,7 +357,7 @@ input[type=submit]:hover{
   transition: visibility 0s, opacity 0.5s linear;
   position:absolute;
   right:5vw;
-  top:10vh;
+  top:5vh;
 }
 .SaveChangesButton{
   background-color: rgb(0, 95, 200); /* Blue */
@@ -408,4 +410,29 @@ input[type=submit]:hover{
 .displayTrue{
   visibility: visible;
   opacity: 1;
+}
+.BalanceBox{
+  width:40%;
+}
+.PaymentBox{
+  width:60%;
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin:6.2vh 0 4.9vh 7vw;
+  font-size:2.3vmin;
+}
+.PaymentBox input[type=number]{
+  margin:0;
+
+  width:6vw;
+}
+
+.PaymentBox input[type=button]{
+  margin-left:3vw;
+  width:10vw;
+}
+#PayFormHTML{
+  display:none;
 }

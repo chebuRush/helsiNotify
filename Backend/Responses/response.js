@@ -5,10 +5,18 @@ module.exports.notFound = res =>
     });
 
 // 200 ok
-module.exports.sendOK = res =>
-    res.json({
-        statusHelsiCode: '200'
-    });
+module.exports.sendOK = (res, additionalData) => {
+    if (additionalData) {
+        res.json({
+            statusHelsiCode: '200',
+            usefulData: additionalData
+        });
+    } else {
+        res.json({
+            statusHelsiCode: '200'
+        });
+    }
+};
 
 // 403 forbidden
 module.exports.forbidden = (res, errorMsg) => {
