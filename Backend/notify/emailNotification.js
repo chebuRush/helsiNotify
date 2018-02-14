@@ -1,5 +1,6 @@
 const email = require('emailjs');
 const Firebase = require('./../FireBase');
+const config = require('config');
 
 function getUserEmailFromUid(uid) {
     return new Promise((resolve, reject) => {
@@ -13,11 +14,10 @@ function getUserEmailFromUid(uid) {
 function sendEmail(uid, doclink) {
     return new Promise((resolve, reject) => {
         const server = email.server.connect({
-            // TODO transfer data below to config file
-            user: 'helsi.notify@gmail.com',
-            password: 'HelsiNotify2018',
-            host: 'smtp.gmail.com',
-            ssl: true
+            user: config.get('EmailFromNotification.email'),
+            password: config.get('EmailFromNotification.password'),
+            host: config.get('EmailFromNotification.smtp'),
+            ssl: config.get('EmailFromNotification.ssl')
         });
         getUserEmailFromUid(uid)
             .then(emailAddress => {
