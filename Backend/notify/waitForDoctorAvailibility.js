@@ -1,6 +1,6 @@
 const phantom = require('phantom');
 const DomParser = require('dom-parser');
-const sendEmail = require('./emailNotification');
+const sendEmail = require('./NotifyUserViaEmailSMS');
 
 async function searchDoctor(doctorName) {
     const link = '';

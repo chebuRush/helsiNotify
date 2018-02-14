@@ -146,21 +146,43 @@ function queries(app) {
     });
 
     app.post('/changePersonalData', FireBase.Account.checkAuth, (req, res) => {
-        const { emailToNotify, tel } = req.body;
+        const { emailToNotify } = req.body;
+        let { tel } = req.body;
         const uid = req.user.uid;
-        FireBase.DataBase
-            .updateData(`users/${uid}`, {
-                personalData: {
-                    emailToNotify,
-                    tel
-                }
-            })
-            .then(() => {
-                responses.sendOK(res);
-            })
-            .catch(e => {
-                console.error(e.message);
-            });
+        if (tel === '') {
+            FireBase.DataBase
+                .updateData(`users/${uid}`, {
+                    personalData: {
+                        emailToNotify,
+                        tel
+                    }
+                })
+                .then(() => {
+                    responses.sendOK(res);
+                })
+                .catch(e => {
+                    console.error(e.message);
+                });
+        } else {
+            tel = tel.indexOf('+38') === 0 ? tel : `+38${tel}`;
+            if (tel.length === 13) {
+                FireBase.DataBase
+                    .updateData(`users/${uid}`, {
+                        personalData: {
+                            emailToNotify,
+                            tel
+                        }
+                    })
+                    .then(() => {
+                        responses.sendOK(res);
+                    })
+                    .catch(e => {
+                        console.error(e.message);
+                    });
+            } else {
+                responses.wrongParams(res, 'Введіть телефон у форматі: +38хххххххххх');
+            }
+        }
     });
     app.post('/addDoctor', FireBase.Account.checkAuth, (req, res) => {
         const { doctorLink } = req.body;
@@ -296,6 +318,7 @@ function queries(app) {
             responses.wrongParams(res, 'amountForPay value is required');
         }
     });
+
     // TODO insert Path to walletOne
     app.post('/receivePaymentResultFromWalletOne', (req, res) => {
         const { WMI_PAYMENT_AMOUNT, WMI_ORDER_STATE, WMI_SIGNATURE, TransactionUserId } = req.body;

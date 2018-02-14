@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { PulseLoader } from 'react-spinners';
 import axios from 'axios';
@@ -29,31 +28,6 @@ export default class UserSettingPage extends React.Component {
         },
         emailToNotify: ''
     };
-    static sendData(link, data) {
-        const XHR = new XMLHttpRequest();
-        const FD = new FormData();
-
-        // Push our data into our FormData object
-        for (const key in data) {
-            FD.append(key, data[key]);
-        }
-
-        // Define what happens on successful data submission
-        XHR.addEventListener('load', event => {
-            alert('Yeah! Data sent and response loaded.');
-        });
-
-        // Define what happens in case of error
-        XHR.addEventListener('error', event => {
-            alert('Oups! Something went wrong.');
-        });
-
-        // Set up our request
-        XHR.open('POST', link);
-
-        // Send our FormData object; HTTP headers are set automatically
-        XHR.send(FD);
-    }
     constructor(props) {
         super(props);
         this.state = {
@@ -166,24 +140,38 @@ export default class UserSettingPage extends React.Component {
     }
     handleSaveChangesButton() {
         const self = this;
-        axios
-            .post('http://localhost:8090/changePersonalData', this.state)
-            .then(dataBack => {
-                if (dataBack.data.statusHelsiCode === '200') {
-                    self.setState({
-                        initialValues: {
-                            emailToNotify: this.state.email,
-                            tel: this.state.tel
-                        },
-                        displayTrue: ''
-                    });
-                }
-            })
-            .catch(err => {
-                // TODO tell user that something went wrong
-                console.error('axios error', err); // eslint-disable-line no-console
-            });
-        // TODO delete setTimeout and rewrite axios to sync query
+        if (
+            (this.state.tel.indexOf('+38') === 0 && this.state.tel !== this.state.initialValues.tel) ||
+            this.state.tel === ''
+        ) {
+            axios
+                .post('http://localhost:8090/changePersonalData', this.state)
+                .then(dataBack => {
+                    console.log(dataBack);
+                    if (dataBack.data.statusHelsiCode === '200') {
+                        self.setState({
+                            initialValues: {
+                                emailToNotify: this.state.email,
+                                tel: this.state.tel
+                            },
+                            displayTrue: ''
+                        });
+                    } else {
+                        alert(dataBack.data.errorHelsiMsg);
+                        self.setState({
+                            email: this.state.initialValues.emailToNotify,
+                            tel: this.state.initialValues.tel,
+                            displayTrue: ''
+                        });
+                    }
+                })
+                .catch(err => {
+                    // TODO tell user that something went wrong
+                    console.error('axios error', err); // eslint-disable-line no-console
+                });
+        } else {
+            alert('Введіть телефон у форматі: +38хххххххххх');
+        }
     }
     handleDeleteAccount() {
         const self = this;

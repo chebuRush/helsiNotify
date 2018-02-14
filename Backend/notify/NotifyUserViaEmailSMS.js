@@ -2,16 +2,16 @@ const email = require('emailjs');
 const Firebase = require('./../FireBase');
 const config = require('config');
 
-function getUserEmailFromUid(uid) {
+function getUserPhoneEmailFromUid(uid) {
     return new Promise((resolve, reject) => {
         Firebase.DataBase
             .getData({}, `users/${uid}/personalData`, 'personalData')
-            .then(data => resolve(data.personalData.emailToNotify))
+            .then(data => resolve(data.personalData))
             .catch(e => reject(e));
     });
 }
 
-function sendEmail(uid, doclink) {
+function sendEmailAndSMS(uid, doclink) {
     return new Promise((resolve, reject) => {
         const server = email.server.connect({
             user: config.get('EmailFromNotification.email'),
@@ -19,13 +19,13 @@ function sendEmail(uid, doclink) {
             host: config.get('EmailFromNotification.smtp'),
             ssl: config.get('EmailFromNotification.ssl')
         });
-        getUserEmailFromUid(uid)
-            .then(emailAddress => {
+        getUserPhoneEmailFromUid(uid)
+            .then(personalData => {
                 server.send(
                     {
                         text: `Привіт! У лікаря (${doclink}) з'явилося вільне місце. Встигни забронювати!`,
                         from: 'Helsi Notification',
-                        to: emailAddress,
+                        to: personalData.emailToNotify,
                         subject: `Нове місце у лікаря (${doclink})`
                     },
                     err => {
@@ -35,9 +35,12 @@ function sendEmail(uid, doclink) {
                         resolve();
                     }
                 );
+                if (personalData.tel)
             })
             .catch(e => reject(e));
+
     });
 }
 
+function sendSms()
 module.exports = sendEmail;

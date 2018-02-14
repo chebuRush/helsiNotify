@@ -1,5 +1,5 @@
 const Firebase = require('./../FireBase');
-const notifyUser = require('./emailNotification');
+const notifyUser = require('./NotifyUserViaEmailSMS');
 const config = require('config');
 
 const ONE_DOCTOR_VISIT_COST = config.get('ONE_DOCTOR_VISIT_COST');
