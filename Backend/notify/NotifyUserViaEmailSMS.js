@@ -54,7 +54,7 @@ function sendEmailAndSMS(uid, doclink) {
                     }
                 );
                 if (personalData.tel !== '') {
-                    sendSms(personalData.tel, `У лікаря (${doclink}) є вільне місце! Забронюй`)
+                    sendSms(personalData.tel, `У лікаря ${doclink} є вільне місце! Забронюй`)
                         .then(() => resolve())
                         .catch(e => reject(e));
                 } else {
