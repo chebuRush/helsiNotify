@@ -296,6 +296,7 @@ function queries(app) {
             responses.wrongParams(res, 'amountForPay value is required');
         }
     });
+    // TODO insert Path to walletOne
     app.post('/receivePaymentResultFromWalletOne', (req, res) => {
         const { WMI_PAYMENT_AMOUNT, WMI_ORDER_STATE, WMI_SIGNATURE, TransactionUserId } = req.body;
         if (
@@ -309,9 +310,9 @@ function queries(app) {
                 .updateSensitiveData(TransactionUserId, money => {
                     if (money) {
                         return {
-                            available: +money.available,
-                            freezed: +money.freezed - ONE_DOCTOR_VISIT_COST,
-                            used: +money.used + +ONE_DOCTOR_VISIT_COST
+                            available: +money.available + +WMI_PAYMENT_AMOUNT,
+                            freezed: +money.freezed,
+                            used: +money.used
                         };
                     }
                     return null;
