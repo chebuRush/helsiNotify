@@ -1,6 +1,7 @@
 const email = require('emailjs');
 const Firebase = require('./../FireBase');
 const config = require('config');
+const axios = require('axios');
 
 function getUserPhoneEmailFromUid(uid) {
     return new Promise((resolve, reject) => {
@@ -8,6 +9,24 @@ function getUserPhoneEmailFromUid(uid) {
             .getData({}, `users/${uid}/personalData`, 'personalData')
             .then(data => resolve(data.personalData))
             .catch(e => reject(e));
+    });
+}
+
+function sendSms(tel, message) {
+    return new Promise((resolve, reject) => {
+        const telWithoutPlus = tel.indexOf('+') === 0 ? tel.slice(1) : tel;
+        axios
+            .get(
+                `https://api.mobizon.com/service/message/sendsmsmessage?apiKey=${config.get('MobizonSecretKey')}&recipient=${telWithoutPlus}&from=${config.get('AlphaName')}&text=${encodeURIComponent(message)}`
+            )
+            .then(resp => {
+                if (resp.data.code === 0) {
+                    resolve();
+                } else {
+                    reject(new Error(`SMS failed: ${resp.data}`));
+                }
+            })
+            .catch(e => reject(e.message));
     });
 }
 
@@ -32,15 +51,18 @@ function sendEmailAndSMS(uid, doclink) {
                         if (err) {
                             reject(err);
                         }
-                        resolve();
                     }
                 );
-                if (personalData.tel)
+                if (personalData.tel !== '') {
+                    sendSms(personalData.tel, `У лікаря (${doclink}) є вільне місце! Забронюй`)
+                        .then(() => resolve())
+                        .catch(e => reject(e));
+                } else {
+                    resolve();
+                }
             })
             .catch(e => reject(e));
-
     });
 }
 
-function sendSms()
-module.exports = sendEmail;
+module.exports = sendEmailAndSMS;
