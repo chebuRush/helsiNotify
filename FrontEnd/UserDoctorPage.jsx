@@ -58,50 +58,63 @@ export default class UserDoctorPage extends React.Component {
         event.preventDefault();
         const httprequest = self.state.doctorLink;
         if (httprequest.indexOf('https://helsi.me/') === 0) {
-            const readyToAdd = confirm(
-                `Додавання доктора платне: ${this.props.ONE_DOCTOR_VISIT_COST} грн будуть заморожені. Ви згодні?`
-            );
-            if (readyToAdd) {
-                const objToSend = Object.assign(
-                    {},
-                    {
-                        doctorLink: self.state.doctorLink,
-                        dateFrom: self.state.dateFrom,
-                        dateTo: self.state.dateTo,
-                        status: 1,
-                        userGenId: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)
+            if (self.state.dateFrom === '' || self.state.dateTo === '') {
+                this.props.handleDialogBox({
+                    alert: {
+                        text: `Всі поля повинні бути заповнені`,
+                        color: '#ff9797'
                     }
-                );
-                axios
-                    .post('http://localhost:8090/addDoctor', objToSend)
-                    .then(dataBack => {
-                        if (dataBack.data.statusHelsiCode !== '200') {
-                            this.props.handleDialogBox({
-                                alert: {
-                                    text: `Доктора не вдалося додати: ${dataBack.data.errorHelsiMsg}`,
-                                    color: '#ff9797'
-                                }
-                            });
-                        } else {
-                            const NewDoctorsArr = Object.assign({}, this.props.doctorsArr, {
-                                [objToSend.userGenId]: {
+                });
+            } else {
+                this.props.handleDialogBox({
+                    confirm: {
+                        text: `Додавання доктора платне: ${this.props.ONE_DOCTOR_VISIT_COST} грн будуть заморожені. Ви згодні?`,
+                        color: '#1399E2',
+                        chooseYes: () => {
+                            const objToSend = Object.assign(
+                                {},
+                                {
                                     doctorLink: self.state.doctorLink,
                                     dateFrom: self.state.dateFrom,
                                     dateTo: self.state.dateTo,
-                                    status: 1
+                                    status: 1,
+                                    userGenId: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)
                                 }
-                            });
-                            this.props.changeDoctorState(NewDoctorsArr);
-                        }
-                    })
-                    .catch(() => {
-                        this.props.handleDialogBox({
-                            alert: {
-                                text: `Неможливо з'єднатися. Перевірте підключення до інтернету`,
-                                color: '#ff9797'
-                            }
-                        });
-                    });
+                            );
+                            axios
+                                .post('http://localhost:8090/addDoctor', objToSend)
+                                .then(dataBack => {
+                                    if (dataBack.data.statusHelsiCode !== '200') {
+                                        this.props.handleDialogBox({
+                                            alert: {
+                                                text: `Доктора не вдалося додати: Недостатньо коштів!`,
+                                                color: '#ff9797'
+                                            }
+                                        });
+                                    } else {
+                                        const NewDoctorsArr = Object.assign({}, this.props.doctorsArr, {
+                                            [objToSend.userGenId]: {
+                                                doctorLink: self.state.doctorLink,
+                                                dateFrom: self.state.dateFrom,
+                                                dateTo: self.state.dateTo,
+                                                status: 1
+                                            }
+                                        });
+                                        this.props.changeDoctorState(NewDoctorsArr);
+                                    }
+                                })
+                                .catch(() => {
+                                    this.props.handleDialogBox({
+                                        alert: {
+                                            text: `Неможливо з'єднатися. Перевірте підключення до інтернету`,
+                                            color: '#ff9797'
+                                        }
+                                    });
+                                });
+                        },
+                        chooseNo: () => {}
+                    }
+                });
             }
         } else {
             this.props.handleDialogBox({
@@ -113,7 +126,7 @@ export default class UserDoctorPage extends React.Component {
         }
     }
     deleteDoctorNotification(id) {
-        const newDoctorsArr = this.props.doctorsArr;
+        const newDoctorsArr = Object.assign({}, this.props.doctorsArr);
         delete newDoctorsArr[id];
         axios
             .post('http://localhost:8090/deleteDoctor', { id })
@@ -121,17 +134,27 @@ export default class UserDoctorPage extends React.Component {
                 if (dataBack.data.statusHelsiCode === '200') {
                     this.props.changeDoctorState(newDoctorsArr);
                 } else if (dataBack.data.statusHelsiCode === '403') {
-                    const removeAnyway = confirm(`${dataBack.data.errorHelsiMsg}. Ви впевнені?`);
-                    if (removeAnyway) {
-                        axios
-                            .post('http://localhost:8090/deleteDoctor', { id, removeAnyway })
-                            .then(() => {
-                                this.props.changeDoctorState(newDoctorsArr);
-                            })
-                            .catch(e => {
-                                throw e;
-                            });
-                    }
+                    this.props.handleDialogBox({
+                        confirm: {
+                            text: `${dataBack.data.errorHelsiMsg}. Ви впевнені?`,
+                            color: '#1399E2',
+                            chooseYes: () => {
+                                const removeAnyway = true;
+                                axios
+                                    .post('http://localhost:8090/deleteDoctor', { id, removeAnyway })
+                                    .then(() => {
+                                        console.log('here3');
+                                        this.props.changeDoctorState(newDoctorsArr);
+                                    })
+                                    .catch(e => {
+                                        throw e;
+                                    });
+                            },
+                            chooseNo: () => {
+                                console.log('No pressed');
+                            }
+                        }
+                    });
                 }
             })
             .catch(() => {
@@ -154,6 +177,7 @@ export default class UserDoctorPage extends React.Component {
                         status={doc.status}
                         doctorLink={doc.doctorLink}
                         deleteDoctorNotification={this.deleteDoctorNotification}
+                        handleDialogBox={this.props.handleDialogBox}
                     />
                 );
             });

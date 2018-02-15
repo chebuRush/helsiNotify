@@ -158,11 +158,6 @@ export default class UserSettingPage extends React.Component {
                         this.props.handleDialogBox({
                             alert: { text: `${dataBack.data.errorHelsiMsg}`, color: '#ff9797' }
                         });
-                        self.setState({
-                            email: this.state.initialValues.emailToNotify,
-                            tel: this.state.initialValues.tel,
-                            displayTrue: ''
-                        });
                     }
                 })
                 .catch(() => {

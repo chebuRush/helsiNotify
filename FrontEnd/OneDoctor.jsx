@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export default class OneDoctor extends React.Component {
     static propTypes = {
         doctorLink: PropTypes.string,
+        handleDialogBox: PropTypes.func,
         status: PropTypes.number,
         dateFrom: PropTypes.string,
         dateTo: PropTypes.string,
@@ -11,6 +12,7 @@ export default class OneDoctor extends React.Component {
         deleteDoctorNotification: PropTypes.func
     };
     static defaultProps = {
+        handleDialogBox() {},
         doctorIdForUser: '',
         status: 1,
         doctorLink: '',
@@ -24,11 +26,16 @@ export default class OneDoctor extends React.Component {
         this.crossClicked = this.crossClicked.bind(this);
     }
     crossClicked() {
-        const readyToDelete = confirm('Ви впевнені, що хочете видалити лікаря?');
-        if (readyToDelete) {
-            this.props.deleteDoctorNotification(this.props.doctorIdForUser);
-        }
-        this.setState({});
+        this.props.handleDialogBox({
+            confirm: {
+                text: `Ви впевнені, що хочете видалити лікаря?`,
+                color: '#1399E2',
+                chooseYes: () => {
+                    this.props.deleteDoctorNotification(this.props.doctorIdForUser);
+                },
+                chooseNo: () => {}
+            }
+        });
     }
     /*
 * Doctor status

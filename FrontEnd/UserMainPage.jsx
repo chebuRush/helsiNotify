@@ -114,6 +114,7 @@ export default class UserMainPage extends React.Component {
                     render={props => (
                         <UserDoctorPage
                             {...props}
+                            handleDialogBox={this.props.handleDialogBox}
                             ONE_DOCTOR_VISIT_COST={this.state.ONE_DOCTOR_VISIT_COST}
                             doctorsArr={this.state.doctorsArr}
                             changeDoctorState={this.changeDoctorState}
@@ -122,7 +123,13 @@ export default class UserMainPage extends React.Component {
                 />
                 <Route
                     path={`/user/${this.props.match.params.uid}/settings`}
-                    render={props => <UserSettingPage {...props} email={this.state.email} />}
+                    render={props => (
+                        <UserSettingPage
+                            {...props}
+                            handleDialogBox={this.props.handleDialogBox}
+                            email={this.state.email}
+                        />
+                    )}
                 />
                 <Route path={`/user/${this.props.match.params.uid}/logout`} component={UserLogOut} />
                 <aside>

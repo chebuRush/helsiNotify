@@ -4,6 +4,7 @@ import FirstPage from './FirstPage';
 import UserMainPage from './UserMainPage';
 
 import Alert from './dialogBoxes/alert';
+import Confirm from './dialogBoxes/confirm';
 
 export default class App extends React.Component {
     static updateLocalStorage(key, value) {
@@ -19,6 +20,7 @@ export default class App extends React.Component {
         };
         this.toggleLogin = this.toggleLogin.bind(this);
         this.handleDialogBox = this.handleDialogBox.bind(this);
+        this.handleCloseConfirm = this.handleCloseConfirm.bind(this);
     }
     toggleLogin() {
         this.setState(
@@ -40,11 +42,25 @@ export default class App extends React.Component {
                 });
                 break;
             }
+            case 'confirm': {
+                this.setState({
+                    dialogBoxType: 'confirm',
+                    dialogBoxMessage: dialogBox.confirm.text,
+                    dialogBoxColor: dialogBox.confirm.color,
+                    dialogBoxYes: dialogBox.confirm.chooseYes,
+                    dialogBoxNo: dialogBox.confirm.chooseNo
+                });
+                break;
+            }
             default: {
-                console.log('default');
                 break;
             }
         }
+    }
+    handleCloseConfirm() {
+        this.setState({
+            dialogBoxType: ''
+        });
     }
     render() {
         let dialogBox = '';
@@ -52,6 +68,18 @@ export default class App extends React.Component {
             case 'alert': {
                 dialogBox = <Alert alertInfo={this.state.dialogBoxMessage} alertColor={this.state.dialogBoxColor} />;
                 setTimeout(() => this.setState({ dialogBoxType: '' }), 5000);
+                break;
+            }
+            case 'confirm': {
+                dialogBox = (
+                    <Confirm
+                        confirmInfo={this.state.dialogBoxMessage}
+                        chooseYes={this.state.dialogBoxYes}
+                        chooseNo={this.state.dialogBoxNo}
+                        confirmColor={this.state.dialogBoxColor}
+                        closeConfirm={this.handleCloseConfirm}
+                    />
+                );
                 break;
             }
             default: {
