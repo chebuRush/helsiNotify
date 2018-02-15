@@ -36,7 +36,7 @@
   align-self: center;
   justify-content: center;
   width:100vw;
-  height:100vh;
+  height:93vh;
   background-size:cover;
   position:relative;
 }
@@ -62,7 +62,7 @@
   background-color: rgba(255,255,255,0.65);
   width:85vw;
   padding:5vh 5vw;
-  height:auto;
+  height:77vh;
 }
 .description{
   display:flex;
@@ -435,4 +435,29 @@ input[type=submit]:hover{
 }
 #PayFormHTML{
   display:none;
+}
+
+/*alertBox*/
+
+@keyframes fadedisplay {
+  0%   {opacity: 1;}
+  25%  {opacity: 1;}
+  50%  {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+.myAlert-top{
+  opacity: 0;
+  position: fixed;
+  display:flex;
+  align-self: center;
+  justify-content: space-around;
+  padding:1.2vmin;
+  animation-duration: 4s;
+  animation-name: fadedisplay;
+  z-index:15;
+}
+.myAlert-top p{
+  color:#fff;
+  font-family: LatoLight,serif;
 }

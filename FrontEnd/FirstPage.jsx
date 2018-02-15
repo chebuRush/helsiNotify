@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import Spinner from './Spinner';
+import Alert from './dialogBoxes/alert';
 
 const Title = styled.h1`
     display:flex;
@@ -25,6 +27,12 @@ const Subtitle = styled.h2`
 `;
 
 export default class FirstPage extends React.Component {
+    static propTypes = {
+        handleDialogBox: PropTypes.func
+    };
+    static defaultProps = {
+        handleDialogBox() {}
+    };
     constructor(props) {
         super(props);
 
@@ -85,7 +93,12 @@ export default class FirstPage extends React.Component {
                     // eslint-disable-next-line react/prop-types
                     this.props.history.push(`/user/${res.data.user.uid}/notify`, res.data.user);
                 } else {
-                    alert(`Login failed: ${res.data.errorHelsiMsg}`);
+                    this.props.handleDialogBox(
+                        {
+                            alert: { text: `Не вдалося увійти: ${res.data.errorHelsiMsg}`, color: '#f00' }
+                        },
+                        'extradata'
+                    );
                     this.setState(
                         {
                             submitted: false
@@ -96,8 +109,16 @@ export default class FirstPage extends React.Component {
                     );
                 }
             })
-            .catch(err => {
-                console.error('axios error', err.message); // eslint-disable-line no-console
+            .catch(() => {
+                this.props.handleDialogBox(
+                    {
+                        alert: { text: `Неможливо з'єднатися. Перевірте підключення до інтернету`, color: '#ff9797' }
+                    },
+                    'extradata'
+                );
+                this.setState({
+                    submitted: false
+                });
             });
     }
     render() {
