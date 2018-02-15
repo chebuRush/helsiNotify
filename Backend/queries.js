@@ -321,7 +321,7 @@ function queries(app) {
     });
 
     // TODO insert Path to walletOne
-    app.post('/receivePaymentResultFromWalletOne', (req, res) => {
+    app.post('/receivePaymentResultFromWalletOne' , (req, res) => {
         const { WMI_PAYMENT_AMOUNT, WMI_ORDER_STATE, WMI_SIGNATURE, TransactionUserId } = req.body;
         if (
             WMI_PAYMENT_AMOUNT &&
