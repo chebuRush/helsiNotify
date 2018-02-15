@@ -1,4 +1,5 @@
 const config = require('config');
+const path = require('path');
 const FireBase = require('./FireBase');
 const cleanDBRemovingUsers = require('./FireBase/DataBase/cleanDbRemovingUser');
 const responses = require('./Responses/response');
