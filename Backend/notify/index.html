@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <meta name="description" content="HELSI.me - простий і швидкий вибір відповідного лікаря або клініки">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="Helsi.me">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=cyrillic" rel="stylesheet">
+    <title>HELSI.me - інформаційна система для пацієнтів</title>
+    <meta property="og:description" content="helsi.me – простий і швидкий вибір відповідного лікаря або клініки">
+    <meta property="og:title" content="Електронна медична система для пацієнтів та лікарів">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="/img/og_img_2x.png">
+    <meta property="og:image:secure_url" content="/img/og_img_2x.png">
+    <meta property="og:site_name" content="helsi.me">
+    <style>.patient-system-loader {
+        background-image: url(data:image/gif;base64,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);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 32px
+    }
+
+    .initial-loader-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 32px;
+        height: 32px;
+        margin: -16px 0 0 -16px
+    }</style>
+    <link href="/static/css/main.99704805.css" rel="stylesheet">
+    <style type="text/css"></style>
+</head>
+<body>
+<noscript>Будь ласка, ввімкніть підтримку Javascript у вашому браузері.</noscript>
+<div id="root">
+    <div data-reactroot="" class="wrapper">
+        <header class="header">
+            <div class="header__top">
+                <div class="header__container container">
+                    <div class="header__logo"><a class="logo" draggable="false" href="/"><img src="/img/helsi-logo.svg"
+                                                                                              alt="HELSI.me"
+                                                                                              class="logo__img"
+                                                                                              draggable="false"></a>
+                    </div>
+                    <div class="header__nav">
+                        <nav class="nav"><a class="nav__link" href="/"><span
+                                class="nav__link-text">Записатися на прийом</span></a><a class="nav__link"
+                                                                                         href="/about"><span
+                                class="nav__link-text">Про Helsi</span></a><a class="nav__link" href="/contacts"><span
+                                class="nav__link-text">Контакти</span></a><a class="nav__link" href="/reform"><span
+                                class="nav__link-text">Реформа МОЗ</span></a>
+                            <div class="close__menu"></div>
+                        </nav>
+                        <div class="nav"><a href="/login" class="nav__link nav__link_personal nav__link-login"><span
+                                class="nav__link-text">Увійти</span></a></div>
+                    </div>
+                    <div class="menu__toggle"></div>
+                </div>
+            </div>
+        </header>
+        <div class="page-doctor">
+            <div class="container">
+                <div class="page-doctor__content">
+                    <div class="doctor-card_big">
+                        <div class="doctor-card__half">
+                            <div class="doctor-card__content">
+                                <div class="doctor-card__top">
+                                    <div class="doctor-photo doctor-photo_big user-photo user-photo_loading"><span
+                                            class="patient-system-loader"></span><img
+                                            src="/api/healthy/doctor/shv_20/photo"
+                                            alt="Кирлиця Ірина Павлівна loading..." class="user-photo__img_hidden"><img
+                                            class="doctor-photo__img doctor-photo__img_big user-photo__img user-photo__img_loading"
+                                            src="/img/doctor_female.svg" alt="Кирлиця Ірина Павлівна" draggable="false">
+                                    </div>
+                                    <div class="doctor-card__info doctor-card__info_big">
+                                        <div><h3 class="doctor-card__name">Кирлиця Ірина Павлівна</h3>
+                                            <div class="doctor-card__speciality">
+                                                <div class="doctor-card__speciality-position">Лікар-педіатр дільничний
+                                                </div>
+                                                <div class="doctor-card__speciality-value"><span><!-- react-text: 55 -->
+                                                    <!-- /react-text --><!-- react-text: 56 -->Педіатр
+                                                    <!-- /react-text --></span></div>
+                                            </div>
+                                        </div>
+                                        <div><!-- react-empty: 58 -->
+                                            <div class="doctor-card__phone"><!-- react-text: 60 -->call-центр:
+                                                <!-- /react-text --><br>
+                                                <nobr class="phone-formatter"><a class="phone-formatter-tag"
+                                                                                 href="tel:+380445801551"
+                                                                                 rel="nofollow noopener noreferrer">044
+                                                    580-15-51</a></nobr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="doctor-card__bottom">
+                                    <div class="doctor-card__address">
+                                        <div class="doctor-card__clinic">ЦПМСД №1 Шевченківського району — Філія №1 —
+                                            Амбулаторія №1
+                                        </div>
+                                        <div class="doctor-card__cabinet">кабінет 39</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="doctor-card__half">
+                            <div class="doctor-card__map">
+                                <div class="bigmap" style="width: 580px; height: 340px;"><a
+                                        href="https://www.google.com.ua/maps/place/Ukraine, місто Київ вул. Хмельницького Богдана 46"
+                                        class="btn btn_square btn_info btn_text16 btn_map-link " target="_blank"
+                                        rel="noopener" draggable="false"><span><!-- react-text: 73 -->Відкрити у
+                                    <!-- /react-text --><br><!-- react-text: 75 -->Google Maps
+                                    <!-- /react-text --></span></a><img
+                                        src="https://maps.googleapis.com/maps/api/staticmap?center=Ukraine%2C%20%D0%BC%D1%96%D1%81%D1%82%D0%BE%20%D0%9A%D0%B8%D1%97%D0%B2%20%D0%B2%D1%83%D0%BB.%20%D0%A5%D0%BC%D0%B5%D0%BB%D1%8C%D0%BD%D0%B8%D1%86%D1%8C%D0%BA%D0%BE%D0%B3%D0%BE%20%D0%91%D0%BE%D0%B3%D0%B4%D0%B0%D0%BD%D0%B0%2046&amp;key=AIzaSyBkQ4WeoPGCwzrLFI_jdFqjO5jpoDiWsI0&amp;language=ru&amp;maptype=roadmap&amp;region=UA&amp;scale=1&amp;size=580x340&amp;style=feature%3Apoi.business%7Cvisibility%3Aoff&amp;style=feature%3Apoi.attraction%7Cvisibility%3Aoff&amp;zoom=16"
+                                        alt="Static Google Map" class="bigmap__img" draggable="false"><i
+                                        class="icon icon-map-pin-fill bigmap__marker" aria-hidden="true"
+                                        role="presentation"></i>
+                                    <div class="bigmap__label">місто Київ вул. Хмельницького Богдана 46, кабінет 39
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="title title_regular">
+                        <div class="page-doctor__messages">
+                            <div class="page-doctor__warning">
+                                <div class="FeedbackMessage-module-container_20etn FeedbackMessage-module-warning_iq212 FeedbackMessage-module-medium_1itk4">
+                                    <div class="FeedbackMessage-module-icon_cJC6-"><i
+                                            class="Icon-module-icon_3VzBu icon-warning" aria-hidden="true"
+                                            role="presentation" style="font-size: 16px; color: rgb(88, 95, 115);"></i>
+                                    </div>
+                                    <div class="paragraph FeedbackMessage-module-text_2jzpP">Прийом тільки дітей</div>
+                                </div>
+                            </div>
+                            <div class="page-doctor__warning">
+                                <div class="FeedbackMessage-module-container_20etn FeedbackMessage-module-warning_iq212 FeedbackMessage-module-medium_1itk4">
+                                    <div class="FeedbackMessage-module-icon_cJC6-"><i
+                                            class="Icon-module-icon_3VzBu icon-warning" aria-hidden="true"
+                                            role="presentation" style="font-size: 16px; color: rgb(88, 95, 115);"></i>
+                                    </div>
+                                    <div class="paragraph FeedbackMessage-module-text_2jzpP">Щосереди - прийом виключно
+                                        здорових дітей до 12 місяців
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page-doctor__warning">
+                                <div class="FeedbackMessage-module-container_20etn FeedbackMessage-module-info_qmN2G FeedbackMessage-module-medium_1itk4">
+                                    <div class="FeedbackMessage-module-icon_cJC6-"><i
+                                            class="Icon-module-icon_3VzBu icon-info" aria-hidden="true"
+                                            role="presentation" style="font-size: 16px; color: rgb(99, 175, 255);"></i>
+                                    </div>
+                                    <div class="paragraph FeedbackMessage-module-text_2jzpP"><a
+                                            class="page-doctor__warning__link" href="#information-registration">Важлива
+                                        інформація до прийому</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-doctor__today"><!-- react-text: 98 -->Сьогодні: &nbsp;<!-- /react-text --><b>П’ятниця,
+                            5-го січня 2018 р.</b></div>
+                    </div>
+                    <div class="shadow-box">
+                        <div class="loadedContent">
+                            <div class="schedule">
+                                <div class="schedule__headline"></div>
+                                <div class="schedule__slick">
+                                    <div class="slick-initialized slick-slider">
+                                        <div data-role="none"
+                                             class="schedule__move schedule__move_prev slick-arrow slick-prev slick-disabled"
+                                             style="display: block;"><i class="icon icon-chevron-circle-left "
+                                                                        aria-hidden="true" role="presentation"></i>
+                                        </div>
+                                        <div class="slick-list" style="height: 262px;">
+                                            <div class="slick-track"
+                                                 style="opacity: 1; -webkit-transform: translate3d(0px, 0px, 0px); width: 3040px;">
+                                                <div class="slick-slide slick-active schedule__col" data-index="0"
+                                                     tabindex="-1" style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div class="schedule__title-today">Сьогодні</div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__weekend">Лікар не приймає</div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="1" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Неділя</div>
+                                                            <div class="schedule__title-date">04 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__weekend">Лікар не приймає</div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="2" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Понеділок</div>
+                                                            <div class="schedule__title-date">05 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 172 -->
+                                                                09:00<!-- /react-text --><!-- react-text: 173 --> -
+                                                                <!-- /react-text --><!-- react-text: 174 -->10:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 179 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 181 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 183 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 184 --> <!-- /react-text -->
+                                                                    <!-- react-text: 185 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 188 -->
+                                                                10:00<!-- /react-text --><!-- react-text: 189 --> -
+                                                                <!-- /react-text --><!-- react-text: 190 -->12:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="3" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Вівторок</div>
+                                                            <div class="schedule__title-date">06 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 200 -->
+                                                                10:00<!-- /react-text --><!-- react-text: 201 --> -
+                                                                <!-- /react-text --><!-- react-text: 202 -->11:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 207 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 209 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 211 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 212 --> <!-- /react-text -->
+                                                                    <!-- react-text: 213 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 216 -->
+                                                                11:00<!-- /react-text --><!-- react-text: 217 --> -
+                                                                <!-- /react-text --><!-- react-text: 218 -->13:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="4" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Середа</div>
+                                                            <div class="schedule__title-date">07 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 228 -->
+                                                                14:00<!-- /react-text --><!-- react-text: 229 --> -
+                                                                <!-- /react-text --><!-- react-text: 230 -->15:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 235 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 237 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 239 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 240 --> <!-- /react-text -->
+                                                                    <!-- react-text: 241 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 244 -->
+                                                                15:00<!-- /react-text --><!-- react-text: 245 --> -
+                                                                <!-- /react-text --><!-- react-text: 246 -->17:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="5" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Четвер</div>
+                                                            <div class="schedule__title-date">08 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 256 -->
+                                                                15:00<!-- /react-text --><!-- react-text: 257 --> -
+                                                                <!-- /react-text --><!-- react-text: 258 -->16:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 263 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 265 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 267 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 268 --> <!-- /react-text -->
+                                                                    <!-- react-text: 269 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 272 -->
+                                                                16:00<!-- /react-text --><!-- react-text: 273 --> -
+                                                                <!-- /react-text --><!-- react-text: 274 -->18:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="6" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">П’ятниця</div>
+                                                            <div class="schedule__title-date">09 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 284 -->
+                                                                10:00<!-- /react-text --><!-- react-text: 285 --> -
+                                                                <!-- /react-text --><!-- react-text: 286 -->11:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 291 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 293 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 295 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 296 --> <!-- /react-text -->
+                                                                    <!-- react-text: 297 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 300 -->
+                                                                11:00<!-- /react-text --><!-- react-text: 301 --> -
+                                                                <!-- /react-text --><!-- react-text: 302 -->13:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="7" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Субота</div>
+                                                            <div class="schedule__title-date">10 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__weekend">Лікар не приймає</div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="8" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Неділя</div>
+                                                            <div class="schedule__title-date">11 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__weekend">Лікар не приймає</div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="9" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Понеділок</div>
+                                                            <div class="schedule__title-date">12 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 326 -->
+                                                                09:00<!-- /react-text --><!-- react-text: 327 --> -
+                                                                <!-- /react-text --><!-- react-text: 328 -->10:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 333 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 335 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 337 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 338 --> <!-- /react-text -->
+                                                                    <!-- react-text: 339 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 342 -->
+                                                                10:00<!-- /react-text --><!-- react-text: 343 --> -
+                                                                <!-- /react-text --><!-- react-text: 344 -->12:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="10" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Вівторок</div>
+                                                            <div class="schedule__title-date">13 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 354 -->
+                                                                10:00<!-- /react-text --><!-- react-text: 355 --> -
+                                                                <!-- /react-text --><!-- react-text: 356 -->11:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 361 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 363 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 365 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 366 --> <!-- /react-text -->
+                                                                    <!-- react-text: 367 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 370 -->
+                                                                11:00<!-- /react-text --><!-- react-text: 371 --> -
+                                                                <!-- /react-text --><!-- react-text: 372 -->13:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="11" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Середа</div>
+                                                            <div class="schedule__title-date">14 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 382 -->
+                                                                14:00<!-- /react-text --><!-- react-text: 383 --> -
+                                                                <!-- /react-text --><!-- react-text: 384 -->15:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 389 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 391 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 393 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 394 --> <!-- /react-text -->
+                                                                    <!-- react-text: 395 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 398 -->
+                                                                15:00<!-- /react-text --><!-- react-text: 399 --> -
+                                                                <!-- /react-text --><!-- react-text: 400 -->17:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="12" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">Четвер</div>
+                                                            <div class="schedule__title-date">15 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 410 -->
+                                                                15:00<!-- /react-text --><!-- react-text: 411 --> -
+                                                                <!-- /react-text --><!-- react-text: 412 -->16:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 417 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 419 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 421 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 422 --> <!-- /react-text -->
+                                                                    <!-- react-text: 423 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 426 -->
+                                                                16:00<!-- /react-text --><!-- react-text: 427 --> -
+                                                                <!-- /react-text --><!-- react-text: 428 -->18:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slick-slide schedule__col" data-index="13" tabindex="-1"
+                                                     style="outline: none; width: 190px;">
+                                                    <div class="schedule__title">
+                                                        <div>
+                                                            <div class="schedule__title-weekday">П’ятниця</div>
+                                                            <div class="schedule__title-date">16 лют. 2018</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="schedule__day">
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 438 -->
+                                                                10:00<!-- /react-text --><!-- react-text: 439 --> -
+                                                                <!-- /react-text --><!-- react-text: 440 -->11:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-recording">
+                                                                <div class="schedule__range-btn">
+                                                                    <button class="btn btn_fullwidth btn_info "><span><!-- react-text: 445 -->Записатися
+                                                                        <!-- /react-text --><br><!-- react-text: 447 --> на прийом
+                                                                        <!-- /react-text --></span></button>
+                                                                </div>
+                                                                <div class="schedule__range-count">
+                                                                    <!-- react-text: 449 -->4<!-- /react-text -->
+                                                                    <!-- react-text: 450 --> <!-- /react-text -->
+                                                                    <!-- react-text: 451 -->місця
+                                                                    <!-- /react-text --></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="schedule__range">
+                                                            <div class="schedule__range-time"><!-- react-text: 454 -->
+                                                                11:00<!-- /react-text --><!-- react-text: 455 --> -
+                                                                <!-- /react-text --><!-- react-text: 456 -->13:00
+                                                                <!-- /react-text --></div>
+                                                            <div class="schedule__range-desc">Прийом
+                                                                по черзі
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-role="none"
+                                             class="schedule__move schedule__move_next slick-arrow slick-next"
+                                             style="display: block;"><i class="icon icon-chevron-circle-right "
+                                                                        aria-hidden="true" role="presentation"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="rule-56e278da-e88f-43d6-a668-57cb2d111111"
+                         class="shadow-box doctor-information doctor-information_level-warning"><h3
+                            class="doctor-information__title"><i class="icon icon-warning icon-size-19"
+                                                                 aria-hidden="true" role="presentation"></i><span>Прийом тільки дітей</span>
+                    </h3>
+                        <div class="doctor-information__line"></div>
+                        <div class="doctor-information__content"><p>Звертаємо Вашу увагу, що лікар приймає виключно
+                            пацієнтів віком до 18ти років.</p></div>
+                    </div>
+                    <div id="rule-9a86d403-e527-4edc-b798-98b5fb67fbe7"
+                         class="shadow-box doctor-information doctor-information_level-warning"><h3
+                            class="doctor-information__title"><i class="icon icon-warning icon-size-19"
+                                                                 aria-hidden="true" role="presentation"></i><span>Щосереди - прийом виключно здорових дітей до 12 місяців</span>
+                    </h3>
+                        <div class="doctor-information__line"></div>
+                        <div class="doctor-information__content"><p>Звертаємо Вашу увагу, що кожної середи лікар приймає
+                            виключно здорових дітей віком до 12 місяців.</p></div>
+                    </div>
+                    <div id="information-registration"
+                         class="shadow-box doctor-information doctor-information_level-info"><h3
+                            class="doctor-information__title"><i
+                            class="icon icon-info-circle icon-color-blue icon-size-19" aria-hidden="true"
+                            role="presentation"></i><span>Я ЗАРЕЄСТРОВАНИЙ/-НА В ІНШОМУ РАЙОНІ МІСТА АБО НАСЕЛЕНОМУ ПУНКТІ, ЩО РОБИТИ?</span>
+                    </h3>
+                        <div class="doctor-information__line"></div>
+                        <div class="doctor-information__content"><p><!-- react-text: 123 -->Якщо ви бажаєте
+                            <!-- /react-text --><b>вперше</b><!-- react-text: 125 --> звернутися до певного медичного
+                            закладу, але зареєстровані в іншому районі міста або населеному пункті, ми просимо вас
+                            <!-- /react-text --><b>завчасно</b><!-- react-text: 127 --> (приблизно за 30 хв) звернутися
+                            до реєстратури цього медичного закладу для написання заяви на ім’я головного лікаря про
+                            поставлення на медичний облік.<!-- /react-text --></p>
+                            <p><!-- react-text: 129 -->Для подачі такої заяви вам необхідно мати при собі
+                                <!-- /react-text --><b>документ, що посвідчує особу</b><!-- react-text: 131 -->.
+                                <!-- /react-text --></p>
+                            <p><!-- react-text: 133 -->Для того, щоб оформити заяву про поставлення на медичний облік
+                                <!-- /react-text --><b>дитини</b><!-- react-text: 135 -->, вам необхідно мати при собі
+                                <!-- /react-text --><b>документ, що посвідчує особу</b><!-- react-text: 137 --> та
+                                <!-- /react-text --><b>свідоцтво про народження дитини</b><!-- react-text: 139 -->.
+                                <!-- /react-text --></p>
+                            <p>Якщо у вас вже є погоджена медичним закладом заява про поставлення на медичний облік, яка
+                                ще діє, оформлювати її повторно не потрібно.</p>
+                            <p>Також оформлювати заяву не потрібно, якщо ви маєте прикріплення до лікаря медичного
+                                закладу цього району згідно з наказом МОЗ України від 04.11.2011 р. № 756.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer" role="contentinfo">
+            <div class="footer__container container">
+                <div class="footer__navigation"><a class="footer__navigation__item" href="/agreement"><span
+                        class="footer__navigation__item__text">Згода користувача</span></a></div>
+                <span class="footer__copyright"><!-- react-text: 35 -->© HELSI.me 2016-<!-- /react-text -->
+                    <!-- react-text: 36 -->2018<!-- /react-text --></span></div>
+        </footer><!-- react-empty: 37 --></div>
+</div>
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script type="text/javascript" src="/static/js/main.a79e6354.js"></script>
+<div class="ReactModalPortal"><!-- react-empty: 1 --></div>
+</body>
+</html>

@@ -1,0 +1,523 @@
+﻿
+*{
+  padding:0;
+  margin:0;
+  max-width:100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-family: 'LatoLight', serif;
+}
+
+@font-face {
+  font-family: 'LatoLight';
+  src: url('../fonts/LatoLight.eot'); /* Для IE5-8 */
+  src: local(raleway), url(../fonts/RobotoLight.ttf); /* Для остальных браузеров */
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'LatoBold';
+  src: url(../fonts/LatoBold.eot); /* Для IE5-8 */
+  src: local(raleway), url(../fonts/RobotoRegular.ttf); /* Для остальных браузеров */
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+#app{
+  width:100vw;
+  height:auto;
+  position:absolute;
+}
+
+.main_wrap{
+  display:flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  width:100vw;
+  background-size:cover;
+  position: relative;
+}
+.main_wrap:before{
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  display: block;
+  background: url('../images/background.jpg') fixed center center;
+  background-size:cover;
+  -webkit-filter: blur(6px);
+  -ms-filter: blur(6px);
+  filter: blur(6px);
+}
+.bgOpac{
+  display:flex;
+  flex-direction: column;
+  align-self: center;
+  background-color: rgba(255,255,255,0.65);
+  width:85vw;
+  padding:5vh 5vw;
+  height:77vh;
+  margin-top:11vh;
+}
+.description{
+  display:flex;
+  flex-direction: column;
+  align-self: center;
+  text-align: center;
+  width:60%;
+}
+.form{
+  display: flex;
+  justify-content: center;
+}
+.inputform{
+  margin:5vmin;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width:50.5vw;
+}
+.inputform input:first-child{
+  margin-left:1px;
+
+}
+.inputform input{
+  font-size:3.5vmin;
+  padding: 2vh 0.7vw;
+  text-align: center;
+  width:48%;
+}
+.inputform input:invalid, .wishForm input:invalid{
+  box-shadow: none;
+}
+.submitButtonBlock{
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width:100%;
+  text-align: center;
+}
+input[type=submit]{
+  background: rgb(0, 95, 200);
+  color:#fff;
+  margin-top: 5vh;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  border: 1px solid rgb(0, 95, 200);
+}
+
+input[type=submit]:hover{
+  background-color: #fff;
+  color: #000;
+}
+
+.wishForm #clickSubmit{
+  margin:0 auto;
+}
+.forgotPassword{
+  font-size:2vmin;
+  margin-top:3vh;
+  color:#888;
+}
+
+.uniqueDoctor{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  border:1px orangered solid;
+  background: #ffffff ;
+  border-bottom: 0;
+}
+.uniqueDoctor:last-child{
+  border-bottom:1px orangered solid;
+}
+.field{
+  font-size:2.8vmin;
+  width:25%;
+  text-align: center;
+}
+.sweet-loading{
+  margin-top:9.6vh;
+}
+
+
+.sk-three-bounce {
+  margin: 40px auto;
+  width: 80px;
+  display:none;
+  text-align: center; }
+.sk-three-bounce .sk-child {
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-three-bounce 1.4s ease-in-out 0s infinite both;
+  animation: sk-three-bounce 1.4s ease-in-out 0s infinite both; }
+.sk-three-bounce .sk-bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s; }
+.sk-three-bounce .sk-bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s; }
+
+@-webkit-keyframes sk-three-bounce {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0); }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+@keyframes sk-three-bounce {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0); }
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+/*User Main Page*/
+
+.UserMainPage{
+  width:100vw;
+  height:100%;
+  /*overflow-x: auto;*/
+}
+.doctorListWrapper{
+  width:80%;
+}
+
+.UserMainPage aside{
+  position:fixed;
+  right:0;
+  top:0;
+  width:20%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: flex-start;
+  padding:3vh 3vw;
+  background-color: rgba(255,255,255,0.85);
+  height:100%;
+}
+.UserMainPage h3{
+  margin-top:6vmin;
+  text-align: center;
+  margin-bottom:7vmin;
+}
+.UserMainPage aside>ul{
+  list-style: none;
+}
+.mainMenu{
+  font-size:3.3vmin;
+  text-decoration: none;
+}
+.mainMenu li{
+  margin:3vmin 1vmin;
+}
+.mainMenu a{
+  color:black;
+  position:relative;
+  text-decoration:none;
+  display:inline-block;
+}
+.mainMenu a:after {
+  display:block;
+  content: '';
+  border-bottom: solid 2px rgb(0, 95, 200);
+  transform: scaleX(0);
+  transition: transform 500ms ease-in-out;
+  transform-origin:100% 50%
+}
+.mainMenu a:hover:after {
+  transform: scaleX(1);
+  transform-origin:0 50%;
+}
+
+.displayUserBlock{
+  position:absolute;
+  left:0;
+  width:75vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.wishForm{
+  width:inherit;
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin:3vmin auto;
+}
+.wishForm input{
+  width:30vw;
+  padding:2vh 0.8vw;
+  font-size:2.2vmin;
+  margin:1.3vmin;
+}
+.wishForm input[type="date"]{
+  width:10vw;
+}
+
+.showAllNotifyWishes{
+  border:1px solid rgb(0, 95, 200);
+  background-color: rgba(255,255,255,0.65);
+  width:70%;
+  margin: 0 auto;
+}
+.showAllNotifyWishes:empty{
+  display: none;
+}
+
+.oneDoctor{
+  display:flex;
+  flex-direction:row;
+  align-self:center;
+  justify-content:space-around;
+  border-bottom:1px solid rgb(0, 95, 200);
+}
+.doctorSeparateData{
+  border-right:1px solid rgb(0,0,200);
+  font-size:2.5vmin;
+  width:33%;
+  align-self: stretch;
+}
+.doctorSeparateData:last-child,.oneDoctor:last-child{
+  border:0;
+}
+.doctorSeparateData>p, .close{
+  text-align: center;
+  height: 100%;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+}
+.red-cross-div{
+  width:5%;
+}
+.close {
+  font-family: 'LatoLight', serif;
+  color: #ff0000;
+  font-size:2.8vmin;
+  text-decoration: none;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  margin:0 auto;
+  width:100%;
+}
+
+/*User Setting page*/
+.userSettingBlock{
+  position:relative;
+  width:80%;
+  margin:7vh auto;
+  display: flex;
+  flex-direction: column;
+}
+.PersonalDataField{
+  font-size:3vmin;
+  margin: 5vh 0;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width:80%;
+}
+
+.PersonalDataField p {
+  display:flex;
+  align-self: center;
+}
+.moneyValue{
+  margin: 2vh 0 2vh 4vw;
+  width:20vw;
+}
+.PersonalDataField input{
+  margin-left:3vw;
+  width:20vw;
+  font-size:2vmin;
+  padding:1.5vh 1vw;
+}
+.SaveChangesButtonWrapper{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+  position:absolute;
+  right:5vw;
+  top:5vh;
+}
+.SaveChangesButton{
+  background-color: rgb(0, 95, 200); /* Blue */
+  border: 1px solid rgb(0, 95, 200);
+  color: white;
+  padding: 1vh 1vw;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2.5vmin;
+}
+.SaveChangesButton {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.SaveChangesButton:hover {
+  background-color: #fff; /* Green */
+  color: rgb(0,120,200);
+}
+.PersonalDataField:last-child{
+  width:100%;
+}
+.DeleteAccount{
+  background-color: rgb(245,0,0); /* Blue */
+  border: 1px solid rgb(245,0,0);
+  color: white;
+  padding: 1vh 1vw;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2.5vmin;
+  margin:0 auto;
+}
+.DeleteAccount {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.DeleteAccount:hover {
+  background-color: #fff; /* Green */
+  color: rgb(245,0,0);
+}
+.available{
+  color: #4CAF50;
+}
+.freezed{
+  color: #ff8315
+}
+.displayTrue{
+  visibility: visible;
+  opacity: 1;
+}
+.BalanceBox{
+  width:40%;
+}
+.PaymentBox{
+  width:60%;
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin:6.2vh 0 4.9vh 7vw;
+  font-size:2.3vmin;
+}
+.PaymentBox input[type=number]{
+  margin:0;
+
+  width:6vw;
+}
+
+.PaymentBox input[type=button]{
+  margin-left:3vw;
+  width:10vw;
+}
+#PayFormHTML{
+  display:none;
+}
+
+/*alertBox*/
+
+@keyframes fadeOutDisplay {
+  0%   {opacity: 1;}
+  25%  {opacity: 1;}
+  50%  {opacity: 1;}
+  100% {opacity: 0;}
+}
+@keyframes fadeInDisplay {
+  0%   {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.myAlert-top{
+  opacity: 0;
+  position: fixed;
+  display:flex;
+  align-self: center;
+  justify-content: space-around;
+  padding:1.1vmin;
+  animation-duration: 4s;
+  animation-name: fadeOutDisplay;
+  z-index:15;
+}
+.myAlert-top p, .myConfirm-center p{
+  color:#fff;
+  font-family: LatoLight,serif;
+}
+.myConfirm-overlay{
+  position:fixed;
+  width:100vw;
+  height:100vh;
+  background: #000000;
+  opacity:0.4;
+  z-index:100;
+}
+.myConfirm-top{
+  opacity: 1;
+  position:absolute;
+  top:35vh;
+  left:20vw;
+  width:40vw;
+  min-height:15vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding:1vh 1vw;
+  z-index:200;
+  animation-duration: 1s;
+  animation-name: fadeInDisplay;
+}
+.myConfirm-top p{
+  color:#fff;
+  font-size:2vmin;
+  font-family: LatoLight,serif;
+  padding:1.1vmin;
+
+}
+.ChooseButtons{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width:20vw;
+}
+.YesButton {
+  padding:0 2vw;
+  background-color: rgb(0, 200, 50);
+  border:0;
+  color: #fff;
+  display:flex;
+  align-self: center;
+  font-size:2.5vmin;
+  height:5vh;
+}
+.NoButton {
+  padding:0 2vw;
+  height:5vh;
+  border:0;
+  font-size:2.5vmin;
+  background-color: #f44336;
+  color: #fff
+}
