@@ -4,7 +4,6 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 
 import Spinner from './Spinner';
-import Alert from './dialogBoxes/alert';
 
 const Title = styled.h1`
     display:flex;
@@ -73,7 +72,14 @@ export default class FirstPage extends React.Component {
                 .then(res => {
                     if (res.data.statusHelsiCode === '200') this.setState({ submitted: false });
                 })
-                .catch(e => console.error(e.message));
+                .catch(e => {
+                    this.props.handleDialogBox({
+                        alert: { text: `Сталася помилка: ${e.message}`, color: '#ff9797' }
+                    });
+                    this.setState({
+                        submitted: false
+                    });
+                });
         }
     }
     goPersonalPage(event) {
@@ -93,12 +99,9 @@ export default class FirstPage extends React.Component {
                     // eslint-disable-next-line react/prop-types
                     this.props.history.push(`/user/${res.data.user.uid}/notify`, res.data.user);
                 } else {
-                    this.props.handleDialogBox(
-                        {
-                            alert: { text: `Не вдалося увійти: ${res.data.errorHelsiMsg}`, color: '#f00' }
-                        },
-                        'extradata'
-                    );
+                    this.props.handleDialogBox({
+                        alert: { text: `Не вдалося увійти: ${res.data.errorHelsiMsg}`, color: '#ff9797' }
+                    });
                     this.setState(
                         {
                             submitted: false
@@ -110,12 +113,9 @@ export default class FirstPage extends React.Component {
                 }
             })
             .catch(() => {
-                this.props.handleDialogBox(
-                    {
-                        alert: { text: `Неможливо з'єднатися. Перевірте підключення до інтернету`, color: '#ff9797' }
-                    },
-                    'extradata'
-                );
+                this.props.handleDialogBox({
+                    alert: { text: `Неможливо з'єднатися. Перевірте підключення до інтернету`, color: '#ff9797' }
+                });
                 this.setState({
                     submitted: false
                 });

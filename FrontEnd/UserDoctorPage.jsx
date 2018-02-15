@@ -9,11 +9,13 @@ export default class UserDoctorPage extends React.Component {
         return `${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10 ? `0${new Date().getMonth() + 1}` : new Date().getMonth() + 1}-${new Date().getDate() < 10 ? `0${new Date().getDate()}` : new Date().getDate()}`;
     }
     static propTypes = {
+        handleDialogBox: PropTypes.func,
         doctorsArr: PropTypes.shape({}),
         changeDoctorState: PropTypes.func,
         ONE_DOCTOR_VISIT_COST: PropTypes.string
     };
     static defaultProps = {
+        handleDialogBox() {},
         doctorsArr: {},
         ONE_DOCTOR_VISIT_COST: '0',
         changeDoctorState() {}
@@ -74,7 +76,12 @@ export default class UserDoctorPage extends React.Component {
                     .post('http://localhost:8090/addDoctor', objToSend)
                     .then(dataBack => {
                         if (dataBack.data.statusHelsiCode !== '200') {
-                            alert(`Доктора не вдалося додати: ${dataBack.data.errorHelsiMsg}`);
+                            this.props.handleDialogBox({
+                                alert: {
+                                    text: `Доктора не вдалося додати: ${dataBack.data.errorHelsiMsg}`,
+                                    color: '#ff9797'
+                                }
+                            });
                         } else {
                             const NewDoctorsArr = Object.assign({}, this.props.doctorsArr, {
                                 [objToSend.userGenId]: {
@@ -87,12 +94,22 @@ export default class UserDoctorPage extends React.Component {
                             this.props.changeDoctorState(NewDoctorsArr);
                         }
                     })
-                    .catch(err => {
-                        console.error('axios error', err); // eslint-disable-line no-console
+                    .catch(() => {
+                        this.props.handleDialogBox({
+                            alert: {
+                                text: `Неможливо з'єднатися. Перевірте підключення до інтернету`,
+                                color: '#ff9797'
+                            }
+                        });
                     });
             }
         } else {
-            alert('Enter valid https://helsi.me/ address');
+            this.props.handleDialogBox({
+                alert: {
+                    text: `Адреса повинна починатися з https://helsi.me/`,
+                    color: '#ff9797'
+                }
+            });
         }
     }
     deleteDoctorNotification(id) {
@@ -110,7 +127,6 @@ export default class UserDoctorPage extends React.Component {
                             .post('http://localhost:8090/deleteDoctor', { id, removeAnyway })
                             .then(() => {
                                 this.props.changeDoctorState(newDoctorsArr);
-                                console.log('second request');
                             })
                             .catch(e => {
                                 throw e;
@@ -118,9 +134,10 @@ export default class UserDoctorPage extends React.Component {
                     }
                 }
             })
-            .catch(err => {
-                // TODO tell user that something went wrong
-                console.error('axios error', err); // eslint-disable-line no-console
+            .catch(() => {
+                this.props.handleDialogBox({
+                    alert: { text: `Неможливо з'єднатися. Перевірте підключення до інтернету`, color: '#ff9797' }
+                });
             });
     }
     render() {

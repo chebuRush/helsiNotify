@@ -11,6 +11,7 @@ import UserLogOut from './UserLogOut';
 
 export default class UserMainPage extends React.Component {
     static propTypes = {
+        handleDialogBox: PropTypes.func,
         history: PropTypes.shape({
             push: PropTypes.func
         }),
@@ -29,6 +30,7 @@ export default class UserMainPage extends React.Component {
         })
     };
     static defaultProps = {
+        handleDialogBox() {},
         history: PropTypes.shape({
             push() {}
         }),
@@ -80,16 +82,12 @@ export default class UserMainPage extends React.Component {
                         loading: false
                     });
                 } else {
-                    console.log('ready to push', this.props.history.push);
                     this.props.history.push('/');
                 }
             })
-            .catch(err => {
-                // TODO tell user that something went wrong
-                console.error('axios error', err); // eslint-disable-line no-console
+            .catch(() => {
                 this.props.history.push('/');
             });
-        // TODO delete setTimeout and rewrite axios to sync query
     }
     changeDoctorState(newDoctorObj) {
         this.setState({

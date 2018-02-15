@@ -5,6 +5,7 @@ import axios from 'axios';
 
 export default class UserSettingPage extends React.Component {
     static propTypes = {
+        handleDialogBox: PropTypes.func,
         money: PropTypes.shape({
             available: PropTypes.string,
             freezed: PropTypes.string
@@ -17,6 +18,7 @@ export default class UserSettingPage extends React.Component {
         emailToNotify: PropTypes.string
     };
     static defaultProps = {
+        handleDialogBox() {},
         money: PropTypes.shape({
             available: '0',
             freezed: '0'
@@ -77,12 +79,9 @@ export default class UserSettingPage extends React.Component {
                     this.props.history.push('/');
                 }
             })
-            .catch(err => {
-                // TODO tell user that something went wrong
-                console.error('axios error', err); // eslint-disable-line no-console
+            .catch(() => {
                 this.props.history.push('/');
             });
-        // TODO delete setTimeout and rewrite axios to sync query
     }
     handleInputValue(event) {
         switch (event.target.id) {
@@ -127,15 +126,15 @@ export default class UserSettingPage extends React.Component {
                             payForm: dataBack.data.usefulData
                         },
                         () => {
-                            console.log(this.state.payForm);
                             document.getElementById('PayFormHTML').submit();
                         }
                     );
                 }
             })
-            .catch(err => {
-                // TODO tell user that something went wrong
-                console.error('axios error', err); // eslint-disable-line no-console
+            .catch(() => {
+                this.props.handleDialogBox({
+                    alert: { text: `Неможливо з'єднатися. Перевірте підключення до інтернету`, color: '#ff9797' }
+                });
             });
     }
     handleSaveChangesButton() {
@@ -147,7 +146,6 @@ export default class UserSettingPage extends React.Component {
             axios
                 .post('http://localhost:8090/changePersonalData', this.state)
                 .then(dataBack => {
-                    console.log(dataBack);
                     if (dataBack.data.statusHelsiCode === '200') {
                         self.setState({
                             initialValues: {
@@ -157,7 +155,9 @@ export default class UserSettingPage extends React.Component {
                             displayTrue: ''
                         });
                     } else {
-                        alert(dataBack.data.errorHelsiMsg);
+                        this.props.handleDialogBox({
+                            alert: { text: `${dataBack.data.errorHelsiMsg}`, color: '#ff9797' }
+                        });
                         self.setState({
                             email: this.state.initialValues.emailToNotify,
                             tel: this.state.initialValues.tel,
@@ -165,12 +165,15 @@ export default class UserSettingPage extends React.Component {
                         });
                     }
                 })
-                .catch(err => {
-                    // TODO tell user that something went wrong
-                    console.error('axios error', err); // eslint-disable-line no-console
+                .catch(() => {
+                    this.props.handleDialogBox({
+                        alert: { text: `Неможливо з'єднатися. Перевірте підключення до інтернету`, color: '#ff9797' }
+                    });
                 });
         } else {
-            alert('Введіть телефон у форматі: +38хххххххххх');
+            this.props.handleDialogBox({
+                alert: { text: 'Введіть телефон у форматі: +38хххххххххх', color: '#ff9797' }
+            });
         }
     }
     handleDeleteAccount() {
@@ -183,12 +186,15 @@ export default class UserSettingPage extends React.Component {
                     if (dataBack.data.statusHelsiCode === '200') {
                         self.props.history.push('/');
                     } else {
-                        alert('Something goes wrong: ', dataBack.data.errorHelsiMsg);
+                        this.props.handleDialogBox({
+                            alert: { text: `Сталася помилка: ${dataBack.data.errorHelsiMsg}`, color: '#ff9797' }
+                        });
                     }
                 })
-                .catch(err => {
-                    // TODO tell user that something went wrong
-                    console.error('axios error', err); // eslint-disable-line no-console
+                .catch(() => {
+                    this.props.handleDialogBox({
+                        alert: { text: `Неможливо з'єднатися. Перевірте підключення до інтернету`, color: '#ff9797' }
+                    });
                 });
         }
     }

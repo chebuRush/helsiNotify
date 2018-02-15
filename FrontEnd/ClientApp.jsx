@@ -69,7 +69,10 @@ export default class App extends React.Component {
                                 path="/"
                                 render={props => <FirstPage {...props} handleDialogBox={this.handleDialogBox} />}
                             />
-                            <Route path={'/user/:uid/'} component={UserMainPage} />
+                            <Route
+                                path={'/user/:uid/'}
+                                render={props => <UserMainPage {...props} handleDialogBox={this.handleDialogBox} />}
+                            />
                         </Switch>
                     </div>
                 </div>
