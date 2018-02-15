@@ -23,7 +23,7 @@ function sendSms(tel, message) {
                 if (resp.data.code === 0) {
                     resolve();
                 } else {
-                    reject(new Error(`SMS failed: ${resp.data}`));
+                    reject(new Error(`SMS sending failed: ${resp.data}`));
                 }
             })
             .catch(e => reject(e.message));
@@ -53,7 +53,7 @@ function sendEmailAndSMS(uid, doclink) {
                         }
                     }
                 );
-                if (personalData.tel !== '') {
+                if (personalData.tel.indexOf('+38') === 0) {
                     sendSms(personalData.tel, `У лікаря ${doclink} є вільне місце! Забронюй`)
                         .then(() => resolve())
                         .catch(e => reject(e));
