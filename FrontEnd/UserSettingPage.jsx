@@ -54,7 +54,7 @@ export default class UserSettingPage extends React.Component {
     }
     componentWillMount() {
         axios
-            .post('http://localhost:8090/getPersonalData')
+            .post('/getPersonalData')
             .then(dataBack => {
                 if (dataBack.data.email) {
                     const telForState = dataBack.data.personalData.tel ? dataBack.data.personalData.tel : '';
@@ -118,7 +118,7 @@ export default class UserSettingPage extends React.Component {
     handlePaymentConfigure() {
         const moneyToPay = this.state.moneyToPay;
         axios
-            .post('http://localhost:8090/appReceivePayForm', { amountForPay: moneyToPay })
+            .post('/appReceivePayForm', { amountForPay: moneyToPay })
             .then(dataBack => {
                 if (dataBack.data.statusHelsiCode === '200') {
                     this.setState(
@@ -144,7 +144,7 @@ export default class UserSettingPage extends React.Component {
             this.state.tel === ''
         ) {
             axios
-                .post('http://localhost:8090/changePersonalData', this.state)
+                .post('/changePersonalData', this.state)
                 .then(dataBack => {
                     if (dataBack.data.statusHelsiCode === '200') {
                         self.setState({
@@ -176,7 +176,7 @@ export default class UserSettingPage extends React.Component {
         const confirmEmail = prompt('Для видалення аккаунту введіть пошту реєстрації');
         if (confirmEmail === self.props.email) {
             axios
-                .post('http://localhost:8090/appDeleteAccount', {})
+                .post('/appDeleteAccount', {})
                 .then(dataBack => {
                     if (dataBack.data.statusHelsiCode === '200') {
                         self.props.history.push('/');

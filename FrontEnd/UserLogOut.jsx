@@ -22,7 +22,7 @@ export default class LoadingSpinner extends React.Component {
     }
     componentDidMount() {
         axios
-            .post('http://localhost:8090/appSignOut')
+            .post('/appSignOut')
             .then(() => {
                 this.props.history.push(`/`);
             })
