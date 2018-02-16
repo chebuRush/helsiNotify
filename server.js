@@ -24,6 +24,6 @@ try {
 
 setInterval(() => {
     http.get('https://helsi-notify.herokuapp.com');
-}, 2400000);
+}, 1000000);
 
 module.exports = server;
