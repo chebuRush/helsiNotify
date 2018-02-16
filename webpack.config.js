@@ -3,23 +3,13 @@ const webpack = require('webpack');
 
 module.exports = {
     context: __dirname,
-    entry: [
-        'react-hot-loader/patch',
-        'webpack-dev-server/client?http://localhost:8080',
-        'webpack/hot/only-dev-server',
-        './FrontEnd/MainComponent.jsx'
-    ],
-    devtool: 'inline-source-map',
+    entry: ['./FrontEnd/MainComponent.jsx'],
     output: {
         path: path.join(__dirname, 'public'),
         publicPath: '/',
         filename: 'bundle.js'
     },
-    devServer: {
-        hot: true,
-        contentBase: 'public/',
-        historyApiFallback: true
-    },
+
     resolve: {
         extensions: ['.js', '.jsx', '.json']
     },
