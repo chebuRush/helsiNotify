@@ -22,7 +22,7 @@ function encodeFormPay(amountOfMoney, uid) {
         WMI_PAYMENT_NO: Math.round(Math.random() * Number.MAX_SAFE_INTEGER),
         WMI_DESCRIPTION: `BASE64:${new Buffer(`Payment for user ${uid} in Helsi-Notify`).toString('base64')}`,
         WMI_EXPIRED_DATE: getOneYearGap(new Date()),
-        WMI_PTENABLED: 'TestCardUSD',
+        WMI_PTENABLED: ['CreditCardUAH', 'Privat24UAH', 'WalletOneUAH'],
         WMI_SUCCESS_URL: `https://helsi-notify.tk/user/${uid}/settings`,
         WMI_FAIL_URL: `https://helsi-notify.tk/user/${uid}/settings`,
         TransactionUserId: uid
