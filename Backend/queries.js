@@ -42,12 +42,10 @@ function queries(app) {
                 .signInEmailPass(email, password)
                 .then(user => FireBase.DataBase.getData({ user }, `users/${user.uid}/doctors`, 'userDoctors'))
                 .then(data => {
-                    console.log(data);
                     const userWithStatusCode = Object.assign({}, data, { statusHelsiCode: '200' });
                     res.json(userWithStatusCode);
                 })
                 .catch(error => {
-                    console.log(error.message);
                     if (
                         error.message ===
                         'There is no user record corresponding to this identifier. The user may have been deleted.'

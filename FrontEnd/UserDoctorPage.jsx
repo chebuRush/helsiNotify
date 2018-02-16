@@ -132,16 +132,13 @@ export default class UserDoctorPage extends React.Component {
                                 axios
                                     .post('/deleteDoctor', { id, removeAnyway })
                                     .then(() => {
-                                        console.log('here3');
                                         this.props.changeDoctorState(newDoctorsArr);
                                     })
                                     .catch(e => {
                                         throw e;
                                     });
                             },
-                            chooseNo: () => {
-                                console.log('No pressed');
-                            }
+                            chooseNo: () => {}
                         }
                     });
                 }

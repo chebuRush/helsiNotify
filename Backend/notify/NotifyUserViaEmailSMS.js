@@ -49,7 +49,10 @@ function sendEmailAndSMS(uid, doclink) {
                     },
                     err => {
                         if (err) {
+                            console.error(err.message)
                             reject(err);
+                        } else {
+                            console.log('оповщение отправленно')
                         }
                     }
                 );
