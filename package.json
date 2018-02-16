@@ -27,6 +27,7 @@
     "firebase": "^4.8.2",
     "firebase-admin": "^5.8.0",
     "firebase-encode": "^0.0.5",
+    "heapdump": "^0.3.9",
     "iconv-lite": "^0.4.19",
     "jade": "^1.11.0",
     "morgan": "^1.9.0",
