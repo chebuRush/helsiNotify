@@ -29,15 +29,17 @@ export default class FirstPage extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            email: '',
+            password: '',
+            submitted: false
+        };
+
         this.handleInputValue = this.handleInputValue.bind(this);
         this.goPersonalPage = this.goPersonalPage.bind(this);
         this.handleForgotPassword = this.handleForgotPassword.bind(this);
     }
-    state = {
-        email: '',
-        password: '',
-        submitted: false
-    };
+
     handleInputValue(event) {
         switch (event.target.id) {
             case 'password': {
