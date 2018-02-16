@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PulseLoader } from 'react-spinners';
@@ -204,7 +205,6 @@ export default class UserSettingPage extends React.Component {
                             />
                             <label htmlFor="moneyToPay">&nbsp;грн</label>
                             <input type="button" value="Поповнити" onClick={this.handlePaymentConfigure} />
-                            // eslint-disable-next-line react/no-danger
                             <div dangerouslySetInnerHTML={{ __html: this.state.payForm }} />
                         </div>
                     </div>
