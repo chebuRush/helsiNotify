@@ -49,14 +49,12 @@ function sendEmailAndSMS(uid, doclink) {
                     },
                     err => {
                         if (err) {
-                            console.error(err.message)
+                            console.error(err.message);
                             reject(err);
-                        } else {
-                            console.log('оповщение отправленно')
                         }
                     }
                 );
-                if (personalData.tel.indexOf('+38') === 0) {
+                if (personalData.tel && personalData.tel.indexOf('+38') === 0) {
                     sendSms(personalData.tel, `У лікаря ${doclink} є вільне місце! Забронюй`)
                         .then(() => resolve())
                         .catch(e => reject(e));
