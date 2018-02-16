@@ -5,13 +5,22 @@ const busboy = require('express-busboy');
 const http = require('http');
 
 const app = express();
+const notifyRouter = busboy.extend(app);
 const port = process.env.PORT || 8080;
 
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(`${__dirname}/public`));
+function unless(path, middleware) {
+    return function inner(req, res, next) {
+        if (path === req.path) {
+            return next();
+        }
+        return middleware(req, res, next);
+    };
+}
 
-const notifyRouter = busboy.extend(app);
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(unless('/receivePaymentResultFromWalletOne', bodyParser.urlencoded({ extended: true })));
+app.use(express.static(`${__dirname}/public`));
+app.use('/receivePaymentResultFromWalletOne', notifyRouter);
 
 const server = http.createServer(app);
 server.listen(process.env.PORT || port);
