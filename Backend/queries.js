@@ -348,6 +348,7 @@ function queries(app, notifyRouter) {
             res.end('WMI_RESULT=RETRY&WMI_DESCRIPTION=Помилка на этапі перевірки даних');
         }
     });
+    app.use('/receivePaymentResultFromWalletOne', notifyRouter);
 }
 
 module.exports = queries;
