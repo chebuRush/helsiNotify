@@ -4,32 +4,7 @@ import { PulseLoader } from 'react-spinners';
 import axios from 'axios';
 
 export default class UserSettingPage extends React.Component {
-    static propTypes = {
-        handleDialogBox: PropTypes.func,
-        money: PropTypes.shape({
-            available: PropTypes.string,
-            freezed: PropTypes.string
-        }),
-        email: PropTypes.string,
-        tel: PropTypes.string,
-        history: PropTypes.shape({
-            push: PropTypes.func
-        }),
-        emailToNotify: PropTypes.string
-    };
-    static defaultProps = {
-        handleDialogBox() {},
-        money: PropTypes.shape({
-            available: '0',
-            freezed: '0'
-        }),
-        email: '',
-        tel: 'Відсутній',
-        history: {
-            push() {}
-        },
-        emailToNotify: ''
-    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -263,3 +238,30 @@ export default class UserSettingPage extends React.Component {
         );
     }
 }
+
+UserSettingPage.propTypes = {
+    handleDialogBox: PropTypes.func,
+    money: PropTypes.shape({
+        available: PropTypes.string,
+        freezed: PropTypes.string
+    }),
+    email: PropTypes.string,
+    tel: PropTypes.string,
+    history: PropTypes.shape({
+        push: PropTypes.func
+    }),
+    emailToNotify: PropTypes.string
+};
+UserSettingPage.defaultProps = {
+    handleDialogBox() {},
+    money: PropTypes.shape({
+        available: '0',
+        freezed: '0'
+    }),
+    email: '',
+    tel: 'Відсутній',
+    history: {
+        push() {}
+    },
+    emailToNotify: ''
+};

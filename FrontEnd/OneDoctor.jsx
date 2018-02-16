@@ -2,24 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class OneDoctor extends React.Component {
-    static propTypes = {
-        doctorLink: PropTypes.string,
-        handleDialogBox: PropTypes.func,
-        status: PropTypes.number,
-        dateFrom: PropTypes.string,
-        dateTo: PropTypes.string,
-        doctorIdForUser: PropTypes.string,
-        deleteDoctorNotification: PropTypes.func
-    };
-    static defaultProps = {
-        handleDialogBox() {},
-        doctorIdForUser: '',
-        status: 1,
-        doctorLink: '',
-        dateFrom: '',
-        dateTo: '',
-        deleteDoctorNotification() {}
-    };
     constructor(props) {
         super(props);
         this.state = {};
@@ -76,3 +58,22 @@ export default class OneDoctor extends React.Component {
         );
     }
 }
+
+OneDoctor.propTypes = {
+    doctorLink: PropTypes.string,
+    handleDialogBox: PropTypes.func,
+    status: PropTypes.number,
+    dateFrom: PropTypes.string,
+    dateTo: PropTypes.string,
+    doctorIdForUser: PropTypes.string,
+    deleteDoctorNotification: PropTypes.func
+};
+OneDoctor.defaultProps = {
+    handleDialogBox() {},
+    doctorIdForUser: '',
+    status: 1,
+    doctorLink: '',
+    dateFrom: '',
+    dateTo: '',
+    deleteDoctorNotification() {}
+};

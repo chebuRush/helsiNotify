@@ -8,18 +8,7 @@ export default class UserDoctorPage extends React.Component {
     static getCurrentDate() {
         return `${new Date().getFullYear()}-${new Date().getMonth() + 1 < 10 ? `0${new Date().getMonth() + 1}` : new Date().getMonth() + 1}-${new Date().getDate() < 10 ? `0${new Date().getDate()}` : new Date().getDate()}`;
     }
-    static propTypes = {
-        handleDialogBox: PropTypes.func,
-        doctorsArr: PropTypes.shape({}),
-        changeDoctorState: PropTypes.func,
-        ONE_DOCTOR_VISIT_COST: PropTypes.string
-    };
-    static defaultProps = {
-        handleDialogBox() {},
-        doctorsArr: {},
-        ONE_DOCTOR_VISIT_COST: '0',
-        changeDoctorState() {}
-    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -228,3 +217,16 @@ export default class UserDoctorPage extends React.Component {
         );
     }
 }
+
+UserDoctorPage.propTypes = {
+    handleDialogBox: PropTypes.func,
+    doctorsArr: PropTypes.shape({}),
+    changeDoctorState: PropTypes.func,
+    ONE_DOCTOR_VISIT_COST: PropTypes.string
+};
+UserDoctorPage.defaultProps = {
+    handleDialogBox() {},
+    doctorsArr: {},
+    ONE_DOCTOR_VISIT_COST: '0',
+    changeDoctorState() {}
+};

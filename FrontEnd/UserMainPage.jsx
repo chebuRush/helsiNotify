@@ -10,44 +10,6 @@ import UserDoctorPage from './UserDoctorPage';
 import UserLogOut from './UserLogOut';
 
 export default class UserMainPage extends React.Component {
-    static propTypes = {
-        handleDialogBox: PropTypes.func,
-        history: PropTypes.shape({
-            push: PropTypes.func
-        }),
-        location: PropTypes.shape({
-            state: PropTypes.shape({
-                email: PropTypes.string,
-                emailVerified: PropTypes.bool,
-                userDoctors: PropTypes.object,
-                ONE_DOCTOR_VISIT_COST: PropTypes.string
-            })
-        }),
-        match: PropTypes.shape({
-            params: PropTypes.shape({
-                uid: PropTypes.string
-            })
-        })
-    };
-    static defaultProps = {
-        handleDialogBox() {},
-        history: PropTypes.shape({
-            push() {}
-        }),
-        location: PropTypes.shape({
-            state: {
-                email: '',
-                emailVerified: false,
-                userDoctors: {},
-                ONE_DOCTOR_VISIT_COST: '0'
-            }
-        }),
-        match: PropTypes.shape({
-            params: {
-                uid: ''
-            }
-        })
-    };
     constructor(props) {
         super(props);
         if (this.props.location.state) {
@@ -160,3 +122,43 @@ export default class UserMainPage extends React.Component {
         );
     }
 }
+
+UserMainPage.propTypes = {
+    handleDialogBox: PropTypes.func,
+    history: PropTypes.shape({
+        push: PropTypes.func
+    }),
+    location: PropTypes.shape({
+        state: PropTypes.shape({
+            email: PropTypes.string,
+            emailVerified: PropTypes.bool,
+            userDoctors: PropTypes.object,
+            ONE_DOCTOR_VISIT_COST: PropTypes.string
+        })
+    }),
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            uid: PropTypes.string
+        })
+    })
+};
+
+UserMainPage.defaultProps = {
+    handleDialogBox() {},
+    history: PropTypes.shape({
+        push() {}
+    }),
+    location: PropTypes.shape({
+        state: {
+            email: '',
+            emailVerified: false,
+            userDoctors: {},
+            ONE_DOCTOR_VISIT_COST: '0'
+        }
+    }),
+    match: PropTypes.shape({
+        params: {
+            uid: ''
+        }
+    })
+};

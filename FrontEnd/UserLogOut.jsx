@@ -4,16 +4,6 @@ import { PulseLoader } from 'react-spinners';
 import PropTypes from 'prop-types';
 
 export default class LoadingSpinner extends React.Component {
-    static propTypes = {
-        history: PropTypes.shape({
-            push: PropTypes.func
-        })
-    };
-    static defaultProps = {
-        history: PropTypes.shape({
-            push() {}
-        })
-    };
     constructor(props) {
         super(props);
         this.state = {
@@ -39,3 +29,14 @@ export default class LoadingSpinner extends React.Component {
         );
     }
 }
+
+LoadingSpinner.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func
+    })
+};
+LoadingSpinner.defaultProps = {
+    history: PropTypes.shape({
+        push() {}
+    })
+};

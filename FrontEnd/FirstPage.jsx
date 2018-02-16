@@ -26,12 +26,6 @@ const Subtitle = styled.h2`
 `;
 
 export default class FirstPage extends React.Component {
-    static propTypes = {
-        handleDialogBox: PropTypes.func
-    };
-    static defaultProps = {
-        handleDialogBox() {}
-    };
     constructor(props) {
         super(props);
 
@@ -160,3 +154,10 @@ export default class FirstPage extends React.Component {
         );
     }
 }
+
+FirstPage.propTypes = {
+    handleDialogBox: PropTypes.func
+};
+FirstPage.defaultProps = {
+    handleDialogBox() {}
+};
