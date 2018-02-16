@@ -8,8 +8,6 @@ import UserMainPage from './UserMainPage';
 import Alert from './dialogBoxes/alert';
 import Confirm from './dialogBoxes/confirm';
 
-const browserHistory = createBrowserHistory();
-
 export default class App extends React.Component {
     static updateLocalStorage(key, value) {
         localStorage.setItem(key, JSON.stringify(value));
@@ -90,6 +88,7 @@ export default class App extends React.Component {
                 dialogBox = '';
             }
         }
+        const browserHistory = createBrowserHistory();
         return (
             <Router history={browserHistory}>
                 <div>
