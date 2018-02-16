@@ -307,7 +307,7 @@ function queries(app) {
                 .then(() => responses.sendOK(res))
                 .catch(e => {
                     if (e.message === `Can't delete without losing money`)
-                        responses.forbidden(res, 'Видаляючи більш ніж через годину гроші повернені не будуть');
+                        responses.forbidden(res, 'Видаляючи більш ніж через 1 годину - гроші повернені не будуть');
                 });
         } else {
             responses.wrongParams(res);

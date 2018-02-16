@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import FirstPage from './FirstPage';
 import UserMainPage from './UserMainPage';
@@ -88,9 +87,8 @@ export default class App extends React.Component {
                 dialogBox = '';
             }
         }
-        const browserHistory = createBrowserHistory();
         return (
-            <Router history={browserHistory}>
+            <BrowserRouter>
                 <div>
                     {dialogBox}
                     <div className="main_wrap">
@@ -107,7 +105,7 @@ export default class App extends React.Component {
                         </Switch>
                     </div>
                 </div>
-            </Router>
+            </BrowserRouter>
         );
     }
 }
