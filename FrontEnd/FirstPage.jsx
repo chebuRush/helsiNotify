@@ -68,7 +68,7 @@ export default class FirstPage extends React.Component {
                 submitted: true
             });
             axios
-                .post('/appForgetPassword', { email })
+                .post('http://localhost:8090/appForgetPassword', { email })
                 .then(res => {
                     if (res.data.statusHelsiCode === '200') this.setState({ submitted: false });
                 })
@@ -93,7 +93,7 @@ export default class FirstPage extends React.Component {
             }
         );
         axios
-            .post('/appSignIn', this.state)
+            .post('http://localhost:8090/appSignIn', this.state)
             .then(res => {
                 if (res.data.statusHelsiCode === '200') {
                     // eslint-disable-next-line react/prop-types

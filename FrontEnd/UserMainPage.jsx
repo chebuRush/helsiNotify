@@ -71,7 +71,7 @@ export default class UserMainPage extends React.Component {
     }
     componentWillMount() {
         axios
-            .post('/getNotifications')
+            .post('http://localhost:8090/getNotifications')
             .then(dataBack => {
                 if (dataBack.data.email) {
                     this.setState({

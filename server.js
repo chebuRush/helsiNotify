@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
+const notify = require('./Backend/notify');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -14,4 +15,9 @@ server.listen(process.env.PORT || port);
 
 require('./Backend/queries')(app);
 
+try{
+    notify()
+}catch (e){
+    console.error('server notify Error')
+}
 module.exports = server;

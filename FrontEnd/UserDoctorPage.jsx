@@ -82,7 +82,7 @@ export default class UserDoctorPage extends React.Component {
                                 }
                             );
                             axios
-                                .post('/addDoctor', objToSend)
+                                .post('http://localhost:8090/addDoctor', objToSend)
                                 .then(dataBack => {
                                     if (dataBack.data.statusHelsiCode !== '200') {
                                         this.props.handleDialogBox({
@@ -129,7 +129,7 @@ export default class UserDoctorPage extends React.Component {
         const newDoctorsArr = Object.assign({}, this.props.doctorsArr);
         delete newDoctorsArr[id];
         axios
-            .post('/deleteDoctor', { id })
+            .post('http://localhost:8090/deleteDoctor', { id })
             .then(dataBack => {
                 if (dataBack.data.statusHelsiCode === '200') {
                     this.props.changeDoctorState(newDoctorsArr);
@@ -141,7 +141,7 @@ export default class UserDoctorPage extends React.Component {
                             chooseYes: () => {
                                 const removeAnyway = true;
                                 axios
-                                    .post('/deleteDoctor', { id, removeAnyway })
+                                    .post('http://localhost:8090/deleteDoctor', { id, removeAnyway })
                                     .then(() => {
                                         console.log('here3');
                                         this.props.changeDoctorState(newDoctorsArr);
