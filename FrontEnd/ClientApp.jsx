@@ -1,10 +1,14 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+
 import FirstPage from './FirstPage';
 import UserMainPage from './UserMainPage';
 
 import Alert from './dialogBoxes/alert';
 import Confirm from './dialogBoxes/confirm';
+
+const browserHistory = createBrowserHistory();
 
 export default class App extends React.Component {
     static updateLocalStorage(key, value) {
@@ -87,7 +91,7 @@ export default class App extends React.Component {
             }
         }
         return (
-            <BrowserRouter>
+            <Router history={browserHistory}>
                 <div>
                     {dialogBox}
                     <div className="main_wrap">
@@ -104,7 +108,7 @@ export default class App extends React.Component {
                         </Switch>
                     </div>
                 </div>
-            </BrowserRouter>
+            </Router>
         );
     }
 }
