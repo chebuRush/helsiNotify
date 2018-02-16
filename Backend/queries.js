@@ -246,7 +246,7 @@ function queries(app) {
                 .getData({}, `users/${uid}/doctors/${doctorIdForUser}`, 'doc')
                 .then(data => {
                     // "2018-02-07T22:45:06%2E962Z"
-                    if (new Date() - Date.parse(data.doc.timeStamp) < 1000 * 60 * 60) {
+                    if (new Date() - Date.parse(data.doc.timeStamp) < 1000 * 60 * 60 || data.doc.statuc === 2) {
                         Promise.all([
                             FireBase.DataBase.deleteData(`users/${uid}/doctors/${doctorIdForUser}`),
                             FireBase.DataBase
