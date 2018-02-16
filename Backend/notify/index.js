@@ -25,6 +25,10 @@ async function WorkWithSeparateDoctor(doc, theArray) {
     }
 }
 
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function main() {
     const instance = await phantom.create(['--ignore-ssl-errors=yes', '--load-images=no']);
     const doc = await instance.createPage();
@@ -34,9 +38,7 @@ async function main() {
             return WorkWithSeparateDoctor(doc, Object.keys(docList))
                 .then(async () => {
                     docList = await getDoctorsListFromDB();
-                    if (!docList) {
-                        setTimeout(() => {}, 600000);
-                    }
+                    await timeout(50000);
                 })
                 .then(resolver);
         })
