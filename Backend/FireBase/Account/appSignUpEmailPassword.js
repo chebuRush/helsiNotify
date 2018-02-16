@@ -5,11 +5,9 @@ function appSignUpEmailPass(firebase, email, password) {
             .createUserWithEmailAndPassword(email, password)
             .then(userData => {
                 firebase.auth().onAuthStateChanged(user => {
-                    if (user !== null) {
+                    if (user !== null && user.emailVerified === false) {
                         user.sendEmailVerification();
                         resolve(userData);
-                    } else {
-                        reject(new Error('user is null in appSignUpEmailPassword'));
                     }
                 });
             })
