@@ -17,10 +17,8 @@ function unless(path, middleware) {
     };
 }
 
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(unless('/receivePaymentResultFromWalletOne', bodyParser.urlencoded({ extended: true })));
+app.use(notifyRouter);
 app.use(express.static(`${__dirname}/public`));
-app.use('/receivePaymentResultFromWalletOne', notifyRouter);
 
 const server = http.createServer(app);
 server.listen(process.env.PORT || port);

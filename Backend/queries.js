@@ -321,7 +321,7 @@ function queries(app, notifyRouter) {
         }
     });
 
-    notifyRouter.post('/receivePaymentResultFromWalletOne', (req, res) => {
+    app.post('/receivePaymentResultFromWalletOne', (req, res) => {
         console.log('here');
         const { WMI_PAYMENT_AMOUNT, WMI_ORDER_STATE, WMI_SIGNATURE, TransactionUserId } = req.body;
         if (
