@@ -4,7 +4,6 @@ import { PulseLoader } from 'react-spinners';
 import axios from 'axios';
 
 export default class UserSettingPage extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -205,6 +204,7 @@ export default class UserSettingPage extends React.Component {
                             />
                             <label htmlFor="moneyToPay">&nbsp;грн</label>
                             <input type="button" value="Поповнити" onClick={this.handlePaymentConfigure} />
+                            // eslint-disable-next-line react/no-danger
                             <div dangerouslySetInnerHTML={{ __html: this.state.payForm }} />
                         </div>
                     </div>

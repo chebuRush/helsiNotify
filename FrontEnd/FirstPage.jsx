@@ -122,6 +122,7 @@ export default class FirstPage extends React.Component {
             ? <Spinner />
             : <div className="submitButtonBlock">
                   <input id="clickSubmit" type="submit" value="Спробувати" />
+                  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                   <div className="forgotPassword" onClick={this.handleForgotPassword}>Забув пароль?</div>
               </div>;
         return (
