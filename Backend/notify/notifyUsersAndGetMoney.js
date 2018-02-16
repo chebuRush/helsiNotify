@@ -33,22 +33,28 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
             .then(data => {
                 const neededKey = Object.keys(data.userDoctors).filter(
                     key => data.userDoctors[key].doctorLink === link && data.userDoctors[key].status === 1
-                )[0];
-                let fittedDataIndex = -1;
-                for (let i = arrayOfDates.length; i >= 0; i -= 1) {
-                    if (
-                        data.userDoctors[neededKey].dateFrom < arrayOfDates[i] &&
-                        arrayOfDates[i] < data.userDoctors[neededKey].dateTo
-                    ) {
-                        fittedDataIndex = i;
-                        break;
+                );
+                const neededKeyFirstElem = neededKey[0];
+                if (neededKey.length) {
+                    let fittedDataIndex = -1;
+                    for (let i = arrayOfDates.length; i >= 0; i -= 1) {
+                        if (
+                            data.userDoctors[neededKeyFirstElem].dateFrom < arrayOfDates[i] &&
+                            arrayOfDates[i] < data.userDoctors[neededKeyFirstElem].dateTo
+                        ) {
+                            fittedDataIndex = i;
+                            break;
+                        }
                     }
-                }
-                if (fittedDataIndex !== -1) {
-                    arrayOfDates.splice(fittedDataIndex, 1);
-                    Promise.all([notifyUser(uid, link), sweepDBAndGetMoney(uid, link, neededKey, keyForDoctorList)]);
-                } else {
-                    resolve('Not Found');
+                    if (fittedDataIndex !== -1) {
+                        arrayOfDates.splice(fittedDataIndex, 1);
+                        Promise.all([
+                            notifyUser(uid, link),
+                            sweepDBAndGetMoney(uid, link, neededKeyFirstElem, keyForDoctorList)
+                        ]);
+                    } else {
+                        resolve('Not Found');
+                    }
                 }
             })
             .then(() => {
