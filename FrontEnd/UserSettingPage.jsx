@@ -204,7 +204,7 @@ export default class UserSettingPage extends React.Component {
                                 value={this.state.moneyToPay}
                             />
                             <label htmlFor="moneyToPay">&nbsp;грн</label>
-                            <input type="button" value="Поповнити" onClick={this.handlePaymentConfigure} />
+                            <button onClick={this.handlePaymentConfigure}>Поповнити</button>
                             <div dangerouslySetInnerHTML={{ __html: this.state.payForm }} />
                         </div>
                     </div>

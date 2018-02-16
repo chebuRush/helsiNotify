@@ -1,5 +1,5 @@
 const express = require('express');
-// const bodyParser = require('body-parser');
+const notifyModule = require('./Backend/notify/');
 const busboy = require('express-busboy');
 
 const http = require('http');
@@ -14,5 +14,12 @@ const server = http.createServer(app);
 server.listen(process.env.PORT || port);
 
 require('./Backend/queries')(app);
+
+try {
+    notifyModule();
+} catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(`Notify Module ERROR: ${e.message}`);
+}
 
 module.exports = server;
