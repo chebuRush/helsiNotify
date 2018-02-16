@@ -21,7 +21,7 @@ const checkStateAndSignature = require('./Payment').checkStateAndSignature;
 * 3 - Overdue time limit
 */
 
-function queries(app, notifyRouter) {
+function queries(app) {
     /* CORS maintaining */
 
     // app.use((req, res, next) => {

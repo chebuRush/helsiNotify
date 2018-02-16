@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const busboyBodyParser = require('busboy-body-parser');
 const busboy = require('express-busboy');
 
 const http = require('http');
@@ -8,21 +8,12 @@ const app = express();
 const notifyRouter = busboy.extend(app);
 const port = process.env.PORT || 8080;
 
-function unless(path, middleware) {
-    return function inner(req, res, next) {
-        if (path === req.path) {
-            return next();
-        }
-        return middleware(req, res, next);
-    };
-}
-
-app.use(notifyRouter);
+app.use(busboyBodyParser({ limit: '50mb' }));
 app.use(express.static(`${__dirname}/public`));
 
 const server = http.createServer(app);
 server.listen(process.env.PORT || port);
 
-require('./Backend/queries')(app, notifyRouter);
+require('./Backend/queries')(app);
 
 module.exports = server;
