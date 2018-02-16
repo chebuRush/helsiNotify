@@ -263,18 +263,22 @@ function queries(app) {
                                         );
                                     }
                                     return FireBase.DataBase.deleteData('doctorList', data.doc.doctorLink, deleteId[0]);
-                                }),
-                            FireBase.DataBase.updateSensitiveData(uid, money => {
-                                if (money) {
-                                    return {
-                                        available: +money.available + +ONE_DOCTOR_VISIT_COST,
-                                        freezed: +money.freezed - ONE_DOCTOR_VISIT_COST,
-                                        used: +money.used
-                                    };
-                                }
-                                return null;
-                            })
+                                })
                         ]);
+                        if (data.doc.status === 1) {
+                            Promise.resolve(
+                                FireBase.DataBase.updateSensitiveData(uid, money => {
+                                    if (money) {
+                                        return {
+                                            available: +money.available + +ONE_DOCTOR_VISIT_COST,
+                                            freezed: +money.freezed - ONE_DOCTOR_VISIT_COST,
+                                            used: +money.used
+                                        };
+                                    }
+                                    return null;
+                                })
+                            );
+                        }
                     } else if (removeAnyway) {
                         Promise.all([
                             FireBase.DataBase.deleteData(`users/${uid}/doctors/${doctorIdForUser}`),
