@@ -34,10 +34,11 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
                 const neededKey = Object.keys(data.userDoctors).filter(
                     key => data.userDoctors[key].doctorLink === link && data.userDoctors[key].status === 1
                 )[0];
+                console.log('neededKey', neededKey);
+                console.log('2', data.userDoctors[neededKey]);
                 let fittedDataIndex = -1;
                 for (let i = arrayOfDates.length; i >= 0; i -= 1) {
                     console.log(data);
-
                     if (
                         data.userDoctors[neededKey].dateFrom < arrayOfDates[i] &&
                         arrayOfDates[i] < data.userDoctors[neededKey].dateTo
