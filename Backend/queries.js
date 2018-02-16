@@ -46,6 +46,7 @@ function queries(app) {
                     res.json(userWithStatusCode);
                 })
                 .catch(error => {
+                    console.log(error.message);
                     if (
                         error.message ===
                         'There is no user record corresponding to this identifier. The user may have been deleted.'
