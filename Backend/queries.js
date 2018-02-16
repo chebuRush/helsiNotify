@@ -348,7 +348,6 @@ function queries(app, notifyRouter) {
         }
     });
 
-    app.use('/receivePaymentResultFromWalletOne', notifyRouter);
 }
 
 module.exports = queries;
