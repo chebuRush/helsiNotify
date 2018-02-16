@@ -322,7 +322,6 @@ function queries(app) {
     });
 
     app.post('/receivePaymentResultFromWalletOne', (req, res) => {
-        console.log('here');
         const { WMI_PAYMENT_AMOUNT, WMI_ORDER_STATE, WMI_SIGNATURE, TransactionUserId } = req.body;
         if (
             WMI_PAYMENT_AMOUNT &&
