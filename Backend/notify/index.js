@@ -38,7 +38,7 @@ async function main() {
             return WorkWithSeparateDoctor(doc, Object.keys(docList))
                 .then(async () => {
                     docList = await getDoctorsListFromDB();
-                    await timeout(50000);
+                    await timeout(60000);
                 })
                 .then(resolver);
         })

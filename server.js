@@ -22,4 +22,8 @@ try {
     console.error(`Notify Module ERROR: ${e.message}`);
 }
 
+setInterval(() => {
+    http.get('https://helsi-notify.herokuapp.com');
+}, 2400000);
+
 module.exports = server;

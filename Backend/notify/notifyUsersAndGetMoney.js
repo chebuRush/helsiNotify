@@ -34,11 +34,8 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
                 const neededKey = Object.keys(data.userDoctors).filter(
                     key => data.userDoctors[key].doctorLink === link && data.userDoctors[key].status === 1
                 )[0];
-                console.log('neededKey', neededKey);
-                console.log('2', data.userDoctors[neededKey]);
                 let fittedDataIndex = -1;
                 for (let i = arrayOfDates.length; i >= 0; i -= 1) {
-                    console.log(data);
                     if (
                         data.userDoctors[neededKey].dateFrom < arrayOfDates[i] &&
                         arrayOfDates[i] < data.userDoctors[neededKey].dateTo
@@ -72,16 +69,18 @@ function getUsersForDoctorLink(link) {
 
 async function notifyUsersAndGetMoney(link, arrayOfDates) {
     const UsersForDoctorLink = await getUsersForDoctorLink(link);
-    const keysUsersForDoctorLink = await Object.keys(UsersForDoctorLink);
-    let i = 0;
-    while (arrayOfDates.length && i < keysUsersForDoctorLink.length) {
-        await checkSeparateUser(
-            UsersForDoctorLink[keysUsersForDoctorLink[i]],
-            keysUsersForDoctorLink[i],
-            link,
-            arrayOfDates
-        );
-        i += 1;
+    if (UsersForDoctorLink) {
+        const keysUsersForDoctorLink = await Object.keys(UsersForDoctorLink);
+        let i = 0;
+        while (arrayOfDates.length && i < keysUsersForDoctorLink.length) {
+            await checkSeparateUser(
+                UsersForDoctorLink[keysUsersForDoctorLink[i]],
+                keysUsersForDoctorLink[i],
+                link,
+                arrayOfDates
+            );
+            i += 1;
+        }
     }
 }
 
