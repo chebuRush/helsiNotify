@@ -14,8 +14,10 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.html$/,
-                loader: 'file-loader?name=[name].[ext]'
+                enforce: 'pre',
+                test: /\.jsx?$/,
+                loader: 'eslint-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.jsx?$/,
