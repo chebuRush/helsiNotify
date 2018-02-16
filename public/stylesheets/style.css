@@ -352,6 +352,12 @@ input[type=submit]:hover{
   font-size:2vmin;
   padding:1.5vh 1vw;
 }
+.PaymentBox input[type="submit"]{
+  margin: 0 0 0 1.5vw;
+  width: 8vw;
+  font-size: 2.8vmin;
+  padding: 1vh 0;
+}
 .SaveChangesButtonWrapper{
   visibility: hidden;
   opacity: 0;
