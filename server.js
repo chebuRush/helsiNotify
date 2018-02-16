@@ -6,6 +6,7 @@ const http = require('http');
 
 const app = express();
 const notifyRouter = busboy.extend(app);
+app.use('/receivePaymentResultFromWalletOne', notifyRouter);
 const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json({ limit: '50mb' }));
