@@ -1,5 +1,7 @@
 const config = require('config');
 const path = require('path');
+const iconv = require('iconv-lite');
+
 const FireBase = require('./FireBase');
 const cleanDBRemovingUsers = require('./FireBase/DataBase/cleanDbRemovingUser');
 const responses = require('./Responses/response');
@@ -321,7 +323,9 @@ function queries(app) {
     });
 
     // TODO insert Path to walletOne
-    app.post('/receivePaymentResultFromWalletOne' , (req, res) => {
+    app.post('/receivePaymentResultFromWalletOne', (req, res) => {
+        const conv = new iconv.Iconv('windows-1251', 'utf8');
+        req.body = conv.convert(new Buffer(req.body, 'binary')).toString();
         const { WMI_PAYMENT_AMOUNT, WMI_ORDER_STATE, WMI_SIGNATURE, TransactionUserId } = req.body;
         if (
             WMI_PAYMENT_AMOUNT &&
