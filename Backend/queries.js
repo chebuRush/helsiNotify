@@ -42,6 +42,7 @@ function queries(app) {
                 .signInEmailPass(email, password)
                 .then(user => FireBase.DataBase.getData({ user }, `users/${user.uid}/doctors`, 'userDoctors'))
                 .then(data => {
+                    console.log(data);
                     const userWithStatusCode = Object.assign({}, data, { statusHelsiCode: '200' });
                     res.json(userWithStatusCode);
                 })

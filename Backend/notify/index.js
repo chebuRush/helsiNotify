@@ -34,13 +34,15 @@ async function main() {
     const doc = await instance.createPage();
     let docList = await getDoctorsListFromDB();
     Promise.resolve()
-        .then(function resolver() {
-            return WorkWithSeparateDoctor(doc, Object.keys(docList))
-                .then(async () => {
-                    docList = await getDoctorsListFromDB();
-                    await timeout(60000);
-                })
-                .then(resolver);
+        .then(async function resolver() {
+            return docList
+                ? WorkWithSeparateDoctor(doc, Object.keys(docList))
+                : timeout(60000)
+                      .then(async () => {
+                          docList = await getDoctorsListFromDB();
+                          await timeout(60000);
+                      })
+                      .then(resolver);
         })
         .catch(async e => {
             console.error(e);
