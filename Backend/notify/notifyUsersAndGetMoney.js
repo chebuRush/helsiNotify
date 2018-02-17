@@ -38,7 +38,10 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
             .then(data => {
                 // eslint-disable-next-line array-callback-return
                 Object.keys(data.userDoctors).map(key => {
-                    if (data.userDoctors[key].dateTo < getDateInFormat(new Date())) {
+                    if (
+                        data.userDoctors[key].dateTo < getDateInFormat(new Date()) &&
+                        data.userDoctors[key].status === 1
+                    ) {
                         updateStatusTo3AndReturnMoney(uid, key);
                     }
                 });
