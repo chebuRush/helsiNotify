@@ -101,13 +101,4 @@ async function notifyUsersAndGetMoney(link, arrayOfDates) {
     }
 }
 
-function test(uid, keyForDoctorList, link, arrayOfDates) {
-    return new Promise((resolve, reject) => {
-        Firebase.DataBase
-            .getData({}, `users/${uid}/doctors`, 'userDoctors')
-            .then(data => {})
-            .catch(e => console.error(e.message));
-    });
-}
-test('tZJmII6cltbhI74eJebXi3e3FX82');
 module.exports = notifyUsersAndGetMoney;
