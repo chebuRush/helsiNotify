@@ -2,7 +2,7 @@ const express = require('express');
 const notifyModule = require('./Backend/notify/');
 const busboy = require('express-busboy');
 
-const http = require('http');
+const https = require('https');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -10,7 +10,7 @@ const port = process.env.PORT || 8080;
 app.use(express.static(`${__dirname}/public`));
 busboy.extend(app);
 
-const server = http.createServer(app);
+const server = https.createServer(app);
 server.listen(process.env.PORT || port);
 
 require('./Backend/queries')(app);
@@ -23,7 +23,7 @@ try {
 }
 
 setInterval(() => {
-    http.get('https://helsi-notify.herokuapp.com');
+    https.get('https://helsi-notify.herokuapp.com');
 }, 1000000);
 
 module.exports = server;
