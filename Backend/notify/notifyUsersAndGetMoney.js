@@ -1,8 +1,13 @@
 const Firebase = require('./../FireBase');
 const notifyUser = require('./NotifyUserViaEmailSMS');
+const updateStatusTo3AndReturnMoney = require('./updateStatusTo3AndReturnMoney');
 const config = require('config');
 
 const ONE_DOCTOR_VISIT_COST = config.get('ONE_DOCTOR_VISIT_COST');
+
+function getDateInFormat(dt) {
+    return `${dt.getFullYear()}-${dt.getMonth() + 1 < 10 ? `0${dt.getMonth() + 1}` : dt.getMonth() + 1}-${dt.getDate() < 10 ? `0${dt.getDate()}` : dt.getDate()}`;
+}
 
 function sweepDBAndGetMoney(uid, link, keyForUsersDoctor, keyForDoctorList) {
     return new Promise((resolve, reject) =>
@@ -31,6 +36,12 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
         Firebase.DataBase
             .getData({}, `users/${uid}/doctors`, 'userDoctors')
             .then(data => {
+                // eslint-disable-next-line array-callback-return
+                Object.keys(data.userDoctors).map(key => {
+                    if (data.userDoctors[key].dateTo < getDateInFormat(new Date())) {
+                        updateStatusTo3AndReturnMoney(uid, key);
+                    }
+                });
                 const neededKey = Object.keys(data.userDoctors).filter(
                     key => data.userDoctors[key].doctorLink === link && data.userDoctors[key].status === 1
                 );
@@ -90,4 +101,13 @@ async function notifyUsersAndGetMoney(link, arrayOfDates) {
     }
 }
 
+function test(uid, keyForDoctorList, link, arrayOfDates) {
+    return new Promise((resolve, reject) => {
+        Firebase.DataBase
+            .getData({}, `users/${uid}/doctors`, 'userDoctors')
+            .then(data => {})
+            .catch(e => console.error(e.message));
+    });
+}
+test('tZJmII6cltbhI74eJebXi3e3FX82');
 module.exports = notifyUsersAndGetMoney;
