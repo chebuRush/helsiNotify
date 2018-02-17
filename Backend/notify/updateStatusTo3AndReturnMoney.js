@@ -10,8 +10,8 @@ function updateStatus3ReturnMoney(uid, key) {
             Firebase.DataBase.updateSensitiveData(uid, money => {
                 if (money !== null) {
                     return {
-                        available: +money.available + ONE_DOCTOR_VISIT_COST,
-                        freezed: +money.freezed - ONE_DOCTOR_VISIT_COST,
+                        available: +money.available + +ONE_DOCTOR_VISIT_COST,
+                        freezed: +money.freezed - +ONE_DOCTOR_VISIT_COST,
                         used: +money.used
                     };
                 }
