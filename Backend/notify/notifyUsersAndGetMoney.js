@@ -42,7 +42,7 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
                         data.userDoctors[key].dateTo < getDateInFormat(new Date()) &&
                         data.userDoctors[key].status === 1
                     ) {
-                        updateStatusTo3AndReturnMoney(uid, key);
+                        Promise.resolve(updateStatusTo3AndReturnMoney(uid, key));
                     }
                 });
                 const neededKey = Object.keys(data.userDoctors).filter(
