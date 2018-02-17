@@ -1,8 +1,8 @@
 const express = require('express');
 const notifyModule = require('./Backend/notify/');
 const busboy = require('express-busboy');
-
 const https = require('https');
+const http = require('http');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -10,7 +10,7 @@ const port = process.env.PORT || 8080;
 app.use(express.static(`${__dirname}/public`));
 busboy.extend(app);
 
-const server = https.createServer(app);
+const server = http.createServer(app);
 server.listen(process.env.PORT || port);
 
 require('./Backend/queries')(app);
