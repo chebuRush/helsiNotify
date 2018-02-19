@@ -12,7 +12,7 @@ async function visitDoctor(doc, link) {
     }
     let hd = new memwatch.HeapDiff();
     await doc.open(link);
-    let data = hp.end();
+    let data = hd.end();
     console.log('docOpen HeapDiff\n\n', data);
     let dt = new Date();
     await timeout(1000);
