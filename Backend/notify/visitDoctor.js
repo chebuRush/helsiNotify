@@ -1,4 +1,5 @@
 
+const memwatch = require('memwatch-next');
 
 async function visitDoctor(doc, link) {
 
@@ -9,8 +10,10 @@ async function visitDoctor(doc, link) {
     function getDateInFormat(dt) {
         return `${dt.getFullYear()}-${dt.getMonth() + 1 < 10 ? `0${dt.getMonth() + 1}` : dt.getMonth() + 1}-${dt.getDate() < 10 ? `0${dt.getDate()}` : dt.getDate()}`;
     }
-
+    let hd = new memwatch.HeapDiff();
     await doc.open(link);
+    let data = hp.end();
+    console.log('docOpen HeapDiff\n\n', data);
     let dt = new Date();
     await timeout(1000);
     let html = await doc.property('content');
@@ -27,7 +30,7 @@ async function visitDoctor(doc, link) {
         dt.setDate(dt.getDate() + 1);
     });
     await doc.clearCookies();
-    
+
     return schedulePlaces;
 }
 
