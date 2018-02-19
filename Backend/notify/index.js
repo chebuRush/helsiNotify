@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 const getDoctorsListFromDB = require('./getDoctorsListFromDB');
 const visitDoctorPage = require('./visitDoctor').visitDoctor;
 const checkAvailability = require('./visitDoctor').checkAvailability;
@@ -31,30 +30,21 @@ function timeout(ms) {
 }
 
 async function main() {
-    let instance = await phantom.create(['--ignore-ssl-errors=yes', '--load-images=no', '--disk-cache=no']);
-    let iter = 0;
-    let doc = await instance.createPage();
+    const instance = await phantom.create([
+        '--ignore-ssl-errors=yes',
+        '--load-images=no',
+        '--disk-cache=no',
+        '--max-disk-cache-size=1000'
+    ]);
+    const doc = await instance.createPage();
     let docList = await getDoctorsListFromDB();
     Promise.resolve()
         .then(async function resolver() {
             if (docList) {
                 return WorkWithSeparateDoctor(doc, Object.keys(docList))
                     .then(async () => {
-                        iter += 1;
                         docList = await getDoctorsListFromDB();
-                        if (iter >= 10) {
-                            await instance.exit();
-                            instance = await phantom.create([
-                                '--ignore-ssl-errors=yes',
-                                '--load-images=no',
-                                '--disk-cache=no'
-                            ]);
-                            doc = await instance.createPage();
-                            iter = 0;
-                            await timeout(40000);
-                        } else {
-                            await timeout(60000);
-                        }
+                        await timeout(60000);
                     })
                     .then(resolver);
             }

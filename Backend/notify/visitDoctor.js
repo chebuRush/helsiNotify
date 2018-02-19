@@ -30,7 +30,8 @@ async function visitDoctor(doc, link) {
         dt.setDate(dt.getDate() + 1);
     });
     await doc.clearCookies();
-
+    await doc.close();
+    
     return schedulePlaces;
 }
 
