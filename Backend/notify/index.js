@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 const getDoctorsListFromDB = require('./getDoctorsListFromDB');
 const visitDoctorPage = require('./visitDoctor').visitDoctor;
 const checkAvailability = require('./visitDoctor').checkAvailability;
