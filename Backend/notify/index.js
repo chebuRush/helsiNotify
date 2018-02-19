@@ -15,6 +15,7 @@ async function WorkWithSeparateDoctor(doc, listOfDoctors) {
                 deleteUnvalidLink(listOfDoctors[i]);
             } else {
                 console.error(e.message);
+                я;
                 throw e;
             }
         }
@@ -30,21 +31,36 @@ function timeout(ms) {
 }
 
 async function main() {
-    const instance = await phantom.create([
+    let instance = await phantom.create([
         '--ignore-ssl-errors=yes',
         '--load-images=no',
         '--disk-cache=no',
         '--max-disk-cache-size=1000'
     ]);
-    const doc = await instance.createPage();
+    let i = 0;
+    let doc = await instance.createPage();
     let docList = await getDoctorsListFromDB();
     Promise.resolve()
         .then(async function resolver() {
             if (docList) {
                 return WorkWithSeparateDoctor(doc, Object.keys(docList))
                     .then(async () => {
+                        i += 1;
                         docList = await getDoctorsListFromDB();
-                        await timeout(60000);
+                        if (i >= 10) {
+                            await instance.exit();
+                            instance = await phantom.create([
+                                '--ignore-ssl-errors=yes',
+                                '--load-images=no',
+                                '--disk-cache=no',
+                                '--max-disk-cache-size=1000'
+                            ]);
+                            doc = await instance.createPage();
+                            i = 0;
+                            await timeout(40000);
+                        } else {
+                            await timeout(60000);
+                        }
                     })
                     .then(resolver);
             }
