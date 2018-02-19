@@ -8,7 +8,7 @@ const memwatch = require('memwatch-next');
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(express.static(`${__dirname}/public`));)
+app.use(express.static(`${__dirname}/public`));
 busboy.extend(app);
 
 const server = http.createServer(app);
