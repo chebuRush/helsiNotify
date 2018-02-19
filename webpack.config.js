@@ -32,10 +32,7 @@ module.exports = {
     },
     plugins: [
         // Minify JS
-        new UglifyJsPlugin({
-            sourceMap: false,
-            compress: true
-        }),
+        new UglifyJsPlugin(),
         // Minify CSS
         new webpack.LoaderOptionsPlugin({
             minimize: true
