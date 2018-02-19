@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: ['./FrontEnd/MainComponent.jsx'],
@@ -29,5 +30,15 @@ module.exports = {
             }
         ]
     },
-    plugins: [new webpack.NamedModulesPlugin()]
+    plugins: [
+        // Minify JS
+        new UglifyJsPlugin({
+            sourceMap: false,
+            compress: true
+        }),
+        // Minify CSS
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        })
+    ]
 };
