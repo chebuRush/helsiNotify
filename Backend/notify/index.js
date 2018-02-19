@@ -5,14 +5,14 @@ const deleteUnvalidLink = require('./deleteUnvalidLink');
 const notifyUsersAndGetMoney = require('./notifyUsersAndGetMoney');
 const phantom = require('phantom');
 
-async function WorkWithSeparateDoctor(doc, theArray) {
-    for (const entry of theArray) {
+async function WorkWithSeparateDoctor(doc, listOfDoctors) {
+    for (let i = listOfDoctors.length; i >= 0; i -= 1) {
         let schedule;
         try {
-            schedule = await visitDoctorPage(doc, entry);
+            schedule = await visitDoctorPage(doc, listOfDoctors[i]);
         } catch (e) {
             if (e.message === 'Invalid doctor link') {
-                deleteUnvalidLink(entry);
+                deleteUnvalidLink(listOfDoctors[i]);
             } else {
                 console.error(e.message);
                 throw e;
@@ -20,7 +20,7 @@ async function WorkWithSeparateDoctor(doc, theArray) {
         }
         const arrayOfDates = await checkAvailability(schedule);
         if (arrayOfDates) {
-            await notifyUsersAndGetMoney(entry, arrayOfDates);
+            await notifyUsersAndGetMoney(listOfDoctors[i], arrayOfDates);
         }
     }
 }
