@@ -10,10 +10,7 @@ async function visitDoctor(doc, link) {
     function getDateInFormat(dt) {
         return `${dt.getFullYear()}-${dt.getMonth() + 1 < 10 ? `0${dt.getMonth() + 1}` : dt.getMonth() + 1}-${dt.getDate() < 10 ? `0${dt.getDate()}` : dt.getDate()}`;
     }
-    let hd = new memwatch.HeapDiff();
     await doc.open(link);
-    let data = hd.end();
-    console.log('docOpen HeapDiff\n\n', data);
     let dt = new Date();
     await timeout(1000);
     let html = await doc.property('content');
