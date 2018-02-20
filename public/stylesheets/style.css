@@ -536,7 +536,7 @@ input[type=submit]:hover{
         border-bottom: 0;
     }
     .oneDoctor:last-child{
-        border-bottom: 3px solid rgb(0,0,200);
+        border-bottom: 2px solid rgb(0,0,200);
     }
     .showAllNotifyWishes{
         width:45%;
