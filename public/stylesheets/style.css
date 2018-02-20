@@ -200,25 +200,25 @@ input[type=submit]:hover{
   position:fixed;
   right:0;
   top:0;
-  width:20%;
+  max-width:30vw;
   display: flex;
   flex-direction: column;
   align-self: center;
   justify-content: flex-start;
-  padding:3vh 3vw;
   background-color: rgba(255,255,255,0.85);
   height:100%;
 }
 .UserMainPage h3{
-  margin-top:6vmin;
+  font-size:2.4vmin;
+  margin-top:6vh 0 7vh;
   text-align: center;
-  margin-bottom:7vmin;
 }
 .UserMainPage aside>ul{
   list-style: none;
 }
 .mainMenu{
-  font-size:3.3vmin;
+  margin:0 auto;
+  font-size:3vmin;
   text-decoration: none;
 }
 .mainMenu li{
@@ -526,4 +526,22 @@ input[type=submit]:hover{
   font-size:2.5vmin;
   background-color: #f44336;
   color: #fff
+}
+
+@media (max-width:800px){
+    .oneDoctor{
+        flex-direction: column;
+        border-bottom: 0;
+    }
+    .showAllNotifyWishes{
+        width:45%;
+    }
+    .doctorSeparateData{
+        width:100%;
+        border-right:0;
+        border-bottom: 1px solid rgb(0,0,200);
+    }
+    .red-cross-div{
+        width:100%;
+    }
 }
