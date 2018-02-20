@@ -207,10 +207,11 @@ input[type=submit]:hover{
   justify-content: flex-start;
   background-color: rgba(255,255,255,0.85);
   height:100%;
+  padding: 0 2vw;
 }
 .UserMainPage h3{
   font-size:2.4vmin;
-  margin-top:6vh 0 7vh;
+  margin:6vh 0 7vh;
   text-align: center;
 }
 .UserMainPage aside>ul{
@@ -220,6 +221,7 @@ input[type=submit]:hover{
   margin:0 auto;
   font-size:3vmin;
   text-decoration: none;
+  text-align: center;
 }
 .mainMenu li{
   margin:3vmin 1vmin;
@@ -540,6 +542,7 @@ input[type=submit]:hover{
         width:100%;
         border-right:0;
         border-bottom: 1px solid rgb(0,0,200);
+        padding:0.1vmin;
     }
     .red-cross-div{
         width:100%;

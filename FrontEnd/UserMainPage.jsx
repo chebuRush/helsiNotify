@@ -95,7 +95,7 @@ export default class UserMainPage extends React.Component {
                 />
                 <Route path={`/user/${this.props.match.params.uid}/logout`} component={UserLogOut} />
                 <aside>
-                    <h3>Вітаємо, {this.state.email}</h3>
+                    <h3>Вітаємо,<br/> {this.state.email}</h3>
                     <ul className="mainMenu">
                         <li><Link style={{ textDecoration: 'none' }} to={'/'}>Головна</Link></li>
                         <li>
