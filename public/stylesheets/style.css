@@ -536,7 +536,7 @@ input[type=submit]:hover{
         border-bottom: 0;
     }
     .oneDoctor:last-child{
-        border-bottom: 2px solid rgb(0,0,200);
+        border-bottom: 0;
     }
     .showAllNotifyWishes{
         width:45%;
@@ -546,6 +546,9 @@ input[type=submit]:hover{
         border-right:0;
         border-bottom: 1px solid rgb(0,0,200);
         padding:0.1vmin;
+    }
+    .doctorSeparateData:last-child{
+        border-bottom: 2px solid rgb(0,0,200);
     }
     .red-cross-div{
         width:100%;
