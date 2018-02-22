@@ -262,7 +262,13 @@ function queries(app) {
                                             key => doctorList.usersforOneDoc[key] === uid
                                         );
                                     }
-                                    return FireBase.DataBase.deleteData('doctorList', data.doc.doctorLink, deleteId[0]);
+                                    if (data.doc.status !== 3) {
+                                        return FireBase.DataBase.deleteData(
+                                            'doctorList',
+                                            data.doc.doctorLink,
+                                            deleteId[0]
+                                        );
+                                    }
                                 })
                         ]);
                         if (data.doc.status === 1) {
