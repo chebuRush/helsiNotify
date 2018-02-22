@@ -26,6 +26,7 @@ function updateStatus3ReturnMoney(uid, key, doctorLink) {
                                 key2 => doctorList.usersforOneDoc[key2] === uid
                             );
                         }
+                        console.log(deleteId);
                         if (deleteId) {
                             return Firebase.DataBase.deleteData('doctorList', doctorLink, deleteId[0]);
                         }
