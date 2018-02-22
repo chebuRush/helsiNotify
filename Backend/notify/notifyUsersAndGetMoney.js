@@ -90,7 +90,6 @@ function getUsersForDoctorLink(link) {
 async function notifyUsersAndGetMoney(link, arrayOfDates) {
     console.log('link', link);
     const UsersForDoctorLink = await getUsersForDoctorLink(link);
-    console.log('UsersForDoctorLink: ', UsersForDoctorLink);
     if (UsersForDoctorLink) {
         const keysUsersForDoctorLink = await Object.keys(UsersForDoctorLink);
         let i = 0;

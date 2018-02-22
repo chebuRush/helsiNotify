@@ -7,9 +7,12 @@ const phantom = require('phantom');
 
 async function WorkWithSeparateDoctor(doc, listOfDoctors) {
     for (let i = listOfDoctors.length; i >= 0; i -= 1) {
-        let schedule;
         try {
-            schedule = await visitDoctorPage(doc, listOfDoctors[i]);
+            const schedule = await visitDoctorPage(doc, listOfDoctors[i]);
+            const arrayOfDates = await checkAvailability(schedule);
+            if (arrayOfDates && listOfDoctors[i]) {
+                await notifyUsersAndGetMoney(listOfDoctors[i], arrayOfDates);
+            }
         } catch (e) {
             if (e.message === 'Invalid doctor link') {
                 deleteUnvalidLink(listOfDoctors[i]);
@@ -17,10 +20,6 @@ async function WorkWithSeparateDoctor(doc, listOfDoctors) {
                 console.error(e.message);
                 throw e;
             }
-        }
-        const arrayOfDates = await checkAvailability(schedule);
-        if (arrayOfDates) {
-            await notifyUsersAndGetMoney(listOfDoctors[i], arrayOfDates);
         }
     }
 }
