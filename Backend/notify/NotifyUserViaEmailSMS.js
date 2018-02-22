@@ -36,7 +36,7 @@ function sendEmailAndSMS(uid, doclink) {
             user: config.get('EmailFromNotification.email'),
             password: config.get('EmailFromNotification.password'),
             host: config.get('EmailFromNotification.smtp'),
-            ssl: config.get('EmailFromNotification.ssl')
+            tls: config.get('EmailFromNotification.tls')
         });
         getUserPhoneEmailFromUid(uid)
             .then(personalData => {
