@@ -24,16 +24,22 @@ const checkStateAndSignature = require('./Payment').checkStateAndSignature;
 function queries(app) {
     /* CORS maintaining */
 
-    // app.use((req, res, next) => {
-    //     res.append('Access-Control-Allow-Origin', ['*']);
-    //     res.append('Access-Control-Allow-Credentials', 'true');
-    //     res.append('Access-Control-Allow-Headers', 'origin, content-type, accept');
-    //     next();
-    // });
+     app.use((req, res, next) => {
+         res.append('Access-Control-Allow-Origin', ['*']);
+         res.append('Access-Control-Allow-Credentials', 'true');
+         res.append('Access-Control-Allow-Headers', 'origin, content-type, accept');
+         next();
+     });
 
+<<<<<<< HEAD
     app.get('/*', (req, res) => {
         res.sendFile(path.join(__dirname, '../public', 'index.html'));
     });
+=======
+  //   app.get('/', (req, res) => {
+  //       res.sendFile(path.join(__dirname, '../public', 'index.html'));
+  //   });
+>>>>>>> master
 
     app.post('/appSignIn', (req, res) => {
         if (req.body.email && req.body.password) {

@@ -4,6 +4,7 @@ const checkAvailability = require('./visitDoctor').checkAvailability;
 const deleteUnvalidLink = require('./deleteUnvalidLink');
 const notifyUsersAndGetMoney = require('./notifyUsersAndGetMoney');
 const phantom = require('phantom');
+const heapDump = require('heapdump');
 
 async function WorkWithSeparateDoctor(doc, listOfDoctors) {
     for (let i = listOfDoctors.length; i >= 0; i -= 1) {

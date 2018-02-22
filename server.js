@@ -6,14 +6,13 @@ const http = require('http');
 const memwatch = require('memwatch-next');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8090;
 
 app.use(express.static(`${__dirname}/public`));
 busboy.extend(app);
 
 const server = http.createServer(app);
 server.listen(process.env.PORT || port);
-
 
 require('./Backend/queries')(app);
 
