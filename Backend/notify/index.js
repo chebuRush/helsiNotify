@@ -15,7 +15,6 @@ async function WorkWithSeparateDoctor(doc, listOfDoctors) {
                 deleteUnvalidLink(listOfDoctors[i]);
             } else {
                 console.error(e.message);
-                я;
                 throw e;
             }
         }
