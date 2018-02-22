@@ -23,10 +23,12 @@ function updateStatus3ReturnMoney(uid, key, doctorLink) {
                         let deleteId;
                         if (doctorList.usersforOneDoc) {
                             deleteId = Object.keys(doctorList.usersforOneDoc).filter(
-                                key => doctorList.usersforOneDoc[key] === uid
+                                key2 => doctorList.usersforOneDoc[key2] === uid
                             );
                         }
-                        return Firebase.DataBase.deleteData('doctorList', doctorLink, deleteId[0]);
+                        if (deleteId) {
+                            return Firebase.DataBase.deleteData('doctorList', doctorLink, deleteId[0]);
+                        }
                     })
                 ]);
             })
