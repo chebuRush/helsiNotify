@@ -42,7 +42,7 @@ function checkSeparateUser(uid, keyForDoctorList, link, arrayOfDates) {
                         data.userDoctors[key].dateTo < getDateInFormat(new Date()) &&
                         data.userDoctors[key].status === 1
                     ) {
-                        Promise.resolve(updateStatusTo3AndReturnMoney(uid, key));
+                        Promise.resolve(updateStatusTo3AndReturnMoney(uid, key, link));
                     }
                 });
                 const neededKey = Object.keys(data.userDoctors).filter(
@@ -88,12 +88,10 @@ function getUsersForDoctorLink(link) {
 }
 
 async function notifyUsersAndGetMoney(link, arrayOfDates) {
-    console.log('link', link);
     const UsersForDoctorLink = await getUsersForDoctorLink(link);
     if (UsersForDoctorLink) {
         const keysUsersForDoctorLink = await Object.keys(UsersForDoctorLink);
         let i = 0;
-        console.log('keysUserForDoctor :', keysUsersForDoctorLink);
         while (arrayOfDates.length && i < keysUsersForDoctorLink.length) {
             await checkSeparateUser(
                 UsersForDoctorLink[keysUsersForDoctorLink[i]],

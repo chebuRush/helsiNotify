@@ -5,7 +5,6 @@ function cleanDbRemovingUser(uid) {
         FireBase.DataBase
             .getData({}, `doctorList`, 'doctorList')
             .then(data => {
-                // TODO TEST THIS SHIT
                 Object.keys(data.doctorList).map(link =>
                     Object.keys(data.doctorList[link]).map(uniqueId => {
                         if (data.doctorList[link][uniqueId] === uid) {

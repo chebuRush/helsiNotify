@@ -207,7 +207,7 @@ function queries(app) {
                                 return null;
                             })
                             .then(
-                                Promise.all[
+                                Promise.all([
                                     (FireBase.DataBase.updateData(`users/${uid}`, {
                                         doctors: {
                                             [userGenId]: {
@@ -223,7 +223,7 @@ function queries(app) {
                                         doctorLink.toLowerCase(),
                                         uid
                                     ))
-                                ]
+                                ])
                             );
                     } else {
                         throw new Error('Not enough money');
