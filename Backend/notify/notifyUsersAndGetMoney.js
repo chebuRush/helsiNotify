@@ -92,6 +92,7 @@ async function notifyUsersAndGetMoney(link, arrayOfDates) {
     if (UsersForDoctorLink) {
         const keysUsersForDoctorLink = await Object.keys(UsersForDoctorLink);
         let i = 0;
+        console.log(keysUsersForDoctorLink);
         while (arrayOfDates.length && i < keysUsersForDoctorLink.length) {
             await checkSeparateUser(
                 UsersForDoctorLink[keysUsersForDoctorLink[i]],
